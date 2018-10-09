@@ -1,0 +1,96 @@
+.goods-detail{
+  background: #fff;
+  .banner-panel{
+    height: 5rem;
+  }
+  .info-panel{
+    padding: 0.2rem 0.3rem;
+  }
+  .block{
+    &+.block{
+      border-top:1px solid #eee;
+    }
+  }
+  .basic-block{
+    .title{
+      font-size: 0.32rem;
+      color: #333;
+    }
+    .info-row{
+      margin-top: 0.2rem;
+      display: flex;
+      align-items: center;
+    }
+    .label-list{
+      li{
+        display: inline-block;
+        font-size: 0.24rem;
+        color: #0090df;
+        border:1px solid #0091e0;
+        border-radius: 0.06rem;
+        padding: 0.02rem 0.08rem;
+        &+li{
+          margin-left: 0.08rem;
+        }
+      }
+    }
+    .count{
+      margin-left: auto;
+      font-size: 0.24rem;
+      color: #999;
+    }
+    .price{
+      font-size: 0.38rem;
+      color: #f9664c;
+      .icon{
+        font-size: 0.24rem;
+        position: relative;
+        top:0.04rem;
+      }
+    }
+    .cm-number-box{
+      margin-left: auto;
+    }
+  }
+  .link-btn{
+    display: flex;
+    align-items: center;
+    height: 0.8rem;
+    .label{
+      font-size: 0.3rem;
+      color: #333;
+    }
+  }
+  .detail-block{
+    .block-hd{
+      padding: 0.4rem 0rem 0.2rem 0rem;
+      .title{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        font-size: 0.3rem;
+        color: #333;
+        &:before{
+          display: inline-block;
+          content: '';
+          width: 0.5rem;
+          height: 1px;
+          background: #eee;
+          margin-right: 0.16rem;
+        }
+        &:after{
+          display: inline-block;
+          content: '';
+          width: 0.5rem;
+          height: 1px;
+          background: #eee;
+          margin-left: 0.16rem;
+        }
+      }
+    }
+    .block-bd{
+      min-height: 4rem;
+    }
+  }
+}

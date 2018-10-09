@@ -1,0 +1,94 @@
+.address{
+  padding-bottom: 1.6rem;
+  .panel{
+    padding: 0.1rem 0.3rem;
+    box-shadow: 0px 0px 1px rgba(0,0,0,0.1);
+    background: #fff;
+    .panel-hd{
+      display: flex;
+      align-items: center;
+      padding-top: 0.2rem;
+      .title-text{
+        font-size: 0.28rem;
+        color: #333;
+        padding-left: 0.1rem;
+      }
+    }
+    .panel-bd{
+
+    }
+    &+.panel{
+      margin-top: 0.2rem;
+    }
+  }
+  .list-panel{
+    .panel-hd{
+      font-size: 0.32rem;
+      color: #333;
+    }
+  }
+  .address-item{
+    padding: 0.2rem 0rem;
+    display:flex;
+    align-items: center;
+    .status{
+      width: 0.4rem;
+      height: 0.4rem;
+      border:1px solid #eee;
+      border-radius: 50%;
+      .icon{
+        display: none;
+      }
+    }
+    .text-info{
+      margin-left: 0.24rem;
+      font-size: 0.3rem;
+      color: #333;
+      width: 5.2rem;
+      padding-right: 0.16rem;
+      line-height: 0.42rem;
+      p+p{
+        margin-top: 0.1rem;
+      }
+    }
+    .handle{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0rem 0.1rem;
+      border-left:1px solid #eee;
+      width: 1rem;
+      min-height: 0.8rem;
+      .btn{
+        font-size: 0.28rem;
+        color: #999;
+      }
+    }
+    &.active{
+      .status{
+        border:none;
+        .icon{
+          display: inline-block;
+        }
+      }
+    }
+  }
+  .btn-wrap{
+    position: fixed;
+    left: 0rem;
+    bottom: 0rem;
+    width: 100%;
+    padding: 0.2rem 0.3rem;
+    .btn{
+      width: 100%;
+      height: 1rem;
+      line-height: 1rem;
+      border-radius: 0.1rem;
+      text-align: center;
+      font-size: 0.32rem;
+      color: #fff;
+      background: linear-gradient(#0091e0, #0080cf);
+    }
+  }
+}

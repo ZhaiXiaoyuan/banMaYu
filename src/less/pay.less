@@ -1,0 +1,132 @@
+.pay{
+  padding-bottom: 1.6rem;
+  .address-panel{
+    position: relative;
+    padding:0.3rem 0.3rem 0.4rem 0.3rem;
+    .row{
+      display: flex;
+      align-items: baseline;
+      font-size: 0.32rem;
+      color: #19191f;
+      .value{
+        padding-left: 0.4rem;
+        padding-right: 0.4rem;
+      }
+      &+.row{
+        margin-top: 0.16rem;
+      }
+    }
+    .border-icon{
+      position: absolute;
+      left: 0rem;
+      bottom: 0rem;
+    }
+  }
+  .product-panel{
+    padding: 0.3rem;
+    .panel-bd{
+      display: flex;
+      background: #fafafa;
+      img{
+        width: 2rem;
+        height: 2rem;
+      }
+      .text-info{
+        padding: 0.2rem;
+        font-size: 0.32rem;
+        color: #333;
+        width: 100%;
+        .title{
+         width: 4.5rem;
+        }
+        .price{
+          margin-top: 0.2rem;
+          display: flex;
+          align-items: center;
+          .icon{
+            font-size: 0.24rem;
+          }
+        }
+        .handle{
+          text-align: right;
+        }
+        .cm-number-box{
+
+        }
+      }
+    }
+    .panel-ft{
+      margin-top: 0.24rem;
+      font-size: 0.24rem;
+      color: #999;
+    }
+  }
+  .take-panel{
+    .list-picker{
+      >li{
+        display: flex;
+        align-items: center;
+        padding: 0.3rem 0rem;
+        .label{
+          font-size: 0.32rem;
+          color: #333;
+        }
+        .value{
+          margin-left: auto;
+          .status{
+            width: 0.4rem;
+            height: 0.4rem;
+            border:1px solid #eee;
+            border-radius: 50%;
+            .icon{
+              display: none;
+            }
+          }
+        }
+        &.active{
+          .value{
+            .status{
+              border: none;
+              .icon{
+                display: inline-block;
+              }
+            }
+          }
+        }
+        &+li{
+          border-top:1px solid #eee;
+        }
+      }
+    }
+  }
+  .submit-panel{
+    position: fixed;
+    left: 0rem;
+    bottom: 0rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0.3rem;
+    background: #fff;
+    .total-price{
+      display: flex;
+      align-items: center;
+      font-size: 0.38rem;
+      color: #333;
+      .icon{
+        font-size: 0.28rem;
+      }
+    }
+    .btn{
+      width: 3rem;
+      height: 1rem;
+      text-align: center;
+      line-height: 1rem;
+      font-size: 0.38rem;
+      color: #fff;
+      border-radius: 0.1rem;
+      margin-left: auto;
+      background: linear-gradient(to right, #0091e0 , #017ecc);
+    }
+  }
+}

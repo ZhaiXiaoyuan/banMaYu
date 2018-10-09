@@ -1,0 +1,149 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
+
+
+const routes=[ {
+  path: '/',
+  alias: '/home',
+  name: 'home',
+  component: resolve=>require(['./pages/Home'],resolve),
+  meta:{
+    title:'斑马鱼健康服务',
+  },
+},{
+  path: '/shop',
+  name: 'shop',
+  component: resolve=>require(['./pages/shop/Shop'],resolve),
+  meta:{
+    title:'商城',
+  },
+},{
+  path: '/goodsDetail',
+  name: 'goodsDetail',
+  component: resolve=>require(['./pages/shop/GoodsDetail'],resolve),
+  meta:{
+    title:'套餐详情',
+  },
+},{
+  path: '/order',
+  name: 'order',
+  component: resolve=>require(['./pages/shop/Order'],resolve),
+  meta:{
+    title:'套餐预约',
+  },
+},{
+  path: '/pay',
+  name: 'pay',
+  component: resolve=>require(['./pages/shop/Pay'],resolve),
+  meta:{
+    title:'确认订单',
+  },
+},{
+  path: '/address',
+  name: 'address',
+  component: resolve=>require(['./pages/address/Address'],resolve),
+  meta:{
+    title:'地址管理',
+  },
+},{
+  path: '/relatives',
+  name: 'relatives',
+  component: resolve=>require(['./pages/relatives/Relatives'],resolve),
+  meta:{
+    title:'亲友',
+  },
+},{
+  path: '/report',
+  name: 'report',
+  component: resolve=>require(['./pages/relatives/Report'],resolve),
+  meta:{
+    title:'亲友',
+  },
+},{
+  path: '/memberData',
+  name: 'memberData',
+  component: resolve=>require(['./pages/relatives/MemberData'],resolve),
+  meta:{
+    title:'基本资料',
+  },
+},{
+  path: '/my',
+  name: 'my',
+  component: resolve=>require(['./pages/center/My'],resolve),
+  meta:{
+    title:'我的',
+  },
+},{
+  path: '/diary',
+  name: 'diary',
+  component: resolve=>require(['./pages/center/Diary'],resolve),
+  meta:{
+    title:'我的',
+  },
+},{
+  path: '/myOrder',
+  name: 'myOrder',
+  component: resolve=>require(['./pages/center/MyOrder'],resolve),
+  meta:{
+    title:'我的订单',
+  },
+},{
+  path: '/invite',
+  name: 'invite',
+  component: resolve=>require(['./pages/relatives/Invite'],resolve),
+  meta:{
+    title:'邀请好友',
+  },
+}]
+
+const router= new Router({
+  routes:routes,
+/*  mode: 'history',*/
+  /* scrollBehavior: function (to, from, savedPosition) {
+   return savedPosition || { x: 0, y: 0 }
+   }*/
+})
+
+//注册全局导航守卫
+/*router.beforeEach((to, from,next) => {
+  let url=window.location.href;
+ /!* if(url.indexOf('?')==-1&&url.indexOf('&1=')>-1){
+    window.location.replace(window.location.href.replace('&1=',''));
+  }*!/
+ //当从微信跳转回前端时会在地址上拼接额外的参数，导致了地址格式错乱，故对此进行替换处理
+  let linkAnalysis=url.match(/\/\?from(\S*)#\//);
+  let wrongUrlData=linkAnalysis?linkAnalysis[0]:null;
+  if(wrongUrlData&&wrongUrlData!=''){
+    window.location.replace(url.replace(wrongUrlData,'/#/'))
+  }
+  if(to.query.sopenid){
+    localStorage.setItem('sopenid',to.query.sopenid);
+  }
+  if(to.query.openid){
+    Vue.cookie.set('number',to.query.openid,{ expires: '12h' });
+  }
+
+  Vue.api.getUserInfo({...Vue.sessionInfo()}).then((resp)=>{
+    if(resp.status=='success'){
+      let userInfo=JSON.parse(resp.message);
+      sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
+      if(userInfo.status==20){
+        MtaH5.pgv();
+        next();
+      }else{
+        router.push({name:'forbidden'});
+      }
+    }else{
+
+    }
+  })
+
+})*/
+router.afterEach((to, from) => {
+  //修改页面title
+  document.title = to.meta.title;
+})
+//
+export default router

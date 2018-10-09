@@ -1,0 +1,81 @@
+.my{
+  .user-panel{
+    padding: 0rem;
+    .panel-bd{
+      padding-top: 0.5rem;
+      text-align: center;
+      background: url("../images/center/user-panel-bg.png") no-repeat;
+      width: 100%;
+      height: 3.62rem;
+      background-size: cover;
+      img{
+        width: 1.1rem;
+        height: 1.1rem;
+        border-radius: 50%;
+      }
+      .name{
+        margin-top: 0.16rem;
+        font-size: 0.32rem;
+        color: #fff;
+      }
+      .data-row{
+        margin-top: 0.3rem;
+        display: flex;
+        justify-content: center;
+        .item{
+          display: flex;
+          align-items: center;
+          height: 0.44rem;
+          border-radius: 0.22rem;
+          padding: 0rem 0.28rem;
+          background: rgba(0,0,0,0.2);
+          font-size: 0.24rem;
+          color: #fff;
+          .icon{
+            margin-right: 0.12rem;
+          }
+          &+.item{
+            margin-left: 0.4rem;
+          }
+        }
+      }
+    }
+    .panel-ft{
+      display: flex;
+      align-items: center;
+      padding: 0.3rem 0.3rem;
+      font-size: 0.32rem;
+      color: #333;
+      border-top:1px solid #eee;
+      .value{
+        padding-left: 0.4rem;
+        width: 4.5rem;
+      }
+      .handle{
+        margin-left: auto;
+        color: #0087dc;
+      }
+    }
+  }
+  .list-panel{
+    padding: 0.3rem 0rem;
+    background: none;
+    box-shadow: none;
+    border-top:1px solid #e5e5e5;
+  }
+  .entry-list{
+    display: flex;
+    flex-wrap: wrap;
+    >li{
+      text-align: center;
+      margin: 0.3rem 0.37rem;
+      .icon-wrap{
+        display: inline-block;
+        width: 0.8rem;
+        height: 0.8rem;
+        text-align: center;
+        line-height: 0.8rem;
+      }
+    }
+  }
+}
