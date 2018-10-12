@@ -18,11 +18,11 @@
             <i class="icon active-icon relatives-btn-active"></i>
             <span>亲友</span>
           </router-link>
-          <router-link  to="/my"  class="ripple" tag="li"  :class="{'active':pageName=='my'}">
+          <li  class="ripple"  :class="{'active':pageName=='my'}" @click="checkUserInfo('my')">
             <i class="icon normal-icon my-btn-normal"></i>
             <i class="icon active-icon my-btn-active"></i>
             <span>我的</span>
-          </router-link>
+          </li>
         </ul>
     </div>
 </template>

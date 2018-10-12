@@ -20,7 +20,7 @@ const routes=[ {
     title:'商城',
   },
 },{
-  path: '/goodsDetail',
+  path: '/goodsDetail/:type/:id',
   name: 'goodsDetail',
   component: resolve=>require(['./pages/shop/GoodsDetail'],resolve),
   meta:{
@@ -62,7 +62,7 @@ const routes=[ {
     title:'亲友',
   },
 },{
-  path: '/memberData',
+  path: '/memberData/:mainId?/:id?',
   name: 'memberData',
   component: resolve=>require(['./pages/relatives/MemberData'],resolve),
   meta:{
@@ -96,6 +96,13 @@ const routes=[ {
   meta:{
     title:'邀请好友',
   },
+},{
+  path: '/register',
+  name: 'register',
+  component: resolve=>require(['./pages/center/Register'],resolve),
+  meta:{
+    title:'快速注册',
+  },
 }]
 
 const router= new Router({
@@ -107,40 +114,43 @@ const router= new Router({
 })
 
 //注册全局导航守卫
-/*router.beforeEach((to, from,next) => {
+router.beforeEach((to, from,next) => {
   let url=window.location.href;
- /!* if(url.indexOf('?')==-1&&url.indexOf('&1=')>-1){
+ /* if(url.indexOf('?')==-1&&url.indexOf('&1=')>-1){
     window.location.replace(window.location.href.replace('&1=',''));
-  }*!/
+  }*/
  //当从微信跳转回前端时会在地址上拼接额外的参数，导致了地址格式错乱，故对此进行替换处理
   let linkAnalysis=url.match(/\/\?from(\S*)#\//);
   let wrongUrlData=linkAnalysis?linkAnalysis[0]:null;
   if(wrongUrlData&&wrongUrlData!=''){
     window.location.replace(url.replace(wrongUrlData,'/#/'))
   }
-  if(to.query.sopenid){
-    localStorage.setItem('sopenid',to.query.sopenid);
-  }
-  if(to.query.openid){
-    Vue.cookie.set('number',to.query.openid,{ expires: '12h' });
-  }
+  let token=to.query.token;
+  let number=to.query.number;
+  if(token){
+    Vue.cookie.set('token', token,{ expires: '12h' });
+    Vue.cookie.set('number',number,{ expires: '12h' });
+    if(number){
+      Vue.api.getUserInfo({...Vue.tools.sessionInfo()}).then((resp)=>{
+        if(resp.status=='success'){
+          let userInfo=JSON.parse(resp.message);
+          sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
+          Vue.cookie.set('token',userInfo.token,{ expires: '12h' });
+        }else{
 
-  Vue.api.getUserInfo({...Vue.sessionInfo()}).then((resp)=>{
-    if(resp.status=='success'){
-      let userInfo=JSON.parse(resp.message);
-      sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
-      if(userInfo.status==20){
-        MtaH5.pgv();
+        }
         next();
-      }else{
-        router.push({name:'forbidden'});
-      }
+      })
     }else{
-
+      next('/register');
     }
-  })
+    //获取用户信息
+  }else{
+    next();
+  }
 
-})*/
+
+})
 router.afterEach((to, from) => {
   //修改页面title
   document.title = to.meta.title;

@@ -10,13 +10,13 @@
     width: 2rem;
     height: 0.6rem;
     line-height: 0.6rem;
-    background: #12C2B3;
+    background: #0091e0;
     font-size: 0.24rem;
     color: #fff;
     text-align: center;
     top:0rem;
     bottom:0rem;
-    right: 0.2rem;
+    right: 0rem;
     margin: auto;
     cursor: pointer;
   }
@@ -62,7 +62,8 @@
         this.isRequesting=true;
         let params={
           ...Vue.tools.sessionInfo(),
-          mobilephone:this.phone
+          number:this.phone,
+          token: Vue.cookie.get('token')
         }
         let fb=this.operationFeedback({text:'发送中...'});
         Vue.api.genCode(params).then(function (resp) {

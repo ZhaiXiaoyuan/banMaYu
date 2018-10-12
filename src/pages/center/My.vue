@@ -3,25 +3,25 @@
     <div class="my">
       <div class="panel user-panel">
         <div class="panel-bd">
-          <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
-          <p class="name">梁先生</p>
+          <img :src="userData.touxiang?userData.touxiang:defaultAvatar">
+          <p class="name">{{userData.realname}}</p>
           <div class="data-row">
-            <div class="item"><i class="icon diamond-icon"></i><span>初级会员</span></div>
-            <div class="item"><i class="icon score-icon"></i><span>积分759</span></div>
+            <div class="item"><i class="icon diamond-icon"></i><span>{{userData.storename?userData.storename:'初级会员'}}</span></div>
+            <div class="item"><i class="icon score-icon"></i><span>积分{{userData.score?userData.score:0}}</span></div>
 
           </div>
         </div>
         <div class="panel-ft">
           <span class="label">关联体控所</span>
-          <span class="value">北京五道口体控所</span>
+          <span class="value">{{userData.storename?userData.storename:'未绑定'}}</span>
         </div>
       </div>
       <div class="panel list-panel">
         <ul class="entry-list">
-          <li>
+          <router-link :to="{ name: 'memberData', params: {id: userData.id,mainId:'M'}}" tag="li">
             <span class="icon-wrap"><i class="icon data-min-icon"></i></span>
             <p>基本资料</p>
-          </li>
+          </router-link>
           <li>
             <span class="icon-wrap"><i class="icon stethoscope-min-icon"></i></span>
             <p>推荐预约</p>
@@ -79,19 +79,27 @@
         },
         data: function () {
             return {
-
+              defaultAvatar:require('../../images/common/default-avatar.png'),
+              userData:{},
             }
         },
         computed: {},
         watch: {},
         methods: {
-
+          getMyData:function () {
+            Vue.api.getMyData({...Vue.tools.sessionInfo()}).then((resp)=>{
+              if(resp.status=='success'){
+                this.userData=JSON.parse(resp.message);
+                console.log('this.userData:',this.userData);
+              }
+            });
+          }
         },
 
         created: function () {
         },
         mounted: function () {
-
+          this.getMyData();
         },
 
     };

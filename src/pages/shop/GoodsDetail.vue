@@ -63,6 +63,7 @@
         },
         data: function () {
             return {
+              pageType:null,
               swiperOption: {
                 autoplay:true,
                 pagination: {
@@ -83,13 +84,21 @@
         computed: {},
         watch: {},
         methods: {
+          getGoodsDetail:function () {
+            if(this.pageType=='physical'){
+              Vue.api.getPhysicalDetail({...Vue.tools.sessionInfo(),id:this.$route.params.id}).then((resp)=>{
 
+              });
+            }
+          }
         },
 
         created: function () {
         },
         mounted: function () {
-
+          this.pageType=this.$route.params.type;
+          let userInfo=sessionStorage.getItem('userInfo')?JSON.parse(sessionStorage.getItem('userInfo')):null;
+          console.log('userInfo:',userInfo);
         },
 
     };

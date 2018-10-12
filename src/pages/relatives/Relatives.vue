@@ -4,44 +4,20 @@
       <div class="panel member-panel">
         <div class="panel-bd">
           <ul class="member-list">
-            <li>
-              <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
-              <p>梁先生</p>
+            <li v-for="item in relativeList" :key="item.iid" :class="{'active':curMember&&(item.id==curMember.id)}" @click="selectMember(item)">
+              <img :src="item.touxiang?item.touxiang:defaultAvatar">
+              <p>{{item.realname}}</p>
             </li>
-            <li>
-              <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
-              <p>梁先生</p>
-            </li>
-            <li>
-              <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
-              <p>梁先生</p>
-            </li>
-            <li>
-              <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
-              <p>梁先生</p>
-            </li>
-            <li>
-              <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
-              <p>梁先生</p>
-            </li>
-            <li>
-              <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
-              <p>梁先生</p>
-            </li>
-            <li>
-              <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
-              <p>梁先生</p>
-            </li>
-            <li class="add-btn">
+            <router-link :to="{ name: 'memberData', params: {mainId:'S'}}" tag="li" class="add-btn" v-if="relativeList.length<6">
               <i class="icon add-lg-icon"></i>
               <p>添加成员</p>
-            </li>
+            </router-link>
           </ul>
         </div>
         <div class="panel-ft">
           <span class="label">绑定体控所</span>
-          <span class="value">北京五道口体控所</span>
-          <span class="handle">更改</span>
+          <span class="value" v-if="curMember">{{curMember.storename}}</span>
+          <span class="handle">{{curMember&&curMember.storename?'更改':'绑定'}}</span>
         </div>
       </div>
       <div class="panel record-panel">
@@ -53,10 +29,10 @@
             <span class="icon-wrap"><i class="icon report-icon"></i></span>
             <p>体检报告</p>
           </div>
-          <div class="cm-btn btn">
+          <router-link  v-if='curMember' :to="{ name: 'memberData', params: {mainId:curMember.mainid,id:curMember.id}}" tag="div" class="cm-btn btn">
             <span class="icon-wrap"><i class="icon data-icon"></i></span>
             <p>基本资料</p>
-          </div>
+          </router-link>
         </div>
       </div>
       <div class="panel order-panel">
@@ -180,19 +156,38 @@
         },
         data: function () {
             return {
-
+              defaultAvatar:require('../../images/common/default-avatar.png'),
+              relativeList:[],
+              curMember:null,
             }
         },
         computed: {},
         watch: {},
         methods: {
-
+          getRelativeList:function () {
+            let params={
+              ...Vue.tools.sessionInfo(),
+              'pager.pageSize':6,
+              'pager.pageNumber':1
+            }
+            Vue.api.getRelativeList(params).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                this.relativeList=data.result.reverse();
+                this.curMember=this.relativeList[0];
+                console.log('data:',data);
+              }
+            })
+          },
+          selectMember:function (item) {
+            this.curMember=item;
+          }
         },
 
         created: function () {
         },
         mounted: function () {
-
+          this.getRelativeList();
         },
 
     };

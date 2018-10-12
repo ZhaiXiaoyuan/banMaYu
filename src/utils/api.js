@@ -59,6 +59,87 @@ export default {
           params: params
         });
       },
+      //获取用户信息
+      getUserInfo:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/auth/lwx',
+          params: params
+        });
+      },
+      //发送短信验证码
+      genCode:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/auth/mcode',
+          params: params
+        });
+      },
+      //注册
+      register:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/auth/cpinfo1',
+          params: params
+        });
+      },
+      //用户信息完善/修改（已完成）
+      saveUserInfo:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/info/cusinfo',
+          params: params
+        });
+      },
+      //体检套餐详情
+      getPhysicalDetail:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/pd/pro/info/vphysical',
+          params: params
+        });
+      },
+      //我的介绍
+      getMyData:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/info/vintroduce',
+          params: params
+        });
+      },
+      //查看账户基本资料
+      getUserData:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/info/viewcus',
+          params: params
+        });
+      },
+      //获取七牛云图片上传接口
+      getUploadKey:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/bs/base/info/gqnutk',
+          params: params
+        });
+      },
+      //获取亲友列表
+      getRelativeList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/fa/fam/man/getmb',
+          params: params
+        });
+      },
+      //添加亲友账户
+      addRelative:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/fa/fam/man/addmb',
+          params: params
+        });
+      },
+
     }
   },
 

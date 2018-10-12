@@ -128,25 +128,27 @@ export default {
           }else{
             redirect+='?1='+type;
           }
-          let link=window.location.origin+'/dmjywxs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
+          //临时测试
+          let link='http://pexam.elecplus.tech'+'/pewxs/cs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
     /*      console.log('test:',link);*/
           window.location.href=link;
         },
-        sessionInfo:function () {
+        sessionInfo:function (page) {
           let timestamp=this.genTimestamp();
+          let token=Vue.cookie.get('token');
           let number=Vue.cookie.get('number');
-        /*  if(!number||number==''){//如果openid为空，则重新进行默认授权
+          if(!token||token==''){//token失效，则重新进行手动授权
             if(Vue.cookie.get('authorizing')!='true'){
               Vue.cookie.set('authorizing','true',{ expires: '10s' });
-              this.toAuth(1,window.location.href);
+              console.log('page:',page);
+              this.toAuth(2,page?page:window.location.href);
             }
-          }*/
-
+          }
           return{
             timeStamp:timestamp,
-            number:number,
-          /*  token:token,//不需要传*/
-            signature:md5.hex('timestamp='+timestamp+'&number='+number+'&token='),
+            number:number,//
+           /* token:token,//*/
+            signature:md5.hex('timestamp='+timestamp+'&number='+number+'&token='+token),
           }
         },
         /*获取事件当前元素*/
@@ -237,15 +239,22 @@ export default {
           });
         },
         /**/
-        checkUserInfo:function (callback,isDirectly) {
-         /* let userInfo=sessionStorage.getItem('userInfo')?JSON.parse(sessionStorage.getItem('userInfo')):null;
+        checkUserInfo:function (page,callback) {
+          let session=this.sessionInfo(page?window.location.href.split('#')[0]+'#/'+page:null);
+          if(!page&&session.token&&session.number){
+            callback&&callback();
+          }else if(page){
+            router.push({name:page});
+          }
+          /*let userInfo=sessionStorage.getItem('userInfo')?JSON.parse(sessionStorage.getItem('userInfo')):null;
           let link=()=>{
             if(userInfo.touxiang){
               router.push({name:'completeData'});
             }else{
-              this.toAuth(2,window.location.href.split('#')[0]+'#/completeData');
+
             }
           }
+
           let toCompleteData=()=>{
             if(isDirectly){
               link();
@@ -262,17 +271,17 @@ export default {
             }
           }
           if(userInfo){
-            if(userInfo.mobilephone){
+            if(userInfo.touxiang){
               callback&&callback();
             }else{
               toCompleteData();
             }
           }else{
-            Vue.api.getUserInfo({...this.sessionInfo()}).then((resp)=>{
+            Vue.api.getUserInfo({timestamp:this.genTimestamp(),openid:this.sessionInfo().openid}).then((resp)=>{
               if(resp.status=='success'){
                 userInfo=JSON.parse(resp.message);
                 if(userInfo){
-                  if(userInfo.mobilephone){
+                  if(userInfo.touxiang){
                     callback&&callback();
                   }else{
                     toCompleteData();
@@ -285,6 +294,28 @@ export default {
             })
           }*/
         },
+        //
+        fileToBlob:function (file,callback) {
+          if (!file) {
+            return false
+          }
+          var reader = new FileReader()
+          reader.onload = (e) => {
+            let data
+            if (typeof e.target.result === 'object') {
+              // 把Array Buffer转化为blob 如果是base64不需要
+              data = window.URL.createObjectURL(new Blob([e.target.result]))
+            } else {
+              data = e.target.result
+            }
+            //
+            callback&&callback(data);
+          }
+          // 转化为base64
+          // reader.readAsDataURL(file)
+          // 转化为blob
+          reader.readAsArrayBuffer(file);
+        }
       }
 
       Object.assign(Vue, Vue.tools);

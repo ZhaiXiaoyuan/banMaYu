@@ -13,6 +13,7 @@ import ShareGuide from './ShareGuide';
 import SignInModal from './SignInModal';
 import NavBar from './NavBar';
 import InviteModal from './InviteModal';
+import CropModal from './CropModal';
 
 /*全局组件注册配置*/
 export default {
@@ -29,6 +30,7 @@ export default {
     Vue.component('SignInModal',SignInModal);
     Vue.component('NavBar',NavBar);
     Vue.component('InviteModal',InviteModal);
+    Vue.component('CropModal',CropModal);
 
     /*方法调度方式*/
     let OperationFeedbackConstructor = Vue.extend(OperationFeedback);
@@ -37,6 +39,7 @@ export default {
     let ShareGuideConstructor=Vue.extend(ShareGuide);
     let SignInModalConstructor=Vue.extend(SignInModal);
     let InviteModalConstructor=Vue.extend(InviteModal);
+    let CropModalConstructor=Vue.extend(CropModal);
     const functionObject={
       /**
        * 操作提示
@@ -223,6 +226,37 @@ export default {
         instance.options=options;
         instance.$mount();
         parentEle.appendChild(instance.$el);
+      },
+      /**
+       * 图片裁剪弹窗
+       * @param options
+       */
+      cropModal:function (options) {
+        options={...{
+          img:null,
+          size: 1,
+          full: false,
+          outputType: 'jpeg',
+          canMove: true,
+          fixedBox: false,
+          original: false,
+          canMoveBox: true,
+          autoCrop: true,
+          centerBox: false,
+          fixedNumber:[1,1],
+          fixed:true,
+          ok:null,
+        },...options};
+        //
+        let parentEle=document.getElementById('app');
+        //
+        let instance=new CropModalConstructor({});
+        instance.options=options;
+        instance.$mount();
+        parentEle.appendChild(instance.$el);
+        return {
+          close:instance.close
+        }
       },
     }
     /**/
