@@ -15,9 +15,16 @@
           </ul>
         </div>
         <div class="panel-ft">
-          <span class="label">绑定体控所</span>
-          <span class="value" v-if="curMember">{{curMember.storename}}</span>
-          <span class="handle">{{curMember&&curMember.storename?'更改':'绑定'}}</span>
+          <div class="ft-row" v-if="curMember&&curMember.mainid!='M'" >
+            <span class="label">绑定关系</span>
+            <span class="value">{{curMember.relative}}</span>
+           <!-- <router-link tag="span" :to="{ name: 'store', params: {userId:curMember.id,storeName:curMember.storename}}" class="handle" >解绑</router-link>-->
+          </div>
+          <div class="ft-row">
+            <span class="label">绑定体控所</span>
+            <span class="value" v-if="curMember">{{curMember.storename}}</span>
+            <span v-if="curMember" @click="()=>{$router.push({  name:'store',params: { userId: curMember.id},query:{storeId:curMember.storeid}})}" class="handle" >{{curMember&&curMember.storename?'更改':'绑定'}}</span>
+          </div>
         </div>
       </div>
       <div class="panel record-panel">
@@ -181,7 +188,23 @@
           },
           selectMember:function (item) {
             this.curMember=item;
-          }
+          },
+          unbindRelative:function () {
+            let params={
+              ...Vue.tools.sessionInfo(),
+              id:this.userId,
+              storeid:item.id
+            }
+            let fb=this.operationFeedback({text:'绑定中...'});
+            Vue.api.unbindRelative(params).then((resp)=>{
+              if(resp.status=='success'){
+                this.curEntry=item;
+                fb.setOptions({type:'complete',text:'绑定成功'});
+              }else{
+                fb.setOptions({type:'warn',text:resp.message});
+              }
+            })
+          },
         },
 
         created: function () {

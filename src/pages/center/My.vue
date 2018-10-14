@@ -6,15 +6,16 @@
           <img :src="userData.touxiang?userData.touxiang:defaultAvatar">
           <p class="name">{{userData.realname}}</p>
           <div class="data-row">
-            <div class="item"><i class="icon diamond-icon"></i><span>{{userData.storename?userData.storename:'初级会员'}}</span></div>
+            <div class="item"><i class="icon diamond-icon"></i><span>{{'初级会员'}}</span></div>
             <div class="item"><i class="icon score-icon"></i><span>积分{{userData.score?userData.score:0}}</span></div>
 
           </div>
         </div>
-        <div class="panel-ft">
+        <router-link :to="{name:'store',params: { userId: userData.id},query:{storeId:userData.storeid}}" tag="div" class="panel-ft">
           <span class="label">关联体控所</span>
-          <span class="value">{{userData.storename?userData.storename:'未绑定'}}</span>
-        </div>
+          <span class="value" v-if="userData.storename">{{userData.storename}}</span>
+          <span class="cm-btn handle" v-if="!userData.storename">前往绑定</span>
+        </router-link>
       </div>
       <div class="panel list-panel">
         <ul class="entry-list">
@@ -24,16 +25,16 @@
           </router-link>
           <li>
             <span class="icon-wrap"><i class="icon stethoscope-min-icon"></i></span>
-            <p>推荐预约</p>
+            <p>体检预约</p>
           </li>
-          <li>
+          <router-link :to="{ name: 'score', params: {}}" tag="li">
             <span class="icon-wrap"><i class="icon score-lg-icon"></i></span>
             <p>积分明细</p>
-          </li>
-          <li>
+          </router-link>
+          <router-link tag="li" :to="{ name: 'myOrder', params: {pageType:'10'}}">
             <span class="icon-wrap"><i class="icon order-icon"></i></span>
             <p>历史订单</p>
-          </li>
+          </router-link>
           <li>
             <span class="icon-wrap"><i class="icon report-min-icon"></i></span>
             <p>体检报告</p>
@@ -46,10 +47,10 @@
             <span class="icon-wrap"><i class="icon msg-icon"></i></span>
             <p>消息中心</p>
           </li>
-          <li>
+          <router-link :to="{ name: 'feedback', params: {}}" tag="li">
             <span class="icon-wrap"><i class="icon feedback-icon"></i></span>
             <p>意见反馈</p>
-          </li>
+          </router-link>
           <li>
             <span class="icon-wrap"><i class="icon about-icon"></i></span>
             <p>关于我们</p>

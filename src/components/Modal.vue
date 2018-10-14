@@ -70,7 +70,7 @@
         height: 0.88rem;
         line-height: 0.88rem;
         text-align: center;
-        color: #368df3;
+        color: #0090df;
         font-size: 0.3rem;
         flex: 1;
         -webkit-flex: 1;

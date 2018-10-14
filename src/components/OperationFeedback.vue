@@ -12,7 +12,7 @@
   .operation-feedback{
     display: flex;
     position: fixed;
-    z-index: 1000;
+    z-index: 3000;
     top:0rem;
     left: 0rem;
     width: 100%;

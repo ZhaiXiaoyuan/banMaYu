@@ -312,19 +312,14 @@
         },
         mounted: function () {
           //
-          this.id=this.$route.params.id;
-          console.log('this.id:',this.id);
+          let userInfo=JSON.parse(sessionStorage.getItem('userInfo'));
+          console.log('userInfo:',userInfo);
+          //
+          this.id=this.$route.params.id?this.$route.params.id:userInfo.id;
           this.mainId=this.$route.params.mainId;
           if(this.id){
             this.getUserData();
           }
-         /* if(this.mainId=='M'){
-            this.getUserData();
-          }else{
-            if(this.id){
-              document.title = '添加亲友';
-            }
-          }*/
         },
 
     };

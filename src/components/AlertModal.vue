@@ -31,7 +31,7 @@
   }
   .second{
     font-size: 0.36rem;
-    color: #00DFA0;
+    color: #0090df;
     padding-right: 0.08rem;
   }
 </style>

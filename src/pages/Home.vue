@@ -2,10 +2,10 @@
 <template>
     <div class="home">
       <div class="btn-list">
-        <div class="cm-btn btn-item data-btn">
+        <router-link tag="div" :to="{ name: 'memberData', params: {}}" class="cm-btn btn-item data-btn">
           <p>基本资料</p>
           <p>完善您的资料</p>
-        </div>
+        </router-link>
         <div class="cm-btn btn-item report-btn">
           <p>我的体质</p>
           <p>解析健康指标</p>

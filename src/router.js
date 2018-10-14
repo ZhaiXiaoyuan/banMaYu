@@ -27,21 +27,21 @@ const routes=[ {
     title:'套餐详情',
   },
 },{
-  path: '/order',
+  path: '/order/:id',
   name: 'order',
   component: resolve=>require(['./pages/shop/Order'],resolve),
   meta:{
     title:'套餐预约',
   },
 },{
-  path: '/pay',
+  path: '/pay/:id/:pageType',
   name: 'pay',
   component: resolve=>require(['./pages/shop/Pay'],resolve),
   meta:{
     title:'确认订单',
   },
 },{
-  path: '/address',
+  path: '/address/:id?',
   name: 'address',
   component: resolve=>require(['./pages/address/Address'],resolve),
   meta:{
@@ -83,7 +83,7 @@ const routes=[ {
     title:'我的',
   },
 },{
-  path: '/myOrder',
+  path: '/myOrder/:pageType',
   name: 'myOrder',
   component: resolve=>require(['./pages/center/MyOrder'],resolve),
   meta:{
@@ -102,6 +102,48 @@ const routes=[ {
   component: resolve=>require(['./pages/center/Register'],resolve),
   meta:{
     title:'快速注册',
+  },
+},{
+  path: '/store/:userId',
+  name: 'store',
+  component: resolve=>require(['./pages/shop/Store'],resolve),
+  meta:{
+    title:'体控所',
+  },
+},{
+  path: '/search',
+  name: 'search',
+  component: resolve=>require(['./pages/shop/Search'],resolve),
+  meta:{
+    title:'体控所',
+  },
+},{
+  path: '/msg',
+  name: 'msg',
+  component: resolve=>require(['./pages/Center/Msg'],resolve),
+  meta:{
+    title:'消息中心',
+  },
+},{
+  path: '/score',
+  name: 'score',
+  component: resolve=>require(['./pages/Center/Score'],resolve),
+  meta:{
+    title:'积分明细',
+  },
+},{
+  path: '/feedback',
+  name: 'feedback',
+  component: resolve=>require(['./pages/Center/Feedback'],resolve),
+  meta:{
+    title:'意见反馈',
+  },
+},{
+  path: '/addFeedback',
+  name: 'addFeedback',
+  component: resolve=>require(['./pages/Center/addFeedback'],resolve),
+  meta:{
+    title:'新增反馈',
   },
 }]
 

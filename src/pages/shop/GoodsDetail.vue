@@ -6,31 +6,32 @@
           <swiper-slide v-for="(item,index) in bannerList" :key="item.id">
             <a style="display:block;width: 100%;height: 100%" v-bind:href="item.url" :style="{background: 'url('+item.imageUrl+') no-repeat center',backgroundSize: 'cover'}"></a>
           </swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
+          <div class="swiper-pagination" slot="pagination" v-if="bannerList.length>1"></div>
         </swiper>
       </div>
       <div class="info-panel">
         <div class="block basic-block">
-          <p class="title">斑马鱼剪卡管理精选中老年超高性价比体检套餐
-            检套餐检套餐</p>
+          <p class="title">{{detail.name}}</p>
           <div class="info-row">
-            <ul class="label-list">
-              <li>男女适用</li>
-              <li>60~85岁</li>
+            <ul class="label-list" v-if="detail.suits">
+              <li>{{detail.suits}}</li>
             </ul>
-            <span class="count">已售1234567份</span>
+            <span class="count">已售{{detail.sellamt}}份</span>
           </div>
           <div class="info-row">
-            <span class="price"><i class="icon">￥</i>3000.00</span>
-            <div class="cm-number-box">
+            <span class="price" v-if="detail.price"><i class="icon">￥</i>{{detail.price.toFixed(2)}}</span>
+           <!-- <div class="cm-number-box" v-if="pageType!='physical'">
               <div class="wrap">
-                <i class="icon minus-icon cm-solid-btn"></i><span class="num">1</span><i class="icon add-icon cm-solid-btn"></i>
+                <i class="icon minus-icon cm-solid-btn" :class="{'cm-disabled':curCount<=1}"  @click="minus()"></i><span class="num">{{curCount}}</span><i class="icon add-icon cm-solid-btn" :class="{'cm-disabled':curCount>=5}" @click="add()"></i>
               </div>
-            </div>
+            </div>-->
+            <router-link :to="{ name: 'order', params: {id:detail.id}}" class="cm-btn handle-btn" v-if="pageType=='physical'">立即预定</router-link>
+            <router-link :to="{ name: 'pay', params: {id:detail.id,pageType:pageType}}" class="cm-btn handle-btn" v-if="pageType!='physical'">立即购买</router-link>
           </div>
+          <div class="info-row tips-row" v-if="detail.tips">温馨提示：{{detail.tips}}</div>
         </div>
-        <div class="block">
-          <div class="link-btn arrows-right">
+        <div class="block" v-if="detail.notice">
+          <div class="link-btn arrows-right" @click="()=>{ this.alert({type:'tips',title:'套餐须知',html:detail.notice});}">
             <span class="label">套餐须知</span>
           </div>
         </div>
@@ -38,8 +39,8 @@
           <div class="block-hd">
             <span class="title">产品详情</span>
           </div>
-          <div class="block-bd">
-            这是详情文案
+          <div class="block-bd" v-html="detail.content">
+
           </div>
         </div>
       </div>
@@ -70,15 +71,15 @@
                   el: '.swiper-pagination'
                 }
               },
-              bannerList:[{
+              bannerList:[
+              /*  {
                 id:'0',
                 url:'http://www.baidu.com',
                 imageUrl:'https://gss2.bdstatic.com/-fo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=39cf61b64b2309f7e76faa144a356bce/9e3df8dcd100baa1bb9433994a10b912c8fc2e53.jpg'
-              },{
-                id:'1',
-                url:'http://www.baidu.com',
-                imageUrl:'https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=46aa30c88ccb39dbc5c06054e01609a7/728da9773912b31b2b3f990b8b18367adab4e145.jpg'
-              },],
+              }*/
+              ],
+              detail:{},
+              curCount:1,
             }
         },
         computed: {},
@@ -87,18 +88,75 @@
           getGoodsDetail:function () {
             if(this.pageType=='physical'){
               Vue.api.getPhysicalDetail({...Vue.tools.sessionInfo(),id:this.$route.params.id}).then((resp)=>{
-
+                if(resp.status=='success'){
+                  let data=JSON.parse(resp.message);
+                  this.detail=data;
+                  this.bannerList.push({
+                    id:0,
+                    url:null,
+                    imageUrl:data.pic1
+                  })
+                  console.log('data:',data);
+                }
+              });
+            }else if(this.pageType='food'){
+              Vue.api.getFoodDetail({...Vue.tools.sessionInfo(),id:this.$route.params.id}).then((resp)=>{
+                if(resp.status=='success'){
+                  let data=JSON.parse(resp.message);
+                  this.detail=data;
+                  this.bannerList.push({
+                    id:0,
+                    url:null,
+                    imageUrl:data.pic1
+                  })
+                  console.log('data:',data);
+                }
+              });
+            }else if(this.pageType=='health'){
+              Vue.api.getHealthDetail({...Vue.tools.sessionInfo(),id:this.$route.params.id}).then((resp)=>{
+                if(resp.status=='success'){
+                  let data=JSON.parse(resp.message);
+                  this.detail=data;
+                  this.bannerList.push({
+                    id:0,
+                    url:null,
+                    imageUrl:data.pic1
+                  })
+                  console.log('data:',data);
+                }
               });
             }
-          }
+          },
+          add:function () {
+            if(this.curCount<5){
+              this.curCount++;
+            }
+          },
+          minus:function () {
+            if(this.curCount>1){
+              this.curCount--;
+            }
+          },
+
         },
 
         created: function () {
         },
         mounted: function () {
           this.pageType=this.$route.params.type;
-          let userInfo=sessionStorage.getItem('userInfo')?JSON.parse(sessionStorage.getItem('userInfo')):null;
-          console.log('userInfo:',userInfo);
+
+          //
+          this.getGoodsDetail();
+          if(this.pageType=='physical'){
+
+          }else if(this.pageType='food'){
+
+          }else if(this.pageType=='health'){
+
+          }
+
+          //
+
         },
 
     };

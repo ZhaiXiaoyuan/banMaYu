@@ -140,8 +140,16 @@ export default {
           if(!token||token==''){//token失效，则重新进行手动授权
             if(Vue.cookie.get('authorizing')!='true'){
               Vue.cookie.set('authorizing','true',{ expires: '10s' });
-              console.log('page:',page);
-              this.toAuth(2,page?page:window.location.href);
+              Vue.alert({
+                html:'即将进行微信登录',
+                yes:'立即登录',
+                autoTime:3,
+                autoText:'跳转至完善信息界面',
+                ok:()=>{
+                  this.toAuth(2,page?page:window.location.href);
+                }
+              });
+              /*this.toAuth(2,page?page:window.location.href);*/
             }
           }
           return{
@@ -246,53 +254,6 @@ export default {
           }else if(page){
             router.push({name:page});
           }
-          /*let userInfo=sessionStorage.getItem('userInfo')?JSON.parse(sessionStorage.getItem('userInfo')):null;
-          let link=()=>{
-            if(userInfo.touxiang){
-              router.push({name:'completeData'});
-            }else{
-
-            }
-          }
-
-          let toCompleteData=()=>{
-            if(isDirectly){
-              link();
-            }else{
-              Vue.alert({
-                html:'您未完善信息，请完善信息！',
-                yes:'立即跳转',
-                autoTime:3,
-                autoText:'跳转至完善信息界面',
-                ok:()=>{
-                  link();
-                }
-              });
-            }
-          }
-          if(userInfo){
-            if(userInfo.touxiang){
-              callback&&callback();
-            }else{
-              toCompleteData();
-            }
-          }else{
-            Vue.api.getUserInfo({timestamp:this.genTimestamp(),openid:this.sessionInfo().openid}).then((resp)=>{
-              if(resp.status=='success'){
-                userInfo=JSON.parse(resp.message);
-                if(userInfo){
-                  if(userInfo.touxiang){
-                    callback&&callback();
-                  }else{
-                    toCompleteData();
-                  }
-                }
-                sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
-              }else{
-
-              }
-            })
-          }*/
         },
         //
         fileToBlob:function (file,callback) {

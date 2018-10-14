@@ -40,16 +40,21 @@
       }
     }
   }
-  .item-panel{
+  .list-panel{
+    background: none;
     padding: 0rem;
-    .panel-hd{
+  }
+  .entry{
+    padding: 0rem;
+    background: #fff;
+    .entry-hd{
       padding: 0.24rem 0.3rem;
       border-bottom: 1px solid #eee;
       .title-text{
         padding-left: 0rem;
       }
     }
-    .panel-bd{
+    .entry-bd{
     /*  padding: 0rem 0.3rem;*/
     }
     .item{
@@ -68,7 +73,7 @@
         text-align: right;
         display: flex;
         align-items: center;
-        max-width: 75%;
+        max-width: 72%;
       }
       .price{
         display: flex;
@@ -95,7 +100,7 @@
         padding: 0.1rem 0.2rem 0.1rem 0.2rem;
         font-size: 0.32rem;
         color: #333;
-        width: 100%;
+       /* width: 100%;*/
         .title{
           width: 4.5rem;
         }
@@ -130,7 +135,7 @@
       border: 1px solid #777472;
       color: #777472;
     }
-    &+.panel{
+    &+.entry{
       margin-top: 0.2rem;
     }
   }

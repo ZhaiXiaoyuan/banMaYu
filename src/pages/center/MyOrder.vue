@@ -3,160 +3,151 @@
     <div class="my-order">
       <div class="panel nav-panel">
         <ul class="nav-list">
-          <li class="active">待付款</li>
-          <li>已付款</li>
-          <li>已发货</li>
-          <li>已退款</li>
+          <li @click="setPageType('10')" :class="{'active':pageType=='10'}">待付款</li>
+          <li @click="setPageType('20')" :class="{'active':pageType=='20'}">已付款</li>
+          <li @click="setPageType('60')" :class="{'active':pageType=='60'}">已发货</li>
+          <li @click="setPageType('50')" :class="{'active':pageType=='50'}">已退款</li>
         </ul>
       </div>
-      <div class="panel item-panel">
-        <div class="panel-hd">
-          <span class="title-text">订单号：123123123</span>
-        </div>
-        <div class="panel-bd">
-          <div class="item product-item">
-            <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
-            <div class="text-info">
-              <p class="title">斑马鱼专供栋吃产品产品品斑马鱼专供栋吃产品产品品</p>
-              <p class="num-row">
-                <span class="price"><i class="icon">￥</i>18.00</span>
-                <span class="count">1</span>
-              </p>
-            </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label">体检人</div>
-              <div class="value">
-                梁先生
+      <div class="panel list-panel">
+        <ul class="entry-list">
+          <li class="entry" v-for="(entry,index) in entryList" :key="entry.id">
+            <div class="entry-content" v-if="entry.producttype=='体检套餐'">
+              <div class="entry-hd">
+                <span class="title-text">订单号：{{entry.orderno}}</span>
+              </div>
+              <div class="entry-bd">
+                <div class="item product-item">
+                  <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
+                  <div class="text-info">
+                    <p class="title">{{entry.productname}}</p>
+                    <p class="num-row">
+                      <span class="price"><i class="icon">￥</i>{{parseFloat(entry.productprice).toFixed(2)}}</span>
+                      <span class="count">{{entry.quantity}}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="wrapper">
+                    <div class="label">体检人</div>
+                    <div class="value">
+                      缺字段
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="wrapper">
+                    <div class="label">体检时间</div>
+                    <div class="value">
+                      缺字段
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="wrapper">
+                    <div class="label">体检地点</div>
+                    <div class="value">
+                      {{entry.storeaddress}}
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="wrapper">
+                    <div class="label">联系电话</div>
+                    <div class="value">
+                      {{entry.storephone}}
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="wrapper">
+                    <div class="label">支付方式</div>
+                    <div class="value">
+                      {{entry.paytype}}
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="wrapper">
+                    <div class="label"></div>
+                    <div class="value">
+                      合计：<span class="price"><i class="icon">￥</i>{{entry.orgamt.toFixed(2)}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="item handle-item">
+                  <div class="wrapper">
+                    <div class="label">{{entry.paystatus}}</div>
+                    <div class="value">
+                      <span class="cm-btn btn cancel-btn" @click="cancelOrder(index)">取消订单</span>
+                      <span class="cm-btn btn" v-if="pageType==10&&entry.paytype!='到店支付'">马上付款</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label">体检时间</div>
-              <div class="value">
-                2018.09.16
+            <div class="entry-content" v-if="entry.producttype!='体检套餐'">
+              <div class="entry-hd">
+                <span class="title-text">订单号：{{entry.orderno}}</span>
+              </div>
+              <div class="entry-bd">
+                <div class="item product-item">
+                  <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
+                  <div class="text-info">
+                    <p class="title">{{entry.productname}}</p>
+                    <p class="num-row">
+                      <span class="price"><i class="icon">￥</i>{{parseFloat(entry.productprice).toFixed(2)}}</span>
+                      <span class="count">{{entry.quantity}}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="item" v-if="entry.way=='门店自取'">
+                  <div class="wrapper">
+                    <div class="label">到店自取地址</div>
+                    <div class="value">
+                      {{entry.storeaddress}}
+                    </div>
+                  </div>
+                </div>
+                <div class="item" v-if="entry.way=='门店自取'">
+                  <div class="wrapper">
+                    <div class="label">联系电话</div>
+                    <div class="value">
+                      {{entry.storephone}}
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="wrapper">
+                    <div class="label">支付方式</div>
+                    <div class="value">
+                      {{entry.paytype}}
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="wrapper">
+                    <div class="label"></div>
+                    <div class="value">
+                      合计：<span class="price"><i class="icon">￥</i>{{entry.orgamt.toFixed(2)}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="item handle-item">
+                  <div class="wrapper">
+                    <div class="label">{{entry.paystatus}}</div>
+                    <div class="value">
+                      <span class="cm-btn btn cancel-btn"  @click="cancelOrder(index)">取消订单</span>
+                      <span class="cm-btn btn" v-if="pageType==10">马上付款</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label">体检地点</div>
-              <div class="value">
-                北京五道口体育场西侧299号北京五道口体育场西侧299号
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label">联系电话</div>
-              <div class="value">
-                18825162417
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label">支付方式</div>
-              <div class="value">
-                线上支付
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label"></div>
-              <div class="value">
-                合计：<span class="price"><i class="icon">￥</i>141.00</span>
-              </div>
-            </div>
-          </div>
-          <div class="item handle-item">
-            <div class="wrapper">
-              <div class="label">等待买家付款</div>
-              <div class="value">
-                <span class="cm-btn btn cancel-btn">删除订单</span>
-                <span class="cm-btn btn">马上付款</span>
-              </div>
-            </div>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
-      <div class="panel item-panel">
-        <div class="panel-hd">
-          <span class="title-text">订单号：123123123</span>
-        </div>
-        <div class="panel-bd">
-          <div class="item product-item">
-            <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
-            <div class="text-info">
-              <p class="title">斑马鱼专供栋吃产品产品品斑马鱼专供栋吃产品产品品</p>
-              <p class="num-row">
-                <span class="price"><i class="icon">￥</i>18.00</span>
-                <span class="count">1</span>
-              </p>
-            </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label">体检人</div>
-              <div class="value">
-                梁先生
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label">体检时间</div>
-              <div class="value">
-                2018.09.16
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label">体检地点</div>
-              <div class="value">
-                北京五道口体育场西侧299号北京五道口体育场西侧299号
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label">联系电话</div>
-              <div class="value">
-                18825162417
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label">支付方式</div>
-              <div class="value">
-                线上支付
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="wrapper">
-              <div class="label"></div>
-              <div class="value">
-                合计：<span class="price"><i class="icon">￥</i>141.00</span>
-              </div>
-            </div>
-          </div>
-          <div class="item handle-item">
-            <div class="wrapper">
-              <div class="label">等待买家付款</div>
-              <div class="value">
-                <span class="cm-btn btn cancel-btn">删除订单</span>
-                <span class="cm-btn btn">马上付款</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <scroll-load :page="pager" @scrolling="getList()"></scroll-load>
     </div>
 </template>
 
@@ -175,19 +166,83 @@
         },
         data: function () {
             return {
-
+              pageType:10,//10:未付款,20:已付款,30:已取消,40:申请退款中,50:已退款,60:已发货,70:已完成
+              curEntry:null,
+              pager:{
+                pageNum: 1,
+                pageSize: 20,
+                isLoading:false,
+                isFinished:false
+              },
+              entryList:[],
             }
         },
         computed: {},
         watch: {},
         methods: {
-
+          getList:function (isInit) {
+            if(isInit){
+              this.pager.pageNum = 1;
+              this.entryList = [];
+            }
+            let pager={
+              'pager.pageNumber':this.pager.pageNum,
+              'pager.pageSize':this.pager.pageSize
+            }
+            let params={
+              ...Vue.tools.sessionInfo(),
+              status:this.pageType,
+              ...pager
+            }
+            Vue.api.getOrderList(params).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                let pager=data.pager;
+                this.pager.pageNum=pager.pageNumber+1;
+                this.pager.maxPage=pager.totalPageCount;
+                this.pager.isLoading=false;
+                this.pager.isFinished=false;
+                this.entryList=this.entryList.concat(data.result);
+                this.curEntry=this.entryList.find((item,i)=>{
+                  return item.fullname==this.curStoreName;
+                });
+                console.log('this.entryList:',this.entryList);
+              }
+            })
+          },
+          setPageType:function (value) {
+            this.pageType=value;
+            this.getList(true);
+          },
+          cancelOrder:function (index) {
+            let item=this.entryList[index];
+            this.confirm({
+              html:'确定取消该订单？',
+              ok:()=>{
+                let params={
+                  ...Vue.tools.sessionInfo(),
+                  ordezid:item.id
+                }
+                let fb=this.operationFeedback({text:'取消中...'});
+                Vue.api.cancelOrder(params).then((resp)=>{
+                  if(resp.status=='success'){
+                    this.entryList.splice(index,1);
+                    fb.setOptions({type:'complete',text:'取消成功'});
+                  }else{
+                    fb.setOptions({type:'warn',text:resp.message});
+                  }
+                });
+              }
+            });
+          },
         },
 
         created: function () {
         },
         mounted: function () {
 
+          //
+          this.getList(true);
         },
 
     };

@@ -99,6 +99,22 @@ export default {
           params: params
         });
       },
+      //栋食产品详情
+      getFoodDetail:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/pd/pro/info/vfood',
+          params: params
+        });
+      },
+      //健康食品详情
+      getHealthDetail:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/pd/pro/info/vhealth',
+          params: params
+        });
+      },
       //我的介绍
       getMyData:function (params) {
         return Vue.http.ajax({
@@ -139,7 +155,150 @@ export default {
           params: params
         });
       },
-
+     //分页获取体控所列表
+      getStoreList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/zb/sto/man/gstore',
+          params: params
+        });
+      },
+      //更改绑定体控所
+      bindStore:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/info/udstore',
+          params: params
+        });
+      },
+      //子账户解绑
+      unbindRelative:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/info/ubf',
+          params: params
+        });
+      },
+      //创建体检订单
+      createPhysicalOrder:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/ex/phy/book/add',
+          params: params
+        });
+      },
+      //创建订单
+      createOrder:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/sh/ord/man/genord',
+          params: params
+        });
+      },
+      //获取送货地址列表
+      getAddressList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/addr/getaddr',
+          params: params
+        });
+      },
+      //添加送货地址
+      addAddress:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/addr/add',
+          params: params
+        });
+      },
+      //编辑送货地址
+      saveAddress:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/addr/uaddr',
+          params: params
+        });
+      },
+      //删除送货地址
+      deleteAddress:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/addr/daddr',
+          params: params
+        });
+      },
+      //获取默认送货地址
+      getDefaultAddress:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/addr/gdfaddr',
+          params: params
+        });
+      },
+      //获取订单列表
+      getOrderList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/sh/ord/man/getords',
+          params: params
+        });
+      },
+      //取消订单
+      cancelOrder:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/sh/ord/man/cancelord',
+          params: params
+        });
+      },
+      //获取体控所信息
+      getStoreDetail:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/zb/sto/man/vstore',
+          params: params
+        });
+      },
+      //消息中心
+      getMsgList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/info/gnews',
+          params: params
+        });
+      },
+      //查看积分明细
+      getScoreList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/info/vscore',
+          params: params
+        });
+      },
+      //获取反馈信息列表
+      getFeedbackList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/bs/fback/man/qfb',
+          params: params
+        });
+      },
+      //新增用户反馈
+      addFeeback:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/bs/fback/man/afb',
+          params: params
+        });
+      },
+      //删除用户反馈
+      deleteFeedback:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/bs/fback/man/dfb',
+          params: params
+        });
+      },
     }
   },
 

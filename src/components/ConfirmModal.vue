@@ -39,8 +39,8 @@
       }
       .ok-btn{
         margin-left: 0.6rem;
-        border: 1px solid #12C2B3;
-        background: #12C2B3;
+        border: 1px solid #0090df;
+        background: #0090df;
         color: #fff;
       }
     }

@@ -39,12 +39,17 @@
       }
     }
     .panel-ft{
-      display: flex;
-      align-items: center;
-      padding: 0.3rem 0rem;
       font-size: 0.32rem;
       color: #333;
       border-top:1px solid #eee;
+      .ft-row{
+        display: flex;
+        align-items: center;
+        padding: 0.3rem 0rem;
+        &+.ft-row{
+          border-top:1px solid #eee;
+        }
+      }
       .value{
         padding-left: 0.4rem;
         width: 4.5rem;
