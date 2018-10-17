@@ -31,7 +31,7 @@
             <span class="icon-wrap"><i class="icon score-lg-icon"></i></span>
             <p>积分明细</p>
           </router-link>
-          <router-link tag="li" :to="{ name: 'myOrder', params: {pageType:'10'}}">
+          <router-link tag="li" :to="{ name: 'myOrder', query: {pageType:'10'}}">
             <span class="icon-wrap"><i class="icon order-icon"></i></span>
             <p>历史订单</p>
           </router-link>
@@ -39,15 +39,15 @@
             <span class="icon-wrap"><i class="icon report-min-icon"></i></span>
             <p>体检报告</p>
           </li>
-          <li>
+          <router-link tag="li" :to="{ name: 'diary', params: {}}">
             <span class="icon-wrap"><i class="icon diary-icon"></i></span>
             <p>食用日记</p>
-          </li>
+          </router-link>
           <li>
             <span class="icon-wrap"><i class="icon msg-icon"></i></span>
             <p>消息中心</p>
           </li>
-          <router-link :to="{ name: 'feeb', params: {}}" tag="li">
+          <router-link :to="{ name: 'feedback', params: {}}" tag="li">
             <span class="icon-wrap"><i class="icon feedback-icon"></i></span>
             <p>意见反馈</p>
           </router-link>

@@ -48,99 +48,31 @@
         </div>
         <div class="panel-bd">
           <ul class="entry-list">
-            <li>
+            <li v-for="(entry,index) in entryList" :key="entry.id">
               <div class="process">
                 <div class="line"><i class="icon node-icon"></i></div>
               </div>
               <div class="msg">
                 <div class="info-row">
                   <span class="label">预约单号</span>
-                  <span class="value">12345678910</span>
+                  <span class="value">{{entry.code}}</span>
                 </div>
                 <div class="info-row">
                   <span class="label">预约日期</span>
-                  <span class="value">2018.10.25</span>
+                  <span class="value">{{entry.examdate}}</span>
                 </div>
                 <div class="info-row">
                   <span class="label">预约套餐</span>
-                  <span class="value">斑马鱼精选中老年体检套餐斑马鱼精选中老年体检套餐</span>
+                  <span class="value">{{entry.productname}}</span>
                 </div>
                 <div class="info-row">
                   <span class="label">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态</span>
-                  <span class="value">已付款</span>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="process">
-                <div class="line"><i class="icon node-icon"></i></div>
-              </div>
-              <div class="msg">
-                <div class="info-row">
-                  <span class="label">预约单号</span>
-                  <span class="value">12345678910</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">预约日期</span>
-                  <span class="value">2018.10.25</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">预约套餐</span>
-                  <span class="value">斑马鱼精选中老年体检套餐斑马鱼精选中老年体检套餐</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态</span>
-                  <span class="value">已付款</span>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="process">
-                <div class="line"><i class="icon node-icon"></i></div>
-              </div>
-              <div class="msg">
-                <div class="info-row">
-                  <span class="label">预约单号</span>
-                  <span class="value">12345678910</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">预约日期</span>
-                  <span class="value">2018.10.25</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">预约套餐</span>
-                  <span class="value">斑马鱼精选中老年体检套餐斑马鱼精选中老年体检套餐</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态</span>
-                  <span class="value">已付款</span>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="process">
-                <div class="line"><i class="icon node-icon"></i></div>
-              </div>
-              <div class="msg">
-                <div class="info-row">
-                  <span class="label">预约单号</span>
-                  <span class="value">12345678910</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">预约日期</span>
-                  <span class="value">2018.10.25</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">预约套餐</span>
-                  <span class="value">斑马鱼精选中老年体检套餐斑马鱼精选中老年体检套餐</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态</span>
-                  <span class="value">已付款</span>
+                  <span class="value">{{entry.statusLabel}}</span>
                 </div>
               </div>
             </li>
           </ul>
+          <scroll-load :page="pager" @scrolling="getList()"></scroll-load>
         </div>
       </div>
       <nav-bar></nav-bar>
@@ -166,6 +98,13 @@
               defaultAvatar:require('../../images/common/default-avatar.png'),
               relativeList:[],
               curMember:null,
+              pager:{
+                pageNum: 1,
+                pageSize: 20,
+                isLoading:false,
+                isFinished:false
+              },
+              entryList:[],
             }
         },
         computed: {},
@@ -182,12 +121,14 @@
                 let data=JSON.parse(resp.message);
                 this.relativeList=data.result.reverse();
                 this.curMember=this.relativeList[0];
+                this.getList(true);
                 console.log('data:',data);
               }
             })
           },
           selectMember:function (item) {
             this.curMember=item;
+            this.getList(true);
           },
           unbindRelative:function () {
             let params={
@@ -202,6 +143,33 @@
                 fb.setOptions({type:'complete',text:'绑定成功'});
               }else{
                 fb.setOptions({type:'warn',text:resp.message});
+              }
+            })
+          },
+          getList:function (isInit) {
+            if(isInit){
+              this.pager.pageNum = 1;
+              this.entryList = [];
+            }
+            let pager={
+              'pager.pageNumber':this.pager.pageNum,
+              'pager.pageSize':this.pager.pageSize
+            }
+            let params={
+              ...Vue.tools.sessionInfo(),
+              id:this.curMember.id,
+              ...pager
+            }
+            Vue.api.getPhysicalList(params).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                let pager=data.pager;
+                this.pager.pageNum=pager.pageNumber+1;
+                this.pager.maxPage=pager.totalPageCount;
+                this.pager.isLoading=false;
+                this.pager.isFinished=false;
+                this.entryList=this.entryList.concat(data.result);
+                console.log('this.entryList:',this.entryList);
               }
             })
           },

@@ -72,7 +72,7 @@
         <div class="panel-bd">
           <div class="item">
             <div class="label">地址</div>
-            <router-link :to="{ name: 'store', params: {userId:curMember.id},query:{storeId:curStore.id,pageType:'selector'}}" tag="div"  class="value column-value">
+            <router-link :to="{ name: 'store', params: {userId:curMember.id},query:{storeId:curStore.id,pageType:'selector',productId:goods?goods.id:''}}" tag="div"  class="value column-value">
               <div v-if="curStore.id">
                 <p>{{curStore.fullname}}</p>
                 <p class="tips">*温馨提示：可在亲友或个人中心变更控所</p>
@@ -176,8 +176,6 @@
                 }
               },
               selectedMethod:{label:'在线支付',value:'WeixinPay'},
-
-
             }
         },
         computed: {},
@@ -283,17 +281,22 @@
             let fb=this.operationFeedback({text:'预约中...'});
             Vue.api.createPhysicalOrder(params).then((resp)=>{
               if(resp.status=='success'){
+                fb.setOptions({type:'success',text:'订单生成成功',delayForDelete:0});
+                let data=JSON.parse(resp.message);
                 this.clearCache();
                 fb.setOptions({type:'complete',text:'预约成功'});
                 if(this.selectedMethod.value=='WeixinPay'){
-                  this.alert({
-                    html:'支付模块待开发',
-                    ok:()=>{
-                      this.$router.replace({name:'myOrder',params:{pageType:'10'}});
+                  this.wechatPay({
+                    orderId:data.id,
+                    success:()=>{
+                      this.toMyOrder('20');
+                    },
+                    fail:()=>{
+                      this.toMyOrder('10');
                     }
                   });
                 }else{
-                  this.$router.replace({name:'myOrder',params:{pageType:'10'}});
+                  this.toMyOrder('10');
                 }
               }else{
                 fb.setOptions({type:'warn',text:resp.message});
@@ -303,11 +306,14 @@
           clearCache:function () {
             localStorage.clear('selectedStore');
           },
+          toMyOrder:function (type) {
+            this.$router.replace({name:'myOrder',query:{pageType:type}});
+          }
         },
         created: function () {
         },
         mounted: function () {
-          this.id=this.$route.params.id;
+          this.id=this.$route.query.id;
           //
           this.getPhysicalDetail();
           //

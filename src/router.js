@@ -27,7 +27,7 @@ const routes=[ {
     title:'套餐详情',
   },
 },{
-  path: '/order/:id',
+  path: '/order',
   name: 'order',
   component: resolve=>require(['./pages/shop/Order'],resolve),
   meta:{
@@ -80,10 +80,10 @@ const routes=[ {
   name: 'diary',
   component: resolve=>require(['./pages/center/Diary'],resolve),
   meta:{
-    title:'我的',
+    title:'食用日记',
   },
 },{
-  path: '/myOrder/:pageType',
+  path: '/myOrder',
   name: 'myOrder',
   component: resolve=>require(['./pages/center/MyOrder'],resolve),
   meta:{

@@ -15,12 +15,12 @@
             <li class="entry" v-for="(entry,index) in entryList" :key="entry.id">
               <div class="entry-bd">
                 <div class="info">
-                  <p class="title">{{entry.biztype}}</p>
+                  <p class="title">{{entry.biztypeLabel}}</p>
                   <p class="sub">{{entry.createtime}}</p>
                 </div>
                 <div class="score">{{entry.pmflag=='P'?'+':'-'}}{{entry.score}}</div>
               </div>
-              <div class="entry-ft">积分来源：字段不明</div>
+              <div class="entry-ft">积分来源：{{entry.bizname}}</div>
             </li>
           </ul>
         </div>

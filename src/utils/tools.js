@@ -185,7 +185,7 @@ export default {
               ...this.sessionInfo(),
             url:window.location.href,
           },options.params);
-          Vue.api.getWeChatConfig(params).then((resp)=>{
+          Vue.api.getWechatConfig(params).then((resp)=>{
             if(resp.status=='success'){
               var configData=JSON.parse(resp.message);
               wx.config({

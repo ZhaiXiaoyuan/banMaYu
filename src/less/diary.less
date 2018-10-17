@@ -31,21 +31,21 @@
       font-size: 0.38rem;
     }
   .finish-icon{
-    display: inline-block;
+    display: none;
     background: url("../images/center/finish-icon.png") no-repeat;
     width: 0.63rem;
     height: 0.63rem;
     background-size: 100% 100%;
   }
   .missed-icon{
-    display: inline-block;
+    display: none;
     background: url("../images/center/missed-icon.png") no-repeat;
     width: 0.63rem;
     height: 0.63rem;
     background-size: 100% 100%;
   }
   .waiting-icon{
-    display: inline-block;
+    display: none;
     background: url("../images/center/waiting-icon.png") no-repeat;
     width: 0.63rem;
     height: 0.63rem;
@@ -54,20 +54,45 @@
   .panel-bd{
     margin-top: 0.3rem;
   }
-    table{
+    .date-list{
       width: 100%;
       border-right:1px solid #eee;
       border-bottom:1px solid #eee;
-      td{
+      li{
+        display: inline-block;
+        width: 25%;
         position: relative;
-        padding: 0.4rem 0.2rem;
+        padding: 0.3rem 0.2rem;
         border-left:1px solid #eee;
         border-top:1px solid #eee;
         vertical-align:middle;
+        text-align: center;
         .icon{
           position: absolute;
           top:0rem;
           right: 0rem;
+        }
+        &.able{
+          font-weight: bold;
+        }
+        &.finish{
+          pointer-events: none;
+          .finish-icon{
+            display: inline-block;
+          }
+        }
+        &.waiting{
+          pointer-events: none;
+          .waiting-icon{
+            display: inline-block;
+          }
+        }
+        &.missed{
+          pointer-events: none;
+          color: #999;
+          .missed-icon{
+            display: inline-block;
+          }
         }
       }
     }

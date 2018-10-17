@@ -163,6 +163,14 @@ export default {
           params: params
         });
       },
+      //体检预约时分页获取体控所列表
+      getStoreListByProductId:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/zb/sto/man/getstores',
+          params: params
+        });
+      },
       //更改绑定体控所
       bindStore:function (params) {
         return Vue.http.ajax({
@@ -336,6 +344,46 @@ export default {
         return Vue.http.ajax({
           method: 'post',
           url: basicUrl+'/sh/ord/man/prepay',
+          params: params
+        });
+      },
+      //申请退款
+      refund:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/sh/ord/man/refund',
+          params: params
+        });
+      },
+      //获取食用日记
+      getDiary:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/ex/eaten/info/gsign',
+          params: params
+        });
+      },
+      //点击签到
+      sign:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/ex/eaten/info/sign',
+          params: params
+        });
+      },
+      //获取公众号参数
+      getWechatConfig:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/auth/gwjc',
+          params: params
+        });
+      },
+      //分页获取体检预约信息列表
+      getPhysicalList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'//ex/phy/book/gphy',
           params: params
         });
       },

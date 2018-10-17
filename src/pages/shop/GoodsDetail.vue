@@ -25,7 +25,7 @@
                 <i class="icon minus-icon cm-solid-btn" :class="{'cm-disabled':curCount<=1}"  @click="minus()"></i><span class="num">{{curCount}}</span><i class="icon add-icon cm-solid-btn" :class="{'cm-disabled':curCount>=5}" @click="add()"></i>
               </div>
             </div>-->
-            <router-link :to="{ name: 'order', params: {id:detail.id}}" class="cm-btn handle-btn" v-if="pageType=='physical'">立即预定</router-link>
+            <router-link :to="{ name: 'order', query: {id:detail.id}}" class="cm-btn handle-btn" v-if="pageType=='physical'">立即预定</router-link>
             <router-link :to="{ name: 'pay',query: {id:detail.id,pageType:pageType}}" class="cm-btn handle-btn" v-if="pageType!='physical'">立即购买</router-link>
           </div>
           <div class="info-row tips-row" v-if="detail.tips">温馨提示：{{detail.tips}}</div>

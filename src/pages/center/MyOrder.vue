@@ -6,6 +6,8 @@
           <li @click="setPageType('10')" :class="{'active':pageType=='10'}">待付款</li>
           <li @click="setPageType('20')" :class="{'active':pageType=='20'}">已付款</li>
           <li @click="setPageType('60')" :class="{'active':pageType=='60'}">已发货</li>
+          <li @click="setPageType('30')" :class="{'active':pageType=='30'}">已取消</li>
+          <li @click="setPageType('40')" :class="{'active':pageType=='40'}">退款中</li>
           <li @click="setPageType('50')" :class="{'active':pageType=='50'}">已退款</li>
         </ul>
       </div>
@@ -23,7 +25,7 @@
                     <p class="title">{{entry.productname}}</p>
                     <p class="num-row">
                       <span class="price"><i class="icon">￥</i>{{parseFloat(entry.productprice).toFixed(2)}}</span>
-                      <span class="count">{{entry.quantity}}</span>
+                      <span class="count">&times;{{entry.quantity}}</span>
                     </p>
                   </div>
                 </div>
@@ -39,7 +41,7 @@
                   <div class="wrapper">
                     <div class="label">体检时间</div>
                     <div class="value">
-                      缺字段
+                      {{entry.examdate}}
                     </div>
                   </div>
                 </div>
@@ -80,8 +82,9 @@
                     <div class="label">{{entry.paystatus}}</div>
                     <div class="value">
                       <span class="cm-btn btn cancel-btn" v-if="pageType==10" @click="cancelOrder(index)">取消订单</span>
-                      <span class="cm-btn btn" v-if="pageType==10&&entry.paytype!='到店支付'">马上付款</span>
+                      <span class="cm-btn btn" v-if="pageType==10&&entry.paytype!='到店支付'" @click="toPay(entry)">马上付款</span>
                       <span class="cm-btn btn" v-if="pageType==10||pageType==20" @click="openPicker(entry)">修改预约时间</span>
+                      <span class="cm-btn btn" v-if="pageType==20" @click="refund(index)">申请退款</span>
                     </div>
                   </div>
                 </div>
@@ -98,23 +101,47 @@
                     <p class="title">{{entry.productname}}</p>
                     <p class="num-row">
                       <span class="price"><i class="icon">￥</i>{{parseFloat(entry.productprice).toFixed(2)}}</span>
-                      <span class="count">{{entry.quantity}}</span>
+                      <span class="count">&times;{{entry.quantity}}</span>
                     </p>
                   </div>
                 </div>
-                <div class="item" v-if="entry.way=='门店自取'">
+                <div class="item" v-if="entry.way=='到店自取'">
                   <div class="wrapper">
-                    <div class="label">到店自取地址</div>
+                    <div class="label">自取地址</div>
                     <div class="value">
                       {{entry.storeaddress}}
                     </div>
                   </div>
                 </div>
-                <div class="item" v-if="entry.way=='门店自取'">
+                <div class="item" v-if="entry.way=='到店自取'">
                   <div class="wrapper">
                     <div class="label">联系电话</div>
                     <div class="value">
                       {{entry.storephone}}
+                    </div>
+                  </div>
+                </div>
+                <div class="item" v-if="entry.way=='快递送货'">
+                  <div class="wrapper">
+                    <div class="label">收件地址</div>
+                    <div class="value">
+                      {{entry.csaddress}}
+                    </div>
+                  </div>
+                </div>
+                <div class="item" v-if="entry.way=='快递送货'">
+                  <div class="wrapper">
+                    <div class="label">收件人</div>
+                    <div class="value">
+                      {{entry.csname}}
+                    </div>
+                  </div>
+                </div>
+                <div class="item" v-if="entry.way=='快递送货'">
+                  <div class="wrapper">
+                    <div class="label">联系电话</div>
+                    <div class="value">
+                      {{entry.csphone}}
                     </div>
                   </div>
                 </div>
@@ -138,8 +165,9 @@
                   <div class="wrapper">
                     <div class="label">{{entry.paystatus}}</div>
                     <div class="value">
-                      <span class="cm-btn btn cancel-btn"  @click="cancelOrder(index)">取消订单</span>
-                      <span class="cm-btn btn" v-if="pageType==10">马上付款</span>
+                      <span class="cm-btn btn cancel-btn" v-if="pageType==10"  @click="cancelOrder(index)">取消订单</span>
+                      <span class="cm-btn btn" v-if="pageType==10"  @click="toPay(entry)">马上付款</span>
+                      <span class="cm-btn btn" v-if="pageType==20" @click="refund(index)">申请退款</span>
                     </div>
                   </div>
                 </div>
@@ -247,6 +275,27 @@
               }
             });
           },
+          refund:function (index) {
+            let item=this.entryList[index];
+            this.confirm({
+              html:'确定对该订单申请退款？',
+              ok:()=>{
+                let params={
+                  ...Vue.tools.sessionInfo(),
+                  ordezid:item.id
+                }
+                let fb=this.operationFeedback({text:'申请中...'});
+                Vue.api.refund(params).then((resp)=>{
+                  if(resp.status=='success'){
+                    this.entryList.splice(index,1);
+                    fb.setOptions({type:'complete',text:'申请成功'});
+                  }else{
+                    fb.setOptions({type:'warn',text:resp.message});
+                  }
+                });
+              }
+            });
+          },
           openPicker (item) {
             this.curEntry=item;
             this.$refs.picker.open()
@@ -286,6 +335,17 @@
               }
             });
           },
+          toPay:function (item) {
+            this.wechatPay({
+              orderId:item.id,
+              success:()=>{
+                this.setPageType('20');
+              },
+              fail:()=>{
+              /*  this.operationFeedback({type:'warn',text:''});*/
+              }
+            });
+          }
         },
 
         created: function () {
@@ -293,7 +353,7 @@
         mounted: function () {
 
           //
-          this.getList(true);
+          this.setPageType(this.$route.query.pageType?this.$route.query.pageType:'10');
         },
 
     };

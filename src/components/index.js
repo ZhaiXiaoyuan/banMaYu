@@ -14,6 +14,7 @@ import SignInModal from './SignInModal';
 import NavBar from './NavBar';
 import InviteModal from './InviteModal';
 import CropModal from './CropModal';
+import WechatPay from './WechatPay';
 
 /*全局组件注册配置*/
 export default {
@@ -31,6 +32,7 @@ export default {
     Vue.component('NavBar',NavBar);
     Vue.component('InviteModal',InviteModal);
     Vue.component('CropModal',CropModal);
+    Vue.component('WechatPay',WechatPay);
 
     /*方法调度方式*/
     let OperationFeedbackConstructor = Vue.extend(OperationFeedback);
@@ -40,6 +42,7 @@ export default {
     let SignInModalConstructor=Vue.extend(SignInModal);
     let InviteModalConstructor=Vue.extend(InviteModal);
     let CropModalConstructor=Vue.extend(CropModal);
+    let WechatPayConstructor=Vue.extend(WechatPay);
     const functionObject={
       /**
        * 操作提示
@@ -251,6 +254,27 @@ export default {
         let parentEle=document.getElementById('app');
         //
         let instance=new CropModalConstructor({});
+        instance.options=options;
+        instance.$mount();
+        parentEle.appendChild(instance.$el);
+        return {
+          close:instance.close
+        }
+      },
+      /**
+       * 微信支付
+       * @param options
+       */
+      wechatPay:function (options) {
+        options={...{
+          orderId:null,
+          success:null,
+          fail:null,
+          },...options};
+        //
+        let parentEle=document.getElementById('app');
+        //
+        let instance=new WechatPayConstructor({});
         instance.options=options;
         instance.$mount();
         parentEle.appendChild(instance.$el);

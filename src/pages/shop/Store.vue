@@ -86,21 +86,40 @@
               lat:null,
               ...pager
             }
-            Vue.api.getStoreList(params).then((resp)=>{
-              if(resp.status=='success'){
-                let data=JSON.parse(resp.message);
-                let pager=data.pager;
-                this.pager.pageNum=pager.pageNumber+1;
-                this.pager.maxPage=pager.totalPageCount;
-                this.pager.isLoading=false;
-                this.pager.isFinished=false;
-                this.entryList=this.entryList.concat(data.result);
-                this.curEntry=this.entryList.find((item,i)=>{
-                  return item.id==this.storeId;
-                });
-                console.log('this.entryList:',this.entryList);
-              }
-            })
+            if(this.pageType!='selector'){
+              Vue.api.getStoreList(params).then((resp)=>{
+                if(resp.status=='success'){
+                  let data=JSON.parse(resp.message);
+                  let pager=data.pager;
+                  this.pager.pageNum=pager.pageNumber+1;
+                  this.pager.maxPage=pager.totalPageCount;
+                  this.pager.isLoading=false;
+                  this.pager.isFinished=false;
+                  this.entryList=this.entryList.concat(data.result);
+                  this.curEntry=this.entryList.find((item,i)=>{
+                    return item.id==this.storeId;
+                  });
+                  console.log('this.entryList:',this.entryList);
+                }
+              })
+            }else{
+              params.productid=this.$route.query.productId;
+              Vue.api.getStoreListByProductId(params).then((resp)=>{
+                if(resp.status=='success'){
+                  let data=JSON.parse(resp.message);
+                  let pager=data.pager;
+                  this.pager.pageNum=pager.pageNumber+1;
+                  this.pager.maxPage=pager.totalPageCount;
+                  this.pager.isLoading=false;
+                  this.pager.isFinished=false;
+                  this.entryList=this.entryList.concat(data.result);
+                  this.curEntry=this.entryList.find((item,i)=>{
+                    return item.id==this.storeId;
+                  });
+                  console.log('this.entryList:',this.entryList);
+                }
+              })
+            }
           },
           bind:function (item) {
             let params={
