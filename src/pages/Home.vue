@@ -2,7 +2,7 @@
 <template>
     <div class="home">
       <div class="btn-list">
-        <router-link tag="div" :to="{ name: 'memberData', params: {}}" class="cm-btn btn-item data-btn">
+        <router-link tag="div" :to="{ name: 'memberData', params: {mainId:'M'}}" class="cm-btn btn-item data-btn">
           <p>基本资料</p>
           <p>完善您的资料</p>
         </router-link>
@@ -10,14 +10,14 @@
           <p>我的体质</p>
           <p>解析健康指标</p>
         </div>
-        <div class="cm-btn btn-item stethoscope-btn">
+        <router-link tag="div" :to="{ name: 'search', params: {},query:{type:'Physical'}}" class="cm-btn btn-item stethoscope-btn">
           <p>体检预约</p>
           <p>快捷预约体检</p>
-        </div>
-        <div class="cm-btn btn-item product-btn">
+        </router-link>
+        <router-link tag="div" :to="{ name: 'search', params: {},query:{type:'Food'}}" class="cm-btn btn-item product-btn">
           <p>干预产品</p>
           <p>保护您的健康</p>
-        </div>
+        </router-link>
         <div class="cm-btn btn-item msg-btn">
           <p>消息中心</p>
           <p>消息一目了然</p>

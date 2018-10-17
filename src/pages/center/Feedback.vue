@@ -6,7 +6,7 @@
           <ul class="entry-list">
             <li class="entry" v-for="(entry,index) in entryList" :key="entry.id">
               <div class="entry-bd">
-                <p>反馈对象：缺字段</p>
+            <!--    <p>反馈对象：</p>-->
                 <p>反馈内容：{{entry.content}}</p>
                 <p>反馈时间：{{entry.createtime}}</p>
                 <p v-if="entry.replyinfo">回复内容：{{entry.replyinfo}}</p>

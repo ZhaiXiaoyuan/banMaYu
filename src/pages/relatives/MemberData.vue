@@ -66,7 +66,7 @@
           <div class="item">
             <div class="label">血型</div>
             <div class="value">
-              <input type="text" v-model="member.blood" placeholder="请输入血型">
+              <input type="text" readonly v-model="member.blood" placeholder="请选择血型" @click="bloodPickerOptions.show=true">
             </div>
           </div>
           <div class="item">
@@ -109,6 +109,7 @@
         <mt-picker :slots="slots" value-key="label" @change="genderChange"></mt-picker>
       </mt-popup>
 
+      <cm-picker :options="bloodPickerOptions" ref="bloodPicker"></cm-picker>
     </div>
 </template>
 
@@ -120,18 +121,19 @@
 <script>
     import Vue from 'vue'
     import * as qiniu from 'qiniu-js'
+    import CmPicker from '../../components/CmPicker.vue'
 
 
     export default {
         components: {
-
+          CmPicker
         },
         data: function () {
             return {
               mainId:null,
               id:null,
               member:{
-                gender:'M',
+                gender:'男',
                 genderText:'男'
               },
               oldPhone:null,
@@ -140,12 +142,33 @@
               selectedGender:null,
               slots: [
                 {
-                  values: [{label:'男',value:'M'},{label:'女',value:'F'}],
+                  values: [{label:'男',value:'男'},{label:'女',value:'女'}],
                   textAlign: 'center',
                   defaultIndex:0
                 }
               ],
               uploading:false,
+
+              bloodData:null,
+              bloodPickerOptions:{
+                show:false,
+                slots:[
+                  {
+                    values: [{label:'A',value:'A'},{label:'B',value:'B'},{label:'O',value:'O'},{label:'AB',value:'AB'},{label:'不清楚',value:null}],
+                    textAlign: 'center',
+                    defaultIndex:0
+                  },
+                  {
+                    values: [{label:'RH+',value:'RH+'},{label:'RH-',value:'RH-'},{label:'不清楚',value:null}],
+                    textAlign: 'center',
+                    defaultIndex:0
+                  }
+                ],
+                ok:(data)=>{
+                  this.bloodData=data;
+                  this.member.blood=this.bloodData[0].label+'：'+this.bloodData[1].label
+                }
+              }
             }
         },
         computed: {},
@@ -157,7 +180,7 @@
                 this.member=JSON.parse(resp.message);
                 this.oldPhone=this.member.mobilephone;
                 if(!this.member.gender){
-                  this.member.gender='M';
+                  this.member.gender='男';
                   this.member.genderText='男';
                 }
                 this.slots[0].values.find((item,i)=>{
@@ -166,7 +189,13 @@
                     this.member.genderText=item.label;
                   }
                 });
-                console.log('this.member:',this.member);
+                let bloodArr=this.member.blood.split('：');
+                if(bloodArr.length==0){
+                  bloodArr=[null,null];
+                }else if(bloodArr.length==1){
+                  bloodArr.push(null);
+                }
+                this.$refs.bloodPicker.setDefault(bloodArr);
               }else{
 
               }
@@ -266,13 +295,23 @@
               ...Vue.tools.sessionInfo(),
               ...this.member
             }
-            Vue.api.addRelative(params).then((resp)=>{
-              if(resp.status=='success'){
-                fb.setOptions({type:'complete',text:'保存成功'});
-              }else{
-                fb.setOptions({type:'warn',text:resp.message});
-              }
-            });
+            if(params.id){
+              Vue.api.updateRelative(params).then((resp)=>{
+                if(resp.status=='success'){
+                  fb.setOptions({type:'complete',text:'保存成功'});
+                }else{
+                  fb.setOptions({type:'warn',text:resp.message});
+                }
+              });
+            }else{
+              Vue.api.addRelative(params).then((resp)=>{
+                if(resp.status=='success'){
+                  fb.setOptions({type:'complete',text:'保存成功'});
+                }else{
+                  fb.setOptions({type:'warn',text:resp.message});
+                }
+              });
+            }
           },
           save:function () {
             if(this.mainId=='M'){

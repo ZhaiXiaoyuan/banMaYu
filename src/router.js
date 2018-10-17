@@ -34,7 +34,7 @@ const routes=[ {
     title:'套餐预约',
   },
 },{
-  path: '/pay/:id/:pageType',
+  path: '/pay/:id?/:pageType?',
   name: 'pay',
   component: resolve=>require(['./pages/shop/Pay'],resolve),
   meta:{
@@ -115,7 +115,7 @@ const routes=[ {
   name: 'search',
   component: resolve=>require(['./pages/shop/Search'],resolve),
   meta:{
-    title:'体控所',
+    title:'商品搜索',
   },
 },{
   path: '/msg',

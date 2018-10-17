@@ -26,7 +26,7 @@
               </div>
             </div>-->
             <router-link :to="{ name: 'order', params: {id:detail.id}}" class="cm-btn handle-btn" v-if="pageType=='physical'">立即预定</router-link>
-            <router-link :to="{ name: 'pay', params: {id:detail.id,pageType:pageType}}" class="cm-btn handle-btn" v-if="pageType!='physical'">立即购买</router-link>
+            <router-link :to="{ name: 'pay',query: {id:detail.id,pageType:pageType}}" class="cm-btn handle-btn" v-if="pageType!='physical'">立即购买</router-link>
           </div>
           <div class="info-row tips-row" v-if="detail.tips">温馨提示：{{detail.tips}}</div>
         </div>

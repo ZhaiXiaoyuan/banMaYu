@@ -4,8 +4,8 @@
       <div class="page-content">
         <div class="search-box">
           <div class="input-item">
-            <i class="icon search-icon"></i>
-            <input type="text" placeholder="搜索全部商品">
+            <i class="icon search-icon" @click="search()"></i>
+            <input type="text" v-model="keyword" @keypress="enterSearch" placeholder="搜索全部商品">
           </div>
         </div>
         <div class="banner-panel">
@@ -20,7 +20,7 @@
           <div class="panel-hd">
             <span class="title title-1">体验套餐</span>
             <span class="desc">150项指标全方位检查</span>
-            <span class="link arrows-right">查看更多</span>
+            <router-link :to="{ name: 'search', params: {},query:{type:'Physical'}}" class="link arrows-right">查看更多</router-link>
           </div>
           <div class="panel-bd">
             <div class="item-list">
@@ -36,7 +36,7 @@
           <div class="panel-hd">
             <span class="title title-2">栋食系列</span>
             <span class="desc">斑马鱼专有栋食产品</span>
-            <span class="link arrows-right">查看更多</span>
+            <router-link  :to="{ name: 'search', params: {},query:{type:'Food'}}" class="link arrows-right">查看更多</router-link>
           </div>
           <div class="panel-bd">
             <div class="item-list">
@@ -52,7 +52,7 @@
           <div class="panel-hd">
             <span class="title title-3">健康食品</span>
             <span class="desc">优选国外进口健康食品</span>
-            <span class="link arrows-right">查看更多</span>
+            <router-link :to="{ name: 'search', params: {},query:{type:'Health'}}" class="link arrows-right">查看更多</router-link>
           </div>
           <div class="panel-bd">
             <div class="item-list">
@@ -86,6 +86,7 @@
         },
         data: function () {
             return {
+              keyword:null,
               swiperOption: {
                 autoplay:true,
                 pagination: {
@@ -113,13 +114,18 @@
                 let data=JSON.parse(resp.message);
                 console.log('data:',data);
                 //初始化轮播数据
-                data.advers.forEach((item,i)=>{
-                  this.bannerList.push({
-                    id:i,
-                    url:item.pointto1,
-                    imageUrl:item.codedname1
-                  })
-                });
+                let advData=data.advers[0];
+                console.log('advData:',advData);
+                for(let i=1;i<7;i++){
+                  console.log('test:',advData['codedname'+i]);
+                  if(advData['codedname'+i]){
+                    this.bannerList.push({
+                      id:i,
+                      url:advData['pointto'+i],
+                      imageUrl:advData['codedname'+i]
+                    })
+                  }
+                }
                 this.physicals=data.physicals;
                 this.foods=data.foods;
                 this.healths=data.healths;
@@ -127,6 +133,15 @@
               }
             })
           },
+          search:function () {
+            this.$router.push({name:'search',params:{},query:{keyword:this.keyword}})
+          },
+          enterSearch:function (event) {
+            if (event.keyCode == 13) { //如果按的是enter键 13是enter
+              event.preventDefault(); //禁止默认事件（默认是换行）
+              this.search();
+            }
+          }
         },
 
         created: function () {

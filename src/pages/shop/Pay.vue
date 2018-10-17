@@ -96,6 +96,7 @@
               way:'E',//	取货方式 （E为快递送货 M为到店自取）,
               address:{},
               curStore:{},
+              paymentInfo:null,
             }
         },
         computed: {
@@ -188,14 +189,10 @@
             let fb=this.operationFeedback({text:'操作中...'});
             Vue.api.createOrder(params).then((resp)=>{
               if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
                 this.clearTemData();
+                this.getPaymentInfo(data.id);
                 fb.setOptions({type:'complete',text:'订单生成成功'});
-                this.alert({
-                  html:'支付模块待开发',
-                  ok:()=>{
-                    this.$router.replace({name:'myOrder',params:{pageType:'10'}});
-                  }
-                });
               }else{
                 fb.setOptions({type:'warn',text:resp.message});
               }
@@ -222,14 +219,57 @@
               }
             });
           },
+          getPaymentInfo:function (orderId) {
+            Vue.api.getPaymentInfo({...Vue.tools.sessionInfo(),ordezid:orderId}).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                console.log('data233:',data);
+                this.paymentInfo=data.param;
+                this.weixinPay();
+              }
+            });
+          },
+          onBridgeReady:function (data) {
+            WeixinJSBridge.invoke('getBrandWCPayRequest', {
+              "appId": this.paymentInfo.appId,
+              "timeStamp": this.paymentInfo.timeStamp,
+              "nonceStr": this.paymentInfo.nonceStr,
+              "package": this.paymentInfo.package,
+              "signType": this.paymentInfo.signType,
+              "paySign": this.paymentInfo.paySign
+            }, function (payResult) {
+              var errMsg = payResult.err_msg;
+              alert(errMsg);
+              if (errMsg == "get_brand_wcpay_request:ok") {
+
+              } else if (errMsg == "get_brand_wcpay_request:fail") {
+
+
+              } else if (errMsg == "get_brand_wcpay_request:cancel") {
+
+              }
+            });
+          },
+          weixinPay:function () {
+            if (typeof WeixinJSBridge == "undefined"){
+              if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady, false);
+              }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', this.onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady);
+              }
+            }else{
+              this.onBridgeReady();
+            }
+          }
         },
 
         created: function () {
         },
         mounted: function () {
           this.userInfo=JSON.parse(sessionStorage.getItem('userInfo'));
-          this.id=this.$route.params.id;
-          this.pageType=this.$route.params.pageType;
+          this.id=this.$route.query.id;
+          this.pageType=this.$route.query.pageType;
           //
           this.getGoodsDetail();
           this.getDefaultStore();

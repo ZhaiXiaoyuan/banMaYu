@@ -164,7 +164,6 @@
               },
               curStore:{},
               curDate:new Date(),
-            /*  dateTime: Vue.tools.formatDate(new Date(),'yyyy/MM/dd'),*/
               dateTime: null,
               startDate: new Date(),
               payMethodModalOptions:{
@@ -257,7 +256,7 @@
             if(this.curStore&&this.curStore.closedate.indexOf(dateStr)>-1){
               this.operationFeedback({type:'warn',text:'该体控中心当天不营业，请选择其他日期'});
             }else{
-              this.dateTime = Vue.tools.formatDate(data,'yyyy/MM/dd');
+              this.dateTime = Vue.tools.formatDate(data,'yyyy-MM-dd');
             }
           },
           cancel:function () {
@@ -279,7 +278,7 @@
               customerid:this.curMember.id,
               storeid:this.curStore.id,
               paytype:this.selectedMethod.value,
-              examdate:this.dateTime.replace('/','-')
+              examdate:this.dateTime
             }
             let fb=this.operationFeedback({text:'预约中...'});
             Vue.api.createPhysicalOrder(params).then((resp)=>{

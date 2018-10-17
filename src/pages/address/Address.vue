@@ -21,8 +21,10 @@
             </div>
             <div class="handle">
               <span class="cm-btn btn" @click="editAddress(item)">编辑</span>
-              <span class="cm-btn btn" @click="deleteAddress(index)">删除</span>
+              <span class="cm-btn btn" @click="deleteAddress(item)" v-if="defaultEntry.id!=item.id">默认</span>
+              <span class="cm-btn btn del-btn" @click="deleteAddress(index)">删除</span>
             </div>
+            <i class="icon default-icon" v-if="defaultEntry.id==item.id"></i>
           </div>
         </div>
         <scroll-load :page="pager" @scrolling="getList()"></scroll-load>
@@ -73,7 +75,7 @@
         </div>
       </mt-popup>
 
-      <region-picker :options="regionPickerModalOptions"></region-picker>
+      <region-picker :options="regionPickerModalOptions" ref="regionPicker"></region-picker>
 
     </div>
 </template>
@@ -193,6 +195,7 @@
         data: function () {
             return {
               curEntry:null,
+              defaultEntry:null,
               pager:{
                 pageNum: 1,
                 pageSize: 20,
@@ -210,7 +213,7 @@
               selectedArea:null,
               regionPickerModalOptions:{
                 show:false,
-            /*    default:{provinceCode:'130000',cityCode:'130200',areaCode:'130205'},*/
+                default:null,//{provinceCode:'130000',cityCode:'130200',areaCode:'130205'},
                 ok:(data)=>{
                   console.log('data:',data);
                   this.addressForm.pcdname='';
@@ -270,7 +273,8 @@
             this.addressModalFlag=true;
             this.addressModalType='edit';
             this.addressForm={...this.addressForm,...item}
-            console.log('item:',item);
+            this.$refs.regionPicker.setDefault({provinceCode:item.procode,cityCode:item.citycode,areaCode:item.distcode});
+            this.addressForm.pcdname=item.pcdname;
           },
           closeAddressForm:function () {
             this.addressForm={
@@ -338,22 +342,52 @@
               ...Vue.tools.sessionInfo(),
               id:item.id
             }
-            let fb=this.operationFeedback({text:'删除中...'});
-            Vue.api.deleteAddress(params).then((resp)=>{
+            this.alert({
+              html:'确定删除该收获地址？',
+              ok:()=>{
+                let fb=this.operationFeedback({text:'删除中...'});
+                Vue.api.deleteAddress(params).then((resp)=>{
+                  if(resp.status=='success'){
+                    fb.setOptions({type:'complete',text:'删除成功'});
+                    this.entryList.splice(index,1);
+                  }else{
+                    fb.setOptions({type:'warn',text:resp.message});
+                  }
+                });
+              }
+            });
+          },
+          getDefaultAddress:function () {
+            Vue.api.getDefaultAddress({...Vue.tools.sessionInfo()}).then((resp)=>{
               if(resp.status=='success'){
-                fb.setOptions({type:'complete',text:'删除成功'});
-                this.entryList.splice(index,1);
+                if(resp.message){
+                  this.defaultEntry=JSON.parse(resp.message);
+                }
+              }
+            });
+          },
+          deleteAddress:function (item) {
+            let params={
+              ...Vue.tools.sessionInfo(),
+              addressid:item.id
+            }
+            let fb=this.operationFeedback({text:'设置中...'});
+            Vue.api.setDefaultAddress(params).then((resp)=>{
+              if(resp.status=='success'){
+                this.defaultEntry=item;
+                fb.setOptions({type:'complete',text:'设置成功'});
               }else{
                 fb.setOptions({type:'warn',text:resp.message});
               }
             });
-          }
+          },
         },
 
         created: function () {
         },
         mounted: function () {
           //
+          this.getDefaultAddress();
           this.getList(true);
           if(localStorage.getItem('selectedAddress')){
             this.curEntry=JSON.parse(localStorage.getItem('selectedAddress'));

@@ -2,13 +2,13 @@
 <template>
     <div class="add-feedback">
       <div class="form">
-        <div class="input-item">
+      <!--  <div class="input-item">
           <span class="label">反馈对象：</span>
           <select>
             <option value ="体控所有管理员">体控所有管理员</option>
             <option value ="系统管理员">系统管理员</option>
           </select>
-        </div>
+        </div>-->
         <div class="input-item">
           <p class="label">反馈内容：</p>
           <textarea v-model="content" cols="30" rows="10"></textarea>
@@ -17,11 +17,11 @@
           <div class="cm-btn btn" @click="save()">提&nbsp;&nbsp;交</div>
         </div>
       </div>
-      <div class="tips-panel">
+     <!-- <div class="tips-panel">
         <p>温馨提示：</p>
         <p>1、反馈一些关于体检预约、体检报告、健康咨询等相关问题，反馈对象请选择体控所管理员。</p>
         <p>2、反馈一些关于系统的使用说明，系统改善等相关问题，反馈对象请选择系统管理员。</p>
-      </div>
+      </div>-->
     </div>
 </template>
 

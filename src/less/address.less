@@ -32,6 +32,7 @@
     }
   }
   .address-item{
+    position: relative;
     padding: 0.2rem 0rem;
     display:flex;
     align-items: center;
@@ -45,7 +46,7 @@
       }
     }
     .text-info{
-      margin-left: 0.24rem;
+      margin-left: 0.2rem;
       font-size: 0.28rem;
       color: #333;
       width: 5.2rem;
@@ -66,9 +67,17 @@
       min-height: 0.8rem;
       .btn{
         font-size: 0.28rem;
-        color: #666;
         padding: 0.04rem 0rem;
+        color: #0091e0;
       }
+      .del-btn{
+        color: #666;
+      }
+    }
+    .icon{
+      position: absolute;
+      top:0rem;
+      right: -0.38rem;
     }
     &.active{
       .status{

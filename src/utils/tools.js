@@ -144,7 +144,7 @@ export default {
                 html:'即将进行微信登录',
                 yes:'立即登录',
                 autoTime:3,
-                autoText:'跳转至完善信息界面',
+                autoText:'跳转至微信授权',
                 ok:()=>{
                   this.toAuth(2,page?page:window.location.href);
                 }

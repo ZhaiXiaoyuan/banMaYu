@@ -23,10 +23,10 @@
             <span class="icon-wrap"><i class="icon data-min-icon"></i></span>
             <p>基本资料</p>
           </router-link>
-          <li>
+          <router-link :to="{ name: 'search', params: {},query:{type:'Physical'}}" tag="li">
             <span class="icon-wrap"><i class="icon stethoscope-min-icon"></i></span>
             <p>体检预约</p>
-          </li>
+          </router-link>
           <router-link :to="{ name: 'score', params: {}}" tag="li">
             <span class="icon-wrap"><i class="icon score-lg-icon"></i></span>
             <p>积分明细</p>
@@ -47,7 +47,7 @@
             <span class="icon-wrap"><i class="icon msg-icon"></i></span>
             <p>消息中心</p>
           </li>
-          <router-link :to="{ name: 'feedback', params: {}}" tag="li">
+          <router-link :to="{ name: 'feeb', params: {}}" tag="li">
             <span class="icon-wrap"><i class="icon feedback-icon"></i></span>
             <p>意见反馈</p>
           </router-link>

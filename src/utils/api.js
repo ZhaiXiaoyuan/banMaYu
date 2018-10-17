@@ -299,6 +299,46 @@ export default {
           params: params
         });
       },
+      //子账户信息完善/修改
+      updateRelative:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/fa/fam/man/umb',
+          params: params
+        });
+      },
+      //设置默认地址
+      setDefaultAddress:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/addr/sdfaddr',
+          params: params
+        });
+      },
+      //修改预约时间
+      updateOrderTime:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/ex/phy/book/uexamdate',
+          params: params
+        });
+      },
+      //搜索全部商品
+      getGoodsList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/pd/pro/info/gallpro',
+          params: params
+        });
+      },
+      //预支付
+      getPaymentInfo:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/sh/ord/man/prepay',
+          params: params
+        });
+      },
     }
   },
 

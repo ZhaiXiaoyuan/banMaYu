@@ -18,7 +18,7 @@
               </div>
               <div class="entry-bd">
                 <div class="item product-item">
-                  <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
+                  <img :src="entry.productpicture">
                   <div class="text-info">
                     <p class="title">{{entry.productname}}</p>
                     <p class="num-row">
@@ -31,7 +31,7 @@
                   <div class="wrapper">
                     <div class="label">体检人</div>
                     <div class="value">
-                      缺字段
+                      {{entry.realname}}
                     </div>
                   </div>
                 </div>
@@ -79,8 +79,9 @@
                   <div class="wrapper">
                     <div class="label">{{entry.paystatus}}</div>
                     <div class="value">
-                      <span class="cm-btn btn cancel-btn" @click="cancelOrder(index)">取消订单</span>
+                      <span class="cm-btn btn cancel-btn" v-if="pageType==10" @click="cancelOrder(index)">取消订单</span>
                       <span class="cm-btn btn" v-if="pageType==10&&entry.paytype!='到店支付'">马上付款</span>
+                      <span class="cm-btn btn" v-if="pageType==10||pageType==20" @click="openPicker(entry)">修改预约时间</span>
                     </div>
                   </div>
                 </div>
@@ -148,6 +149,17 @@
         </ul>
       </div>
       <scroll-load :page="pager" @scrolling="getList()"></scroll-load>
+
+      <mt-datetime-picker
+        type="date"
+        ref="picker"
+        year-format="{value}年"
+        month-format="{value}月"
+        date-format="{value}日"
+        @confirm="handleConfirm"
+        :startDate="startDate"
+      >
+      </mt-datetime-picker>
     </div>
 </template>
 
@@ -175,6 +187,9 @@
                 isFinished:false
               },
               entryList:[],
+
+              dateTime:null,
+              startDate: new Date(),
             }
         },
         computed: {},
@@ -203,9 +218,6 @@
                 this.pager.isLoading=false;
                 this.pager.isFinished=false;
                 this.entryList=this.entryList.concat(data.result);
-                this.curEntry=this.entryList.find((item,i)=>{
-                  return item.fullname==this.curStoreName;
-                });
                 console.log('this.entryList:',this.entryList);
               }
             })
@@ -232,6 +244,45 @@
                     fb.setOptions({type:'warn',text:resp.message});
                   }
                 });
+              }
+            });
+          },
+          openPicker (item) {
+            this.curEntry=item;
+            this.$refs.picker.open()
+          },
+          handleConfirm (data) {
+            let year=data.getFullYear();
+            let month=data.getMonth()+1;
+            let date=data.getDate();
+            month=month<10?'0'+month:month;
+            date=date<10?'0'+date:date;
+            let dateStr=month+'.'+date;
+            //临时测试，去除营业时间校验
+           /* if(this.curStore&&this.curStore.closedate.indexOf(dateStr)>-1){
+              this.operationFeedback({type:'warn',text:'该体控中心当天不营业，请选择其他日期'});
+            }else{
+              this.dateTime = Vue.tools.formatDate(data,'yyyy-MM-dd');
+            }*/
+
+            this.dateTime = Vue.tools.formatDate(data,'yyyy-MM-dd');
+            if(this.dateTime){
+              this.updateOrderTime(this.curEntry);
+            }
+          },
+          updateOrderTime:function (item) {
+            let params={
+              ...Vue.tools.sessionInfo(),
+              orderno:item.orderno,
+              examdate:this.dateTime
+            }
+            let fb=this.operationFeedback({text:'保存中...'});
+            Vue.api.updateOrderTime(params).then((resp)=>{
+              if(resp.status=='success'){
+                this.defaultEntry=item;
+                fb.setOptions({type:'complete',text:'保存成功'});
+              }else{
+                fb.setOptions({type:'warn',text:resp.message});
               }
             });
           },

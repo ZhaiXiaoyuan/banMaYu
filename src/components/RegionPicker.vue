@@ -67,28 +67,16 @@
     },
     computed: {},
     watch: {
-      options:{
-      }
+
     },
     methods: {
       change(picker, values) {
         if(!values[0]){
           this.$nextTick(()=>{
+            this.picker=picker;
             if(this.options.default){
               // 赋默认值
-              this.curProvince=this.provinceList.find((item,i)=>{
-                return item.value==this.options.default.provinceCode;
-              });
-              this.curCity=this.curProvince.childs.find((item,i)=>{
-                return item.value==this.options.default.cityCode;
-              });
-              this.curArea=this.curCity.childs.find((item,i)=>{
-                return item.value==this.options.default.areaCode;
-              });
-              console.log('this.curProvince:',this.curProvince);
-              console.log('this.curCity:',this.curProvince);
-              console.log('this.curArea:',this.curArea);
-              picker.setValues([this.curProvince,this.curCity,this.curArea]);
+              this.setDefault();
             }else{
               this.curProvince=this.provinceList[0];
               this.curCity=this.provinceList[0].childs[0];
@@ -107,6 +95,21 @@
           picker.setSlotValues(2,town);
         }
 
+      },
+      setDefault:function (data) {
+        if(data){
+          this.options.default=data;
+        }
+        this.curProvince=this.provinceList.find((item,i)=>{
+          return item.value==this.options.default.provinceCode;
+        });
+        this.curCity=this.curProvince.childs.find((item,i)=>{
+          return item.value==this.options.default.cityCode;
+        });
+        this.curArea=this.curCity.childs.find((item,i)=>{
+          return item.value==this.options.default.areaCode;
+        });
+        this.picker.setValues([this.curProvince,this.curCity,this.curArea]);
       },
       close:function () {
         this.$el.remove();
