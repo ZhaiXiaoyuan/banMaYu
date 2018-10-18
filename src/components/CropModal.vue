@@ -93,11 +93,11 @@
 </style>
 <script>
   import Vue from 'vue'
-  import vueCropper from 'vue-cropper'
+  import { VueCropper }  from 'vue-cropper';
 
   export default {
     components: {
-        vueCropper
+      VueCropper
     },
     props:{
       options:{
