@@ -152,6 +152,7 @@ export default {
           yes: '确 定',
           ok:null,//回调
           autoTime:false,
+          lock:false,
         },...options};
         //
         let parentEle=document.getElementById('app');

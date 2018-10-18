@@ -147,6 +147,10 @@ const routes=[ {
   },
 }]
 
+const visitorPageList=['home','shop','register','goodsDetail'];
+
+
+
 const router= new Router({
   routes:routes,
 /*  mode: 'history',*/
@@ -184,10 +188,18 @@ router.beforeEach((to, from,next) => {
         next();
       })
     }else{
+      //
       next('/register');
     }
-    //获取用户信息
   }else{
+   /* //非游客页检查登录状态
+    if(visitorPageList.indexOf(to.name)==-1){
+      console.log('checkUser');
+      setTimeout(()=>{
+        Vue.tools.sessionInfo();
+      },5000)
+    }*/
+    //
     next();
   }
 

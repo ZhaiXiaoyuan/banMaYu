@@ -82,7 +82,7 @@
           <div class="item textarea-item">
             <div class="label">过往病史</div>
             <div class="value">
-              <textarea cols="30" rows="10" v-model="member.hismedical" placeholder="请输入过往病史"></textarea>
+              <textarea cols="30" rows="10" v-model="member.hismedical" placeholder="请输入过往病史，糖尿病、高血压、心脑血管、癌症等"></textarea>
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@
                 ],
                 ok:(data)=>{
                   this.bloodData=data;
-                  this.member.blood=this.bloodData[0].label+'：'+this.bloodData[1].label
+                  this.member.blood=this.bloodData[0].label+','+this.bloodData[1].label
                 }
               }
             }
@@ -189,7 +189,7 @@
                     this.member.genderText=item.label;
                   }
                 });
-                let bloodArr=this.member.blood.split('：');
+                let bloodArr=this.member.blood.split(',');
                 if(bloodArr.length==0){
                   bloodArr=[null,null];
                 }else if(bloodArr.length==1){

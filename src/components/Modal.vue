@@ -1,6 +1,6 @@
 <template>
   <div class="modal" v-if="show" :class="[options.className]">
-    <div class="mask" @click="close()"></div>
+    <div class="mask" @click="!options.lock&&close()"></div>
     <div class="modal-content">
       <slot>
         <div class="modal-header">
@@ -107,6 +107,7 @@
             no: '取 消',
             ok:null,//确定的回调
             cancel:null,//取消的回调
+            lock:false,
           }
         }
       }

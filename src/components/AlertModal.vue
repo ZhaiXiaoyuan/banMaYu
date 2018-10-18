@@ -2,7 +2,7 @@
   <modal :options="options" ref="modal">
     <div class="modal-header">
       <p class="title">{{options.title}}</p>
-      <span class="close-btn" @click="close()">&times;</span>
+      <span class="close-btn" @click="cancel()">&times;</span>
     </div>
     <div class="modal-body">
       <div v-html="options.html"></div>
@@ -55,6 +55,7 @@
             cancel:null,//取消的回调,
             autoTime:false,
             second:0,
+            lock:false,
           }
         }
       }
@@ -70,8 +71,12 @@
     },
     methods: {
       ok:function () {
-        this.close();
         this.options.ok&&this.options.ok();
+        this.close();
+      },
+      cancel:function () {
+        this.options.cancel&&this.options.cancel();
+        this.close();
       },
       close:function () {
         this.interval&&clearInterval(this.interval);

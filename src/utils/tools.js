@@ -131,7 +131,8 @@ export default {
           //临时测试
           let link='http://pexam.elecplus.tech'+'/pewxs/cs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
     /*      console.log('test:',link);*/
-          window.location.href=link;
+          window.location.replace(link);
+          /*window.location.href=link;*/
         },
         sessionInfo:function (page) {
           let timestamp=this.genTimestamp();
@@ -145,8 +146,12 @@ export default {
                 yes:'立即登录',
                 autoTime:3,
                 autoText:'跳转至微信授权',
+                lock:true,
                 ok:()=>{
                   this.toAuth(2,page?page:window.location.href);
+                },
+                cancel:()=>{
+                  router.go(-1);
                 }
               });
               /*this.toAuth(2,page?page:window.location.href);*/
