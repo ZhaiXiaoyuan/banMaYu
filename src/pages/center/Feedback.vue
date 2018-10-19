@@ -11,7 +11,7 @@
                 <p>反馈时间：{{entry.createtime}}</p>
                 <p v-if="entry.replyinfo">回复内容：{{entry.replyinfo}}</p>
                 <p v-if="entry.replytime">回复时间：{{entry.replytime}}</p>
-                <i class="icon del-icon cm-btn" @click="deleteFeedback(index)"></i>
+              <!--  <i class="icon del-icon cm-btn" @click="deleteFeedback(index)"></i>-->
               </div>
             </li>
           </ul>

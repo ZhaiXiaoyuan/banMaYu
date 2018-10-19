@@ -145,6 +145,20 @@ const routes=[ {
   meta:{
     title:'新增反馈',
   },
+},{
+  path: '/tips',
+  name: 'tips',
+  component: resolve=>require(['./pages/common/Tips'],resolve),
+  meta:{
+    title:'温馨提示',
+  },
+},{
+  path: '/physicalList',
+  name: 'physicalList',
+  component: resolve=>require(['./pages/shop/PhysicalList'],resolve),
+  meta:{
+    title:'体检预约',
+  },
 }]
 
 const visitorPageList=['home','shop','register','goodsDetail'];

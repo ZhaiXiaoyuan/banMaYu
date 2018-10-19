@@ -110,7 +110,7 @@ Vue.filter('textFormat',function(text,curNum){
         text=text.substring(0,curNum)+"...";
     }
     if(text&&text!=''){
-        text=text.replace(/\n/ig,"<br/>");
+        text=text.replace(/\n|\r\n|\/n/g,"<br/>");
     }
     return text;
 });

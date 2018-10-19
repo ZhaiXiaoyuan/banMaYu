@@ -383,7 +383,23 @@ export default {
       getPhysicalList:function (params) {
         return Vue.http.ajax({
           method: 'post',
-          url: basicUrl+'//ex/phy/book/gphy',
+          url: basicUrl+'/ex/phy/book/gphy',
+          params: params
+        });
+      },
+      //同意体检声明
+      agreePhysicalProtocol:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/ex/phy/book/uisphysical',
+          params: params
+        });
+      },
+      //体检套餐列表
+      getPhysicalGoodsList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/pd/pro/info/gphysical',
           params: params
         });
       },

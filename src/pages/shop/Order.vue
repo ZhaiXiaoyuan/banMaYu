@@ -33,7 +33,7 @@
           <div class="item">
             <div class="label">性别</div>
             <div class="value">
-              {{curMember.genderText}}
+              {{curMember.gender}}
             </div>
           </div>
        <!--   <div class="item">
@@ -215,16 +215,11 @@
             Vue.api.getUserData({...Vue.tools.sessionInfo(),id:id}).then((resp)=>{
               if(resp.status=='success'){
                 let member=JSON.parse(resp.message);
-                if(!member.gender){
-                  member.gender='M';
-                  member.genderText='男';
-                }
                 this.curMember={...this.curMember,...member};
                 localStorage.setItem('curMember',JSON.stringify(this.curMember));
                 //
                 if(localStorage.getItem('selectedStore')){
                   this.curStore=JSON.parse(localStorage.getItem('selectedStore'));
-                  console.log('this.curStore:',this.curStore);
                 }else{
                   Vue.api.getStoreDetail({...Vue.tools.sessionInfo(),storeid:this.curMember.storeid}).then((resp)=>{
                     if(resp.status=='success'){
@@ -296,7 +291,7 @@
                     }
                   });
                 }else{
-                  this.toMyOrder('10');
+                  this.$router.replace({name:'tips',query:{}});
                 }
               }else{
                 fb.setOptions({type:'warn',text:resp.message});

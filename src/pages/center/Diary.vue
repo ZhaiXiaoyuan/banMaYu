@@ -11,7 +11,7 @@
           <span class="value">{{diaryData.signs}}/{{diaryData.amount}}</span>
         </div>
         <div class="info-row">
-          <span class="label">食用日记说明</span>
+          <span class="label" @click="showIntroduce()">食用日记说明<i class="icon question-icon"></i></span>
          <!-- <span class="value">{{diaryData.foodexplans}}</span>-->
         </div>
       </div>
@@ -120,6 +120,20 @@
               }
             });
           },
+          showIntroduce:function () {
+            this.alert({
+              title:'食用日记说明',
+              html:'<div style="text-align: left;">' +
+              '<p>温馨提醒：</p>' +
+              '<p>1.您的按时服用产品积分将被添加到主账户的共享积分中，不可随子账户进行转移。</p>'+
+              '<p>2.食用日记只记录主用户日记。</p>'+
+              '<p>3.主用户第一次购买产品日40天内，签到服用至少32天，可获得100积分。</p>'+
+              '<p>4.服用说明：每日三餐前各1袋。</p>'+
+              '<p>5.当天日期24点前可补签前2天内的日记。</p>'+
+              '<p>6.本食用日记只记录栋食系列产品的食用记录。</p>'+
+              '</div>'
+            });
+          }
         },
 
         created: function () {
@@ -127,8 +141,6 @@
         mounted: function () {
           this.getDiary();
           //
-          console.log('test:',this.curDate);
-          console.log('tst:', this.dateDiff('2018-10-1 10:5','2018-10-1 11:5'));
         },
 
     };

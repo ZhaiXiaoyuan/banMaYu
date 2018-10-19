@@ -43,10 +43,10 @@
             <span class="icon-wrap"><i class="icon diary-icon"></i></span>
             <p>食用日记</p>
           </router-link>
-          <li>
+          <router-link :to="{ name: 'msg', params: {}}" tag="li">
             <span class="icon-wrap"><i class="icon msg-icon"></i></span>
             <p>消息中心</p>
-          </li>
+          </router-link>
           <router-link :to="{ name: 'feedback', params: {}}" tag="li">
             <span class="icon-wrap"><i class="icon feedback-icon"></i></span>
             <p>意见反馈</p>

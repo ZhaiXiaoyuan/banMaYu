@@ -18,10 +18,10 @@
           <p>干预产品</p>
           <p>保护您的健康</p>
         </router-link>
-        <div class="cm-btn btn-item msg-btn">
+        <router-link tag="div" :to="{ name: 'msg', params: {},query:{}}" class="cm-btn btn-item msg-btn">
           <p>消息中心</p>
           <p>消息一目了然</p>
-        </div>
+        </router-link>
       </div>
       <nav-bar></nav-bar>
     </div>

@@ -25,7 +25,7 @@
                 <i class="icon minus-icon cm-solid-btn" :class="{'cm-disabled':curCount<=1}"  @click="minus()"></i><span class="num">{{curCount}}</span><i class="icon add-icon cm-solid-btn" :class="{'cm-disabled':curCount>=5}" @click="add()"></i>
               </div>
             </div>-->
-            <router-link :to="{ name: 'order', query: {id:detail.id}}" class="cm-btn handle-btn" v-if="pageType=='physical'">立即预定</router-link>
+            <span @click="toOrder()" class="cm-btn handle-btn" v-if="pageType=='physical'">立即预定</span>
             <router-link :to="{ name: 'pay',query: {id:detail.id,pageType:pageType}}" class="cm-btn handle-btn" v-if="pageType!='physical'">立即购买</router-link>
           </div>
           <div class="info-row tips-row" v-if="detail.tips">温馨提示：{{detail.tips}}</div>
@@ -44,12 +44,87 @@
           </div>
         </div>
       </div>
+
+      <mt-popup
+        v-model="protocolModalFlag"
+        position="right" class="protocol-modal">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="text-content">
+              协议文案
+            </div>
+            <div class="check-wrap">
+              <div class="cm-check" :class="{'checked':checkedProtocol}" @click="checkedProtocol=!checkedProtocol">
+                <div class="wrapper">
+                  <span class="status"><i class="icon"></i></span>
+                  <span class="text">我已阅读并同意体控检查声明保证页全部条款</span>
+                </div>
+              </div>
+            </div>
+            <div class="btn-wrap">
+              <span class="cm-btn btn cancel-btn" @click="protocolModalFlag=false">返回</span>
+              <span class="cm-btn btn ok-btn" @click="agree()">同意签署</span>
+            </div>
+          </div>
+        </div>
+      </mt-popup>
     </div>
 </template>
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" rel="stylesheet/less">
+  .protocol-modal{
+    width: 100%;
+    height: 100%;
+    .modal-content{
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      .modal-body{
+        overflow: auto;
+        width: 100%;
+        height: 100%;
+      }
+      .text-content{
+        min-height: 70%;
+        padding: 0.4rem;
+        font-size: 0.32rem;
+        color: #666;
+      }
+      .check-wrap{
+        margin-top: 0.4rem;
+        padding: 0rem 0.4rem;
+      }
+      .btn-wrap{
+        margin-top: 0.4rem;
+        width: 100%;
+        padding: 0.2rem 0.3rem;
+        background: none;
+        text-align: center;
+        /*border-top: 1px solid #eee;*/
+        .btn{
+          display: inline-block;
+          width: 3rem;
+          height: 1rem;
+          text-align: center;
+          line-height: 1rem;
+          font-size: 0.38rem;
+          color: #fff;
+          border-radius: 0.1rem;
+          background: linear-gradient(to right, #0091e0 , #017ecc);
+          &+.btn{
+            margin-left: 0.4rem;
+          }
+        }
+        .cancel-btn{
+          color: #999;
+          border: 1px solid #ccc;
+          background: none;
+        }
+      }
+    }
+  }
 </style>
 
 <script>
@@ -64,6 +139,7 @@
         },
         data: function () {
             return {
+              userInfo:null,
               pageType:null,
               swiperOption: {
                 autoplay:true,
@@ -80,6 +156,8 @@
               ],
               detail:{},
               curCount:1,
+              protocolModalFlag:false,
+              checkedProtocol:false,
             }
         },
         computed: {},
@@ -137,12 +215,35 @@
               this.curCount--;
             }
           },
-
+          toOrder:function () {
+            if(this.userInfo.isphysical =='N'){
+              this.protocolModalFlag=true;
+            }else{
+              this.$router.push({ name: 'order', query: {id:this.detail.id}});
+            }
+          },
+          agree:function () {
+            if(!this.checkedProtocol){
+              this.operationFeedback({type:'warn',text:'请先阅读并同意体控检查声明保证页全部条款'});
+              return;
+            }
+            Vue.api.agreePhysicalProtocol({...Vue.tools.sessionInfo()}).then((resp)=>{
+              if(resp.status=='success'){
+                this.userInfo.isphysical='Y';
+                Vue.cookie.set('userInfo',JSON.stringify(this.userInfo),{ expires: '12h' });
+                this.toOrder();
+              }else{
+                this.operationFeedback({type:'warn',text:resp.message});
+              }
+            });
+          }
         },
 
         created: function () {
         },
         mounted: function () {
+          this.userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
+
           this.pageType=this.$route.params.type;
 
           //

@@ -319,6 +319,13 @@ table {
   height: 0.64rem;
   background-size: 100% 100%;
 }
+.question-icon{
+  display: inline-block;
+  background: url("../images/common/question-icon.png") no-repeat;
+  width:0.4rem;
+  height: 0.4rem;
+  background-size: 100% 100%;
+}
 
 
 /*自定义样式*/
@@ -375,6 +382,48 @@ table {
   text-overflow:ellipsis;
   overflow:hidden;
   -webkit-text-overflow:ellipsis;
+}
+.cm-check{
+  display: inline-block;
+  .wrapper{
+    display: flex;
+    align-items: center;
+    .status{
+      position: relative;
+      width: 0.36rem;
+      height: 0.36rem;
+      border: 1px solid #ddd;
+      border-radius: 0.06rem;
+      background: #fff;
+      .icon{
+        position: absolute;
+        top:0rem;
+        left: 0rem;
+        right: 0rem;
+        bottom: 0rem;
+        margin: auto;
+        display: none;
+        width: 0.2rem;
+        height: 0.2rem;
+        border-radius: 0.04rem;
+        background: #0091e0;
+      }
+    }
+    .text{
+      padding-left: 0.2rem;
+      font-size: 0.28rem;
+      color: #333;
+    }
+  }
+  &.checked{
+    .wrapper{
+      .status{
+        .icon{
+          display: block;
+        }
+      }
+    }
+  }
 }
 
 /*细边框公用样式*/
