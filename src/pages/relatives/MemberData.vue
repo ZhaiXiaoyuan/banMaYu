@@ -362,6 +362,8 @@
           this.id=this.$route.params.id?this.$route.params.id:(this.mainId=='M'?userInfo.id:null);
           if(this.id){
             this.getUserData();
+          }else{
+            Vue.tools.sessionInfo()
           }
         },
 
