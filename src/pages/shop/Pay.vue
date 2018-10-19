@@ -1,7 +1,7 @@
 <!--确认订单-->
 <template>
     <div class="pay">
-      <router-link  :to="{ name: 'address', params: {id:address.id }}" tag="div" class="panel address-panel arrows-right">
+      <router-link  :to="{ name: 'address', params: {id:address.id }}" tag="div" class="panel address-panel arrows-right" v-if="way=='E'">
         <div class="row">
           <div class="label">{{address.username}}</div>
           <div class="value">{{address.mobilephone|phoneTextFormat}}</div>
@@ -53,7 +53,7 @@
         <div class="panel-bd">
           <div class="item">
             <div class="label">地址</div>
-            <router-link :to="{ name: 'store', params: {userId:userInfo.id},query:{storeId:curStore.id,pageType:'selector',productId:detail.id}}" tag="div"  class="value column-value">
+            <router-link :to="{ name: 'store', params: {userId:userInfo.id},query:{storeId:curStore.id,pageType:'selector'}}" tag="div"  class="value column-value">
               <div v-if="curStore.id">
                 <p>{{curStore.fullname}}</p>
                 <p class="tips">*温馨提示：可在亲友或个人中心变更控所</p>

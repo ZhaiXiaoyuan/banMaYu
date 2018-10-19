@@ -69,7 +69,7 @@
         data: function () {
             return {
               member:{
-
+                mobilephone:null
               },
             }
         },
@@ -100,7 +100,7 @@
               token: Vue.cookie.get('token'),
               number:this.member.mobilephone,
               ...this.member,
-              recomVipcode:null,
+              recomVipcode:this.$route.query.sourceNumber,
             }
             Vue.api.register(params).then((resp)=>{
               if(resp.status=='success'){
@@ -118,8 +118,8 @@
         created: function () {
         },
         mounted: function () {
-          let userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):null;
-          Object.assign(this.member,userInfo);
+        /*  let userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):null;
+          Object.assign(this.member,userInfo);*/
         },
 
     };

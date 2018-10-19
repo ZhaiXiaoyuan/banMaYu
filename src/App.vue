@@ -65,7 +65,8 @@ export default {
 
 
     //
-/*    Vue.tools.wxConfig({
+    Vue.tools.wxConfig({
+      debug:false,
       url:window.location.href,
       jsApiList:['hideMenuItems','onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       callback:(data)=>{
@@ -73,7 +74,7 @@ export default {
 
         }
     }
-    });*/
+    });
   }
 }
 </script>

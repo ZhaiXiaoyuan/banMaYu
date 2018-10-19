@@ -61,7 +61,7 @@
         }
         this.isRequesting=true;
         let params={
-          ...Vue.tools.sessionInfo(),
+          timestamp:Vue.tools.genTimestamp(),
           number:this.phone,
           token: Vue.cookie.get('token')
         }

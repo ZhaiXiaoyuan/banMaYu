@@ -23,7 +23,7 @@
             <span class="icon-wrap"><i class="icon data-min-icon"></i></span>
             <p>基本资料</p>
           </router-link>
-          <router-link :to="{ name: 'search', params: {},query:{type:'Physical'}}" tag="li">
+          <router-link :to="{ name: 'physicalList', params: {},query:{}}" tag="li">
             <span class="icon-wrap"><i class="icon stethoscope-min-icon"></i></span>
             <p>体检预约</p>
           </router-link>
@@ -51,11 +51,11 @@
             <span class="icon-wrap"><i class="icon feedback-icon"></i></span>
             <p>意见反馈</p>
           </router-link>
-          <li>
+          <router-link :to="{ name: 'about', params: {}}" tag="li">
             <span class="icon-wrap"><i class="icon about-icon"></i></span>
             <p>关于我们</p>
-          </li>
-          <li>
+          </router-link>
+          <li @click="toInvite()">
             <span class="icon-wrap"><i class="icon add-member-icon"></i></span>
             <p>邀请好友</p>
           </li>
@@ -94,7 +94,10 @@
                 console.log('this.userData:',this.userData);
               }
             });
-          }
+          },
+          toInvite:function () {
+            window.location.href=window.location.href.split('#')[0]+'#/invite';
+          },
         },
 
         created: function () {

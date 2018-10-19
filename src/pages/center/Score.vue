@@ -54,6 +54,7 @@
     .list-panel{
       background: none;
       padding: 0px;
+      box-shadow: none;
       .panel-hd{
         display: flex;
         align-items: center;

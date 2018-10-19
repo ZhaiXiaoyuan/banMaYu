@@ -3,7 +3,8 @@
     <div class="physical-list">
       <div class="page-content">
         <div class="page-hd">
-
+          <span class="title">请选择体检套餐</span>
+          <router-link tag="span" :to="{ name: 'myOrder', query: {pageType:'20'}}" class="cm-btn btn link-btn">我的体检预约</router-link>
         </div>
         <div class="page-bd">
           <ul class="entry-list">
@@ -26,6 +27,19 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" rel="stylesheet/less">
   .physical-list{
+    .page-hd{
+      padding: 0.4rem 0.3rem 0.2rem 0.3rem;
+      .title{
+        font-size: 0.32rem;
+        color: #000;
+      }
+      .link-btn{
+        float: right;
+        font-size: 0.32rem;
+        color:#0091e0;
+        text-decoration: underline;
+      }
+    }
     .entry-list{
       li{
         display: flex;

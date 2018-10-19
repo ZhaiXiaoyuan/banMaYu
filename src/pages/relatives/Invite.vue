@@ -3,7 +3,7 @@
     <div class="invite">
       <div class="bg-panel"></div>
       <div class="phone-panel">
-        <input type="tel" placeholder="请输入手机号码">
+        {{userInfo.mobilephone}}
       </div>
       <div class="rule-panel">
         <div class="panel-hd"></div>
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="btn-wrap">
-        <div class="cm-btn btn">分&nbsp;&nbsp;享</div>
+        <div class="cm-btn btn" @click="shareGuide()">分&nbsp;&nbsp;享</div>
       </div>
     </div>
 </template>
@@ -40,7 +40,7 @@
         },
         data: function () {
             return {
-
+              userInfo:{},
             }
         },
         computed: {},
@@ -52,6 +52,18 @@
         created: function () {
         },
         mounted: function () {
+          this.userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
+
+          /*微信分享配置*/
+          Vue.tools.shareConfig({
+            title: '邀请好友',
+            desc:'这是一段描述',
+            link: window.location.href.split('#')[0]+'#/register?sourceNumber='+this.userInfo.mobilephone,
+            imgUrl: 'http://pics.sc.chinaz.com/Files/pic/logo9/201807/d/wulogo19610.jpg',
+            callback:()=>{
+              this.operationFeedback({type:'complete',text:'分享成功'})
+            }
+          });
 
         },
 

@@ -159,6 +159,13 @@ const routes=[ {
   meta:{
     title:'体检预约',
   },
+},{
+  path: '/about',
+  name: 'about',
+  component: resolve=>require(['./pages/center/About'],resolve),
+  meta:{
+    title:'体检预约',
+  },
 }]
 
 const visitorPageList=['home','shop','register','goodsDetail'];
@@ -187,6 +194,8 @@ router.beforeEach((to, from,next) => {
   }
   let token=to.query.token;
   let number=to.query.number;
+  let sourceNumber=to.query.sourceNumber;
+
   if(token){
     Vue.cookie.set('token', token,{ expires: '12h' });
     Vue.cookie.set('number',number,{ expires: '12h' });
@@ -201,6 +210,8 @@ router.beforeEach((to, from,next) => {
         }
         next();
       })
+    }else if(sourceNumber){
+      next();
     }else{
       //
       next('/register');

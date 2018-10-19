@@ -3,7 +3,6 @@
     <div class="address">
       <div class="panel cur-panel">
         <div class="address-item active" v-if="curEntry">
-          <div class="status"><i class="icon selected-icon"></i></div>
           <div class="text-info">
             <p><span>{{curEntry.username}}</span>&nbsp;&nbsp;<span>{{curEntry.mobilephone|phoneTextFormat}}</span></p>
             <p>{{curEntry.detail}}</p>

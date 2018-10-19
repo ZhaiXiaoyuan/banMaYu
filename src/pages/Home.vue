@@ -10,7 +10,7 @@
           <p>我的体质</p>
           <p>解析健康指标</p>
         </div>
-        <router-link tag="div" :to="{ name: 'search', params: {},query:{type:'Physical'}}" class="cm-btn btn-item stethoscope-btn">
+        <router-link tag="div" :to="{ name: 'physicalList', params: {},query:{}}" class="cm-btn btn-item stethoscope-btn">
           <p>体检预约</p>
           <p>快捷预约体检</p>
         </router-link>

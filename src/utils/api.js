@@ -403,6 +403,14 @@ export default {
           params: params
         });
       },
+      //关于我们
+      getAbout:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/info/gnotice',
+          params: params
+        });
+      },
     }
   },
 

@@ -138,9 +138,12 @@ export default {
           let timestamp=this.genTimestamp();
           let token=Vue.cookie.get('token');
           let number=Vue.cookie.get('number');
-          if(!token||token==''){//token失效，则重新进行手动授权
+        /*  alert(token+'|'+number);*/
+          if(!token||!number){//token失效，则重新进行手动授权
             if(Vue.cookie.get('authorizing')!='true'){
               Vue.cookie.set('authorizing','true',{ expires: '3s' });
+              let link=page?page:window.location.href;
+              console.log('link:',link);
               Vue.alert({
                 html:'即将进行微信登录',
                 yes:'立即登录',
@@ -148,9 +151,10 @@ export default {
                 autoText:'跳转至微信授权',
                 lock:true,
                 ok:()=>{
-                  this.toAuth(2,page?page:window.location.href);
+                  this.toAuth(2,link);
                 },
                 cancel:()=>{
+                  Vue.cookie.clear('authorizing');
                   router.go(-1);
                 }
               });
@@ -187,7 +191,7 @@ export default {
         },
         wxConfig:function (options) {
           var params=Object.assign({
-              ...this.sessionInfo(),
+            timestamp:Vue.tools.genTimestamp(),
             url:window.location.href,
           },options.params);
           Vue.api.getWechatConfig(params).then((resp)=>{
@@ -224,7 +228,7 @@ export default {
           var shareInfo={
             title: options.title,
             desc:options.desc,
-            link: window.location.origin+'/dmjywxs/cus/auth/wxred?1='+1+'&redirect='+encodeURIComponent(options.link.replace(window.location.origin,'')),
+            link: window.location.origin+'/pewxs/cs/cus/auth/wxred?1=2&redirect='+encodeURIComponent(options.link.replace(window.location.origin,'')),
             imgUrl: options.imgUrl,
             trigger: function (res) {
               // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回.

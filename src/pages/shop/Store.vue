@@ -57,6 +57,7 @@
             return {
               storeId:null,
               userId:null,
+              productId:null,
               pageType:null,//selector:'选择器类型'
               curEntry:null,
               pager:{
@@ -86,7 +87,7 @@
               lat:null,
               ...pager
             }
-            if(this.pageType!='selector'){
+            if(this.pageType!='selector'||!this.productId){
               Vue.api.getStoreList(params).then((resp)=>{
                 if(resp.status=='success'){
                   let data=JSON.parse(resp.message);
@@ -103,7 +104,7 @@
                 }
               })
             }else{
-              params.productid=this.$route.query.productId;
+              params.productid=this.productId;
               Vue.api.getStoreListByProductId(params).then((resp)=>{
                 if(resp.status=='success'){
                   let data=JSON.parse(resp.message);
@@ -132,6 +133,7 @@
               if(resp.status=='success'){
                 this.curEntry=item;
                 fb.setOptions({type:'complete',text:'绑定成功'});
+                this.$router.go(-1);
               }else{
                 fb.setOptions({type:'warn',text:resp.message});
               }
@@ -152,6 +154,8 @@
           this.userId=this.$route.params.userId;
           this.storeId=this.$route.query.storeId;
           this.pageType=this.$route.query.pageType;
+          this.productId=this.$route.query.productId;
+          console.log('this.productId:',this.productId?true:false);
           /**/
           this.getList();
         },

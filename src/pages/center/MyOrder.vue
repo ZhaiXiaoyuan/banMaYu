@@ -1,7 +1,7 @@
 <!--我的订单-->
 <template>
     <div class="my-order">
-      <div class="panel nav-panel">
+      <div class="panel nav-panel" id="nav-panel">
         <ul class="nav-list">
           <li @click="setPageType('10')" :class="{'active':pageType=='10'}">待付款</li>
           <li @click="setPageType('20')" :class="{'active':pageType=='20'}">已付款</li>
@@ -9,6 +9,7 @@
           <li @click="setPageType('30')" :class="{'active':pageType=='30'}">已取消</li>
           <li @click="setPageType('40')" :class="{'active':pageType=='40'}">退款中</li>
           <li @click="setPageType('50')" :class="{'active':pageType=='50'}">已退款</li>
+          <li @click="setPageType('70')" :class="{'active':pageType=='70'}">已完成</li>
         </ul>
       </div>
       <div class="panel list-panel">
@@ -17,6 +18,7 @@
             <div class="entry-content" v-if="entry.producttype=='体检套餐'">
               <div class="entry-hd">
                 <span class="title-text">订单号：{{entry.orderno}}</span>
+                <span class="status">{{entry.paystatus}}</span>
               </div>
               <div class="entry-bd">
                 <div class="item product-item">
@@ -79,7 +81,7 @@
                 </div>
                 <div class="item handle-item">
                   <div class="wrapper">
-                    <div class="label">{{entry.paystatus}}</div>
+                    <div class="label"></div>
                     <div class="value">
                       <span class="cm-btn btn cancel-btn" v-if="pageType==10" @click="cancelOrder(index)">取消订单</span>
                       <span class="cm-btn btn" v-if="pageType==10&&entry.paytype!='到店支付'" @click="toPay(entry)">马上付款</span>
@@ -93,6 +95,7 @@
             <div class="entry-content" v-if="entry.producttype!='体检套餐'">
               <div class="entry-hd">
                 <span class="title-text">订单号：{{entry.orderno}}</span>
+                <span class="status">{{entry.paystatus}}</span>
               </div>
               <div class="entry-bd">
                 <div class="item product-item">
@@ -163,7 +166,7 @@
                 </div>
                 <div class="item handle-item">
                   <div class="wrapper">
-                    <div class="label">{{entry.paystatus}}</div>
+                    <div class="label"></div>
                     <div class="value">
                       <span class="cm-btn btn cancel-btn" v-if="pageType==10"  @click="cancelOrder(index)">取消订单</span>
                       <span class="cm-btn btn" v-if="pageType==10"  @click="toPay(entry)">马上付款</span>
@@ -253,6 +256,10 @@
           setPageType:function (value) {
             this.pageType=value;
             this.getList(true);
+            if(value=='50'||value=='70'){
+              let dom=document.getElementById('nav-panel');
+              dom.scrollTo(100, dom.scrollTop);
+            }
           },
           cancelOrder:function (index) {
             let item=this.entryList[index];

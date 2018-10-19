@@ -2,13 +2,14 @@
   padding-bottom: 1.6rem;
   .nav-panel{
     padding: 0rem;
+    overflow: scroll;
   }
   .nav-list{
-    display: flex;
+    white-space:nowrap;
     >li{
-      padding: 0.3rem 0rem;
+      display: inline-block;
+      padding: 0.3rem 0.2rem;
       position: relative;
-      flex: 1;
       text-align: center;
       font-size: 0.28rem;
       color: #333;
@@ -53,6 +54,9 @@
       border-bottom: 1px solid #eee;
       .title-text{
         padding-left: 0rem;
+      }
+      .status{
+        float: right;
       }
     }
     .entry-bd{
