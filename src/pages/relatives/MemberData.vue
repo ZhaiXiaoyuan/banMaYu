@@ -196,6 +196,9 @@
                   bloodArr.push(null);
                 }
                 this.$refs.bloodPicker.setDefault(bloodArr);
+                //
+
+                console.log('this.member:',this.member);
               }else{
 
               }
@@ -351,11 +354,12 @@
         },
         mounted: function () {
           //
-          let userInfo=JSON.parse(sessionStorage.getItem('userInfo'));
+          console.log('dsdfs:',Vue.cookie.get('userInfo'));
+          let userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
           console.log('userInfo:',userInfo);
           //
-          this.id=this.$route.params.id?this.$route.params.id:userInfo.id;
           this.mainId=this.$route.params.mainId;
+          this.id=this.$route.params.id?this.$route.params.id:(this.mainId=='M'?userInfo.id:null);
           if(this.id){
             this.getUserData();
           }

@@ -180,7 +180,7 @@ router.beforeEach((to, from,next) => {
       Vue.api.getUserInfo({...Vue.tools.sessionInfo()}).then((resp)=>{
         if(resp.status=='success'){
           let userInfo=JSON.parse(resp.message);
-          sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
+          Vue.cookie.set('userInfo',JSON.stringify(userInfo),{ expires: '12h' });
           Vue.cookie.set('token',userInfo.token,{ expires: '12h' });
         }else{
 

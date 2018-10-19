@@ -104,9 +104,10 @@
             }
             Vue.api.register(params).then((resp)=>{
               if(resp.status=='success'){
-                Vue.cookie.set('number',this.member.mobilephone,{ expires: '12h' });
+                //
                 fb.setOptions({type:'complete',text:'注册成功'});
-                this.$router.push({name:'my',params:{}});
+                //拼上number和token跳转，路由拦截后会根据这两值生成前端的登录状态
+                this.$router.push({name:'my',params:{},query:{number:params.number,token:Vue.cookie.get('token')}});
               }else{
                 fb.setOptions({type:'warn',text:resp.message});
               }
@@ -117,10 +118,8 @@
         created: function () {
         },
         mounted: function () {
-          let userInfo=sessionStorage.getItem('userInfo')?JSON.parse(sessionStorage.getItem('userInfo')):null;
+          let userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):null;
           Object.assign(this.member,userInfo);
-
-          console.log('member:',this.member);
         },
 
     };

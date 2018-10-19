@@ -75,8 +75,8 @@
         this.close();
       },
       cancel:function () {
-        this.options.cancel&&this.options.cancel();
         this.close();
+        this.options.cancel&&this.options.cancel();
       },
       close:function () {
         this.interval&&clearInterval(this.interval);

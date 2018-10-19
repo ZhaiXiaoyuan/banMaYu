@@ -236,7 +236,8 @@
         created: function () {
         },
         mounted: function () {
-          this.userInfo=JSON.parse(sessionStorage.getItem('userInfo'));
+          this.userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
+
           this.id=this.$route.query.id;
           this.pageType=this.$route.query.pageType;
           //

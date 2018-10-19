@@ -140,7 +140,7 @@ export default {
           let number=Vue.cookie.get('number');
           if(!token||token==''){//token失效，则重新进行手动授权
             if(Vue.cookie.get('authorizing')!='true'){
-              Vue.cookie.set('authorizing','true',{ expires: '10s' });
+              Vue.cookie.set('authorizing','true',{ expires: '3s' });
               Vue.alert({
                 html:'即将进行微信登录',
                 yes:'立即登录',
