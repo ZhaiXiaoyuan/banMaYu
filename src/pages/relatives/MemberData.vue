@@ -41,10 +41,10 @@
           <div class="item">
             <div class="label">手机号码</div>
             <div class="value">
-              <input type="text" v-model="member.mobilephone" placeholder="请输入手机号码">
+              <input type="text" v-model="member.mobilephone" placeholder="请输入手机号码，非必填">
             </div>
           </div>
-          <div class="item" v-if="mainId=='M'">
+          <div class="item">
             <div class="label">短信验证码</div>
             <div class="value">
               <input type="text" v-model="member.mcode" placeholder="请输入短信验证码" style="padding-right: 2.4rem;">
@@ -134,7 +134,8 @@
               id:null,
               member:{
                 gender:'男',
-                genderText:'男'
+                genderText:'男',
+                blood:null,
               },
               oldPhone:null,
               defaultAvatar:require('../../images/common/default-avatar.png'),
@@ -165,6 +166,7 @@
                   }
                 ],
                 ok:(data)=>{
+                  console.log('bloodData:',data);
                   this.bloodData=data;
                   this.member.blood=this.bloodData[0].label+','+this.bloodData[1].label
                 }
@@ -189,13 +191,16 @@
                     this.member.genderText=item.label;
                   }
                 });
-                let bloodArr=this.member.blood.split(',');
-                if(bloodArr.length==0){
+               /* if(bloodArr.length==0){
                   bloodArr=[null,null];
                 }else if(bloodArr.length==1){
                   bloodArr.push(null);
-                }
-                this.$refs.bloodPicker.setDefault(bloodArr);
+                }*/
+               console.log('bloodArr:');
+               if(this.member.blood){
+                 let bloodArr=this.member.blood.split(',');
+                 this.$refs.bloodPicker.setDefault(bloodArr);
+               }
                 //
 
                 console.log('this.member:',this.member);
@@ -230,7 +235,7 @@
               return;
             }
             if(this.member.mobilephone!=this.oldPhone&&!this.member.mcode){
-              this.operationFeedback({type:'warn',text:'请输入短信验证码'});
+              this.operationFeedback({type:'warn',text:'更改手机号码，请输入短信验证码'});
               return;
             }
             if(!this.member.blood){
@@ -281,8 +286,12 @@
               this.operationFeedback({type:'warn',text:'请输入身份证号码'});
               return;
             }
-            if(!this.member.mobilephone){
+           /* if(!this.member.mobilephone){
               this.operationFeedback({type:'warn',text:'请输入手机号码'});
+              return;
+            }*/
+            if(this.member.mobilephone!=this.oldPhone&&!this.member.mcode){
+              this.operationFeedback({type:'warn',text:'更改手机号码，请输入短信验证码'});
               return;
             }
             if(!this.member.blood){
@@ -354,9 +363,7 @@
         },
         mounted: function () {
           //
-          console.log('dsdfs:',Vue.cookie.get('userInfo'));
           let userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
-          console.log('userInfo:',userInfo);
           //
           this.mainId=this.$route.params.mainId;
           this.id=this.$route.params.id?this.$route.params.id:(this.mainId=='M'?userInfo.id:null);

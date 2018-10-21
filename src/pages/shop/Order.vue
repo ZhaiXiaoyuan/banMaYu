@@ -150,6 +150,7 @@
             return {
               id:null,
               goods:null,
+              isInitMember:false,
               curMember:{},
               relativeList:[],
               selectMemberModalOptions:{
@@ -157,8 +158,12 @@
                 list:[],
                 ok:(data)=>{
                   if(data){
-                    this.curMember=data;
-                    this.getUserData(data.id)
+                    if(!this.isInitMember&&localStorage.getItem('curMember')){
+                      this.curMember=JSON.parse(localStorage.getItem('curMember'));
+                    }else{
+                      this.getUserData(data.id);
+                    }
+                    this.isInitMember=true;
                   }
                 }
               },
@@ -186,7 +191,6 @@
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
                 this.goods=data;
-                console.log('data:',data);
               }
             });
           },
@@ -199,7 +203,6 @@
             Vue.api.getRelativeList(params).then((resp)=>{
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
-                console.log('rList:',data);
                 this.relativeList=data.result.reverse();
                 this.relativeList.forEach((item,i)=>{
                   item.label=item.realname;
@@ -207,7 +210,6 @@
                 })
                 this.curMember=this.relativeList[0];
                 this.selectMemberModalOptions.list=this.relativeList;
-                this.getUserData(this.curMember.id);
               }
             })
           },
@@ -215,6 +217,10 @@
             Vue.api.getUserData({...Vue.tools.sessionInfo(),id:id}).then((resp)=>{
               if(resp.status=='success'){
                 let member=JSON.parse(resp.message);
+               /* if(localStorage.getItem('curMember')){
+                  this.curMember=JSON.parse(localStorage.getItem('curMember'));
+                  console.log('this.curMember:',this.curMember);
+                }*/
                 this.curMember={...this.curMember,...member};
                 localStorage.setItem('curMember',JSON.stringify(this.curMember));
                 //
@@ -299,6 +305,7 @@
             });
           },
           clearCache:function () {
+            localStorage.clear('curMember');
             localStorage.clear('selectedStore');
           },
           toMyOrder:function (type) {
@@ -314,10 +321,6 @@
           //
           this.getRelativeList();
           //
-          /*if(localStorage.getItem('curMember')){
-            this.curMember=JSON.parse(localStorage.getItem('curMember'));
-            console.log('this.curMember:',this.curMember);
-          }*/
           if(localStorage.getItem('selectedStore')){
             this.curStore=JSON.parse(localStorage.getItem('selectedStore'));
             console.log('this.curStore:',this.curStore);

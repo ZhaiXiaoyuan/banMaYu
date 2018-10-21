@@ -68,6 +68,7 @@
       change(picker, values) {
         this.picker=picker;
         this.curData=values;
+        console.log('this.curData=:',this.curData);
       },
       close:function () {
         this.$el.remove();

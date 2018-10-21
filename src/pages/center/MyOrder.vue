@@ -314,9 +314,9 @@
             month=month<10?'0'+month:month;
             date=date<10?'0'+date:date;
             let dateStr=month+'.'+date;
-            //临时测试，去除营业时间校验
-            if(this.curStore&&this.curStore.closedate.indexOf(dateStr)>-1){
+            if(this.curEntry&&this.curEntry.closedate.indexOf(dateStr)>-1){
               this.operationFeedback({type:'warn',text:'该体控中心当天不营业，请选择其他日期'});
+              return;
             }else{
               this.dateTime = Vue.tools.formatDate(data,'yyyy-MM-dd');
             }

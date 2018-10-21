@@ -48,6 +48,7 @@
 
           }
         ],
+        isInit:false
       }
     },
     computed: {},
@@ -77,7 +78,7 @@
 
     },
     mounted: function () {
-      console.log('test:',this.options);
+
     }
   };
 </script>
