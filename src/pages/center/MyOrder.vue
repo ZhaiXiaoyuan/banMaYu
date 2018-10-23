@@ -86,7 +86,8 @@
                       <span class="cm-btn btn cancel-btn" v-if="pageType==10" @click="cancelOrder(index)">取消订单</span>
                       <span class="cm-btn btn" v-if="pageType==10&&entry.paytype!='到店支付'" @click="toPay(entry)">马上付款</span>
                       <span class="cm-btn btn" v-if="pageType==10||pageType==20" @click="openPicker(entry)">修改预约时间</span>
-                      <span class="cm-btn btn" v-if="pageType==20" @click="refund(index)">申请退款</span>
+                      <span class="cm-btn btn" v-if="pageType==20&&entry.paytype!='到店支付'" @click="refund(index)">申请退款</span>
+                      <span class="cm-btn btn" v-if="pageType==60" @click="complete(index)">确认收货</span>
                     </div>
                   </div>
                 </div>
@@ -99,7 +100,7 @@
               </div>
               <div class="entry-bd">
                 <div class="item product-item">
-                  <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4013702356,2914973056&fm=58&bpow=655&bpoh=655">
+                  <img :src="entry.productpicture">
                   <div class="text-info">
                     <p class="title">{{entry.productname}}</p>
                     <p class="num-row">
@@ -171,6 +172,7 @@
                       <span class="cm-btn btn cancel-btn" v-if="pageType==10"  @click="cancelOrder(index)">取消订单</span>
                       <span class="cm-btn btn" v-if="pageType==10"  @click="toPay(entry)">马上付款</span>
                       <span class="cm-btn btn" v-if="pageType==20" @click="refund(index)">申请退款</span>
+                      <span class="cm-btn btn" v-if="pageType==60" @click="complete(index)">确认收货</span>
                     </div>
                   </div>
                 </div>
@@ -335,10 +337,31 @@
             let fb=this.operationFeedback({text:'保存中...'});
             Vue.api.updateOrderTime(params).then((resp)=>{
               if(resp.status=='success'){
-                this.defaultEntry=item;
+                item.examdate=this.dateTime;
                 fb.setOptions({type:'complete',text:'保存成功'});
               }else{
                 fb.setOptions({type:'warn',text:resp.message});
+              }
+            });
+          },
+          complete:function (index) {
+            this.confirm({
+              html:'是否确认收货？',
+              ok:()=>{
+                let item=this.entryList[index];
+                let params={
+                  ...Vue.tools.sessionInfo(),
+                  ordezid:item.id,
+                }
+                let fb=this.operationFeedback({text:'操作中...'});
+                Vue.api.completeOrder(params).then((resp)=>{
+                  if(resp.status=='success'){
+                    this.entryList.splice(index,1);
+                    fb.setOptions({type:'complete',text:'操作成功'});
+                  }else{
+                    fb.setOptions({type:'warn',text:resp.message});
+                  }
+                });
               }
             });
           },

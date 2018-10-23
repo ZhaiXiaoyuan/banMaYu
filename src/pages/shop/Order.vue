@@ -326,6 +326,15 @@
             console.log('this.curStore:',this.curStore);
           }
         },
+      beforeRouteEnter (to, from, next) {
+        //刷新页面，否则支付时会报路径错误
+        if(sessionStorage.getItem('loginTarget')=='goodsDetail'){
+          sessionStorage.removeItem('loginTarget');
+          window.location.reload();
+        }else{
+          next();
+        }
+      },
 
     };
 </script>

@@ -130,6 +130,7 @@
         },
         data: function () {
             return {
+              userInfo:{},
               mainId:null,
               id:null,
               member:{
@@ -319,6 +320,7 @@
               Vue.api.addRelative(params).then((resp)=>{
                 if(resp.status=='success'){
                   fb.setOptions({type:'complete',text:'保存成功'});
+                  this.$router.go(-1);
                 }else{
                   fb.setOptions({type:'warn',text:resp.message});
                 }
@@ -363,12 +365,16 @@
         },
         mounted: function () {
           //
-          let userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
+          this.userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
           //
           this.mainId=this.$route.params.mainId;
-          this.id=this.$route.params.id?this.$route.params.id:(this.mainId=='M'?userInfo.id:null);
+          this.id=this.$route.params.id?this.$route.params.id:(this.mainId=='M'?this.userInfo.id:null);
           if(this.id){
             this.getUserData();
+            //
+            if(this.$route.query.source=='relatives'){
+              localStorage.setItem('curId',this.id);
+            }
           }else{
             Vue.tools.sessionInfo()
           }

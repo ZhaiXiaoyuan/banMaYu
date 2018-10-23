@@ -204,10 +204,12 @@ router.beforeEach((to, from,next) => {
         if(resp.status=='success'){
           let userInfo=JSON.parse(resp.message);
           Vue.cookie.set('userInfo',JSON.stringify(userInfo),{ expires: '12h' });
-          Vue.cookie.set('token',userInfo.token,{ expires: '12h' });
+          Vue.cookie.set('token',token,{ expires: '12h' });
         }else{
 
         }
+        //重新登录时，涉及到微信功能需要在对应页面进行刷新
+        sessionStorage.setItem('loginTarget',to.name);
         next();
       })
     }else if(sourceNumber){

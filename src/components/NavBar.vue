@@ -2,12 +2,12 @@
 <template>
     <div class="nav-bar" v-if="pageName!='login'">
         <ul>
-          <router-link   to="/home" class="ripple" tag="li" :class="{'active':pageName=='home'}">
+          <router-link   to="/home" class="ripple" tag="li" :class="{'active':pageName=='home'}" v-if="!userInfo.mainid||userInfo.mainid=='M'">
             <i class="icon normal-icon home-btn-normal"></i>
             <i class="icon active-icon home-btn-active"></i>
             <span>首页</span>
           </router-link>
-          <router-link tag="li"class="ripple" to="/shop" :class="{'active':pageName=='shop'}">
+          <router-link tag="li"class="ripple" to="/shop" :class="{'active':pageName=='shop'}" v-if="!userInfo.mainid||userInfo.mainid=='M'">
             <i class="icon normal-icon shop-btn-normal"></i>
             <i class="icon active-icon shop-btn-active"></i>
 
@@ -132,6 +132,7 @@
         },
         data:function () {
           return {
+              userInfo:{},
               pageName:'',
               loverName:''
           }
@@ -149,6 +150,7 @@
         created: function () {
         },
         mounted:function () {
+          this.userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
           /**/
           this.pageName=this.$route.name;
           /*修改父dom的样式*/

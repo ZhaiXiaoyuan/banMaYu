@@ -60,7 +60,7 @@
               ...Vue.tools.sessionInfo(),
             }
             Vue.api.getDiary(params).then((resp)=>{
-              if(false&&resp.status=='success'){
+              if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
                 this.diaryData=data;
             /*    this.diaryData.buydate='2018.10.1'*/

@@ -155,7 +155,10 @@
           this.storeId=this.$route.query.storeId;
           this.pageType=this.$route.query.pageType;
           this.productId=this.$route.query.productId;
-          console.log('this.productId:',this.productId?true:false);
+          console.log('ddd:',document.referrer);
+          if(this.userId&&this.$route.query.source=='relatives'){
+            localStorage.setItem('curId',this.userId);
+          }
           /**/
           this.getList();
         },

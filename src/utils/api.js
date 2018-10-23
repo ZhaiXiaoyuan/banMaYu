@@ -147,6 +147,14 @@ export default {
           params: params
         });
       },
+      //获取子账号亲友列表
+      getSubAccountRelativeList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'//fa/fam/man/lmb',
+          params: params
+        });
+      },
       //添加亲友账户
       addRelative:function (params) {
         return Vue.http.ajax({
@@ -408,6 +416,14 @@ export default {
         return Vue.http.ajax({
           method: 'post',
           url: basicUrl+'/cs/cus/info/gnotice',
+          params: params
+        });
+      },
+      //确认收货
+      completeOrder:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/sh/ord/man/confirm',
           params: params
         });
       },
