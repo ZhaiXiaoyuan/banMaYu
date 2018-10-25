@@ -29,6 +29,12 @@
               <gen-code :phone="member.mobilephone"></gen-code>
             </div>
           </div>
+          <div class="item">
+            <div class="label">推荐人手机</div>
+            <div class="value">
+              <input type="text" v-model="member.sourceNumber" placeholder="非必填">
+            </div>
+          </div>
         </div>
       </div>
       <div class="btn-wrap">
@@ -55,6 +61,9 @@
         width: 100%;
       }
     }
+    .panel .item .value input{
+
+    }
   }
 </style>
 
@@ -69,7 +78,8 @@
         data: function () {
             return {
               member:{
-                mobilephone:null
+                mobilephone:null,
+                sourceNumber:this.$route.query.sourceNumber
               },
             }
         },
@@ -100,7 +110,7 @@
               token: Vue.cookie.get('token'),
               number:this.member.mobilephone,
               ...this.member,
-              recomVipcode:this.$route.query.sourceNumber,
+              recomphone:this.member.sourceNumber,
             }
             Vue.api.register(params).then((resp)=>{
               if(resp.status=='success'){

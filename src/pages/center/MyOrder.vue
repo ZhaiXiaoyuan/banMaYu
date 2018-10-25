@@ -183,16 +183,8 @@
       </div>
       <scroll-load :page="pager" @scrolling="getList()"></scroll-load>
 
-      <mt-datetime-picker
-        type="date"
-        ref="picker"
-        year-format="{value}年"
-        month-format="{value}月"
-        date-format="{value}日"
-        @confirm="handleConfirm"
-        :startDate="startDate"
-      >
-      </mt-datetime-picker>
+
+      <date-picker :options="datePickerOptions"></date-picker>
     </div>
 </template>
 
@@ -223,6 +215,29 @@
 
               dateTime:null,
               startDate: new Date(),
+              datePickerOptions:{
+                value:[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()],
+                show:false,
+                ok:(data)=>{
+                  let year=data[0];
+                  let month=data[1];
+                  let date=data[2];
+                  month=month<10?'0'+month:month;
+                  date=date<10?'0'+date:date;
+                  let dateStr=month+'.'+date;
+                  if(this.curEntry&&this.curEntry.closedate.indexOf(dateStr)>-1){
+                    this.operationFeedback({type:'warn',text:'该体控中心当天不营业，请选择其他日期'});
+                    return;
+                  }else{
+                    this.dateTime = Vue.tools.formatDate(data,'yyyy-MM-dd');
+                  }
+
+                  this.dateTime = Vue.tools.formatDate(data,'yyyy-MM-dd');
+                  if(this.dateTime){
+                    this.updateOrderTime(this.curEntry);
+                  }
+                }
+              }
             }
         },
         computed: {},
@@ -307,26 +322,9 @@
           },
           openPicker (item) {
             this.curEntry=item;
-            this.$refs.picker.open()
-          },
-          handleConfirm (data) {
-            let year=data.getFullYear();
-            let month=data.getMonth()+1;
-            let date=data.getDate();
-            month=month<10?'0'+month:month;
-            date=date<10?'0'+date:date;
-            let dateStr=month+'.'+date;
-            if(this.curEntry&&this.curEntry.closedate.indexOf(dateStr)>-1){
-              this.operationFeedback({type:'warn',text:'该体控中心当天不营业，请选择其他日期'});
-              return;
-            }else{
-              this.dateTime = Vue.tools.formatDate(data,'yyyy-MM-dd');
-            }
-
-            this.dateTime = Vue.tools.formatDate(data,'yyyy-MM-dd');
-            if(this.dateTime){
-              this.updateOrderTime(this.curEntry);
-            }
+            console.log('sdfs:',item);
+            this.datePickerOptions.value=item.examdate.split('-');
+            this.datePickerOptions.show=true;
           },
           updateOrderTime:function (item) {
             let params={

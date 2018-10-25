@@ -72,8 +72,8 @@
               <p>（4）本声明未涉及的问题参见国家有关法律法规，当本声明与国家法律法规冲突时，以国家法律法规为准。</p>
               <p class="title">5.  解释权</p>
               <p>本知情同意书的最终解释权归斑马鱼公众号所有。</p>
-              <p class="strong" style="text-align: right;padding-right: 1rem;margin-top: 0.4rem;"> 请确认无误后签字：     </p>
-              <p class="strong" style="text-align: right;padding-right: 1rem;">日期：</p>
+          <!--    <p class="strong" style="text-align: right;padding-right: 1rem;margin-top: 0.4rem;"> 请确认无误后签字：     </p>
+              <p class="strong" style="text-align: right;padding-right: 1rem;">日期：</p>-->
             </div>
             <div class="check-wrap">
               <div class="cm-check" :class="{'checked':checkedProtocol}" @click="checkedProtocol=!checkedProtocol">
@@ -289,13 +289,6 @@
         created: function () {
         },
         mounted: function () {
-          //授权登录后如果跳转到当前页面时要再次刷新，以刷新地址栏，让支付正常进行临时测试
-         /* if(sessionStorage.getItem('loginTarget')==this.$route.name){
-            sessionStorage.removeItem('loginTarget');
-            alert(sessionStorage.getItem('loginTarget'));
-      /!*      window.location.reload();
-            return;*!/
-          }*/
           //
           this.userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
 

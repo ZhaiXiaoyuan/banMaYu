@@ -19,7 +19,7 @@
       </div>
       <div class="panel list-panel">
         <ul class="entry-list">
-          <router-link :to="{ name: 'memberData', params: {id: userData.id,mainId:userData.mainId}}" tag="li">
+          <router-link :to="{ name: 'memberData', params: {id: userData.id,mainId:userInfo.mainid}}" tag="li">
             <span class="icon-wrap"><i class="icon data-min-icon"></i></span>
             <p>基本资料</p>
           </router-link>
@@ -59,10 +59,10 @@
             <span class="icon-wrap"><i class="icon add-member-icon"></i></span>
             <p>邀请好友</p>
           </li>
-          <li @click="logout()">
+        <!--  <li @click="logout()">
             <span class="icon-wrap">退出</span>
             <p>临时测试</p>
-          </li>
+          </li>-->
         </ul>
       </div>
       <nav-bar></nav-bar>

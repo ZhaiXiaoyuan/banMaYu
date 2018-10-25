@@ -82,7 +82,7 @@
           <div class="item textarea-item">
             <div class="label">过往病史</div>
             <div class="value">
-              <textarea cols="30" rows="10" v-model="member.hismedical" placeholder="请输入过往病史，糖尿病、高血压、心脑血管、癌症等"></textarea>
+              <textarea cols="30" rows="10" v-model="member.hismedical" placeholder="请输入过往病史，糖尿病、高血压、心脑血管、癌症等，若没有，请填无"></textarea>
             </div>
           </div>
         </div>
@@ -92,7 +92,7 @@
           <div class="item textarea-item">
             <div class="label">药物过敏史</div>
             <div class="value">
-              <textarea cols="30" rows="10" v-model="member.allergic" placeholder="请输入药物过敏史"></textarea>
+              <textarea cols="30" rows="10" v-model="member.allergic" placeholder="请输入药物过敏史，若没有，请填无"></textarea>
             </div>
           </div>
         </div>
@@ -235,12 +235,12 @@
               this.operationFeedback({type:'warn',text:'请输入手机号码'});
               return;
             }
-            if(this.member.mobilephone!=this.oldPhone&&!this.member.mcode){
+            if(this.member.mobilephone&&this.member.mobilephone!=this.oldPhone&&!this.member.mcode){
               this.operationFeedback({type:'warn',text:'更改手机号码，请输入短信验证码'});
               return;
             }
             if(!this.member.blood){
-              this.operationFeedback({type:'warn',text:'请输入血型'});
+              this.operationFeedback({type:'warn',text:'请选择血型'});
               return;
             }
             if(!this.member.address){
@@ -291,12 +291,12 @@
               this.operationFeedback({type:'warn',text:'请输入手机号码'});
               return;
             }*/
-            if(this.member.mobilephone!=this.oldPhone&&!this.member.mcode){
+            if(this.member.mobilephone&&this.member.mobilephone!=this.oldPhone&&!this.member.mcode){
               this.operationFeedback({type:'warn',text:'更改手机号码，请输入短信验证码'});
               return;
             }
             if(!this.member.blood){
-              this.operationFeedback({type:'warn',text:'请输入血型'});
+              this.operationFeedback({type:'warn',text:'请选择血型'});
               return;
             }
             if(!this.member.address){
@@ -312,6 +312,7 @@
               Vue.api.updateRelative(params).then((resp)=>{
                 if(resp.status=='success'){
                   fb.setOptions({type:'complete',text:'保存成功'});
+                  this.$router.go(-1);
                 }else{
                   fb.setOptions({type:'warn',text:resp.message});
                 }

@@ -6,14 +6,14 @@
           <p>基本资料</p>
           <p>完善您的资料</p>
         </router-link>
-        <div class="cm-btn btn-item report-btn">
-          <p>我的体质</p>
-          <p>解析健康指标</p>
-        </div>
         <router-link tag="div" :to="{ name: 'physicalList', params: {},query:{}}" class="cm-btn btn-item stethoscope-btn">
           <p>体检预约</p>
           <p>快捷预约体检</p>
         </router-link>
+        <div class="cm-btn btn-item report-btn" style="border-top-right-radius: 0.16rem;">
+          <p>我的体质</p>
+          <p>解析健康指标</p>
+        </div>
         <router-link tag="div" :to="{ name: 'search', params: {},query:{type:'Food'}}" class="cm-btn btn-item product-btn">
           <p>干预产品</p>
           <p>保护您的健康</p>

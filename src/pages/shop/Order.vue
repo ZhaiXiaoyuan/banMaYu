@@ -30,7 +30,7 @@
               <router-link :to="{ name: 'memberData', params: {mainId:'S'}}" tag="span" v-if="relativeList.length<6" class="cm-btn btn">新建体检者</router-link>
             </div>
           </div>
-          <div class="item">
+          <div class="item" @click="genderModalFlag=true">
             <div class="label">性别</div>
             <div class="value">
               {{curMember.gender}}
@@ -48,13 +48,13 @@
               {{curMember.mobilephone}}
             </div>
           </div>
-          <div class="item">
+          <div class="item" @click="bloodPickerOptions.show=true">
             <div class="label">血型</div>
             <div class="value">
               {{curMember.blood}}
             </div>
           </div>
-          <div class="item">
+         <!-- <div class="item">
             <div class="label">药物过敏史</div>
             <div class="value">
               {{curMember.allergic}}
@@ -65,7 +65,7 @@
             <div class="value">
               {{curMember.hismedical}}
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
       <div class="panel">
@@ -83,7 +83,7 @@
           <div class="item">
             <div class="label">预约时间</div>
             <div class="value column-value">
-              <div class="cm-btn selector" @click="openPicker()">
+              <div class="cm-btn selector" @click="datePickerOptions.show=true">
                 <span class="cur-value">{{dateTime?dateTime:'请选择日期'}}</span>
                 <i class="icon selector-icon"></i>
               </div>
@@ -106,6 +106,7 @@
           </div>
         </div>
       </div>
+
       <div class="submit-panel">
         <span class="total-price" v-if="goods"><i class="icon">￥</i>{{goods.price.toFixed(2)}}</span>
         <div class="btn-list">
@@ -117,7 +118,7 @@
       <list-selector :options="selectMemberModalOptions"></list-selector>
       <list-selector :options="payMethodModalOptions"></list-selector>
 
-      <mt-datetime-picker
+<!--      <mt-datetime-picker
         type="date"
         ref="picker"
         year-format="{value}年"
@@ -126,7 +127,15 @@
         @confirm="handleConfirm"
         :startDate="startDate"
       >
-      </mt-datetime-picker>
+      </mt-datetime-picker>-->
+
+      <date-picker :options="datePickerOptions"></date-picker>
+      <cm-picker :options="bloodPickerOptions" ref="bloodPicker"></cm-picker>
+      <mt-popup
+        v-model="genderModalFlag"
+        position="bottom" style="width: 100%;">
+        <mt-picker :slots="slots" value-key="label" @change="genderChange"></mt-picker>
+      </mt-popup>
     </div>
 </template>
 
@@ -138,13 +147,12 @@
 <script>
     import Vue from 'vue'
     import ListSelector from '../../components/ListSelector.vue'
-   /* import Calendar from 'vue2-slot-calendar';*/
-
+    import CmPicker from '../../components/CmPicker.vue'
 
     export default {
         components: {
           ListSelector,
-        /*  Calendar*/
+          CmPicker
         },
         data: function () {
             return {
@@ -160,6 +168,9 @@
                   if(data){
                     if(!this.isInitMember&&localStorage.getItem('curMember')){
                       this.curMember=JSON.parse(localStorage.getItem('curMember'));
+                      console.log('this.curMember:',this.curMember);
+                      this.setDefaultBlood();
+                      this.setDefaultGender();
                     }else{
                       this.getUserData(data.id);
                     }
@@ -181,6 +192,54 @@
                 }
               },
               selectedMethod:{label:'在线支付',value:'WeixinPay'},
+              datePickerOptions:{
+                value:[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()],
+                show:false,
+                ok:(data)=>{
+                  let year=data[0];
+                  let month=data[1];
+                  let date=data[2];
+                  month=month<10?'0'+month:month;
+                  date=date<10?'0'+date:date;
+                  let dateStr=month+'.'+date;
+                  if(this.curStore&&this.curStore.closedate.indexOf(dateStr)>-1){
+                    this.operationFeedback({type:'warn',text:'该体控中心当天不营业，请选择其他日期'});
+                  }else{
+                    this.dateTime = data.join('-');
+                  }
+                }
+              },
+
+              bloodData:null,
+              bloodPickerOptions:{
+                show:false,
+                slots:[
+                  {
+                    values: [{label:'A',value:'A'},{label:'B',value:'B'},{label:'O',value:'O'},{label:'AB',value:'AB'},{label:'不清楚',value:null}],
+                    textAlign: 'center',
+                    defaultIndex:0
+                  },
+                  {
+                    values: [{label:'RH+',value:'RH+'},{label:'RH-',value:'RH-'},{label:'不清楚',value:null}],
+                    textAlign: 'center',
+                    defaultIndex:0
+                  }
+                ],
+                ok:(data)=>{
+                  console.log('bloodData:',data);
+                  this.bloodData=data;
+                  this.curMember.blood=this.bloodData[0].label+','+this.bloodData[1].label
+                }
+              },
+
+              genderModalFlag:false,
+              slots: [
+                {
+                  values: [{label:'男',value:'男'},{label:'女',value:'女'}],
+                  textAlign: 'center',
+                  defaultIndex:0
+                }
+              ],
             }
         },
         computed: {},
@@ -221,8 +280,14 @@
                   this.curMember=JSON.parse(localStorage.getItem('curMember'));
                   console.log('this.curMember:',this.curMember);
                 }*/
+               //
+
+                //
                 this.curMember={...this.curMember,...member};
                 localStorage.setItem('curMember',JSON.stringify(this.curMember));
+
+                this.setDefaultBlood();
+                this.setDefaultGender();
                 //
                 if(localStorage.getItem('selectedStore')){
                   this.curStore=JSON.parse(localStorage.getItem('selectedStore'));
@@ -310,7 +375,90 @@
           },
           toMyOrder:function (type) {
             this.$router.replace({name:'myOrder',query:{pageType:type}});
-          }
+          },
+          setDefaultBlood:function () {
+            if(this.curMember.blood){
+              let bloodArr=this.curMember.blood.split(',');
+              this.$refs.bloodPicker.setDefault(bloodArr);
+            }
+          },
+          setDefaultGender:function () {
+            if(!this.curMember.gender){
+              this.curMember.gender='男';
+              this.curMember.genderText='男';
+            }
+            this.slots[0].values.find((item,i)=>{
+              if(item.value==this.curMember.gender){
+                this.slots[0].defaultIndex=i;
+                this.curMember.genderText=item.label;
+              }
+            });
+          },
+          genderChange(picker, values) {
+            let item=values[0];
+            this.curMember.gender=item.value;
+            this.curMember.genderText=item.label;
+           /* if(this.genderModalFlag&&item){
+              this.save('gender');
+            }*/
+            this.genderModalFlag=false;
+            console.log('values:',values);
+          },
+
+          saveUser:function (type) {
+            if(type=='gender'&&!this.curMember.gender){
+              this.operationFeedback({type:'warn',text:'请选择性别'});
+              return;
+            }
+            if(type=='blood'&&!this.curMember.blood){
+              this.operationFeedback({type:'warn',text:'请输入血型'});
+              return;
+            }
+            let params={
+              ...Vue.tools.sessionInfo(),
+              ...this.curMember
+            }
+            Vue.api.saveUserInfo(params).then((resp)=>{
+              if(resp.status=='success'){
+                let memberStr=localStorage.getItem('curMember');
+                if(memberStr){
+                  localStorage.setItem('curMember',JSON.stringify(this.curMember));
+                }
+              }else{
+
+              }
+            });
+          },
+          saveRelative:function (type) {
+            if(type=='gender'&&!this.curMember.gender){
+              this.operationFeedback({type:'warn',text:'请选择性别'});
+              return;
+            }
+            if(type=='blood'&&!this.curMember.blood){
+              this.operationFeedback({type:'warn',text:'请输入血型'});
+              return;
+            }
+            let params={
+              ...Vue.tools.sessionInfo(),
+              ...this.curMember
+            }
+            Vue.api.updateRelative(params).then((resp)=>{
+              if(resp.status=='success'){
+                let memberStr=localStorage.getItem('curMember');
+                if(memberStr){
+                  localStorage.setItem('curMember',JSON.stringify(this.curMember));
+                }
+              }else{
+              }
+            });
+          },
+          save:function (type) {
+            if(this.curMember.mainid=='M'){
+              this.saveUser(type);
+            }else{
+              this.saveRelative(type);
+            }
+          },
         },
         created: function () {
         },
@@ -325,6 +473,14 @@
             this.curStore=JSON.parse(localStorage.getItem('selectedStore'));
             console.log('this.curStore:',this.curStore);
           }
+          //
+         /* this.datePicker({
+            show:true,
+            value:[2018,9,1],
+            ok:(data)=>{
+              console.log('data:',data);
+            }
+          })*/
         },
       beforeRouteEnter (to, from, next) {
         //刷新页面，否则支付时会报路径错误

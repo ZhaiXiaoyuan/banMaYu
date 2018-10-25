@@ -15,6 +15,7 @@ import NavBar from './NavBar';
 import InviteModal from './InviteModal';
 import CropModal from './CropModal';
 import WechatPay from './WechatPay';
+import DatePicker from './DatePicker';
 
 /*全局组件注册配置*/
 export default {
@@ -33,6 +34,7 @@ export default {
     Vue.component('InviteModal',InviteModal);
     Vue.component('CropModal',CropModal);
     Vue.component('WechatPay',WechatPay);
+    Vue.component('DatePicker',DatePicker);
 
     /*方法调度方式*/
     let OperationFeedbackConstructor = Vue.extend(OperationFeedback);
@@ -43,6 +45,7 @@ export default {
     let InviteModalConstructor=Vue.extend(InviteModal);
     let CropModalConstructor=Vue.extend(CropModal);
     let WechatPayConstructor=Vue.extend(WechatPay);
+    let DatePickerConstructor=Vue.extend(DatePicker);
     const functionObject={
       /**
        * 操作提示
@@ -276,6 +279,27 @@ export default {
         let parentEle=document.getElementById('app');
         //
         let instance=new WechatPayConstructor({});
+        instance.options=options;
+        instance.$mount();
+        parentEle.appendChild(instance.$el);
+        return {
+          close:instance.close
+        }
+      },
+      /**
+       * 选择日期
+       * @param options
+       */
+      datePicker:function (options) {
+        options={...{
+          show:false,
+          value:null,
+          ok:null,
+        },...options};
+        //
+        let parentEle=document.getElementById('app');
+        //
+        let instance=new DatePickerConstructor({});
         instance.options=options;
         instance.$mount();
         parentEle.appendChild(instance.$el);

@@ -166,6 +166,13 @@ const routes=[ {
   meta:{
     title:'体检预约',
   },
+},{
+  path: '/logout',
+  name: 'logout',
+  component: resolve=>require(['./pages/center/Logout'],resolve),
+  meta:{
+    title:'快捷退出账号',
+  },
 }]
 
 const visitorPageList=['home','shop','register','goodsDetail'];
