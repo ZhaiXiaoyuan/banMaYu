@@ -36,6 +36,12 @@
               {{curMember.gender}}
             </div>
           </div>
+          <div class="item">
+            <div class="label">身份证</div>
+            <div class="value">
+              <input type="tel" v-model="curMember.idno">
+            </div>
+          </div>
        <!--   <div class="item">
             <div class="label">年龄</div>
             <div class="value">
@@ -193,6 +199,7 @@
               },
               selectedMethod:{label:'在线支付',value:'WeixinPay'},
               datePickerOptions:{
+                begin:[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()],
                 value:[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()],
                 show:false,
                 ok:(data)=>{
@@ -328,6 +335,18 @@
             this.$router.go(-1);
           },
           createOrder:function () {
+            if(!this.curMember.gender){
+              this.operationFeedback({type:'warn',text:'请选择性别'});
+              return;
+            }
+            if(!this.curMember.blood){
+              this.operationFeedback({type:'warn',text:'请选择血型'});
+              return;
+            }
+            if(!this.curMember.idno){
+              this.operationFeedback({type:'warn',text:'请输入身份证号码'});
+              return;
+            }
             if(!this.curStore){
               this.operationFeedback({type:'warn',text:'请先选择体控所！'});
               return;
@@ -342,7 +361,11 @@
               customerid:this.curMember.id,
               storeid:this.curStore.id,
               paytype:this.selectedMethod.value,
-              examdate:this.dateTime
+              examdate:this.dateTime,
+
+              gender:this.curMember.gender,
+              blood:this.curMember.blood,
+              idno:this.curMember.idno,
             }
             let fb=this.operationFeedback({text:'预约中...'});
             Vue.api.createPhysicalOrder(params).then((resp)=>{
@@ -404,61 +427,6 @@
             this.genderModalFlag=false;
             console.log('values:',values);
           },
-
-          saveUser:function (type) {
-            if(type=='gender'&&!this.curMember.gender){
-              this.operationFeedback({type:'warn',text:'请选择性别'});
-              return;
-            }
-            if(type=='blood'&&!this.curMember.blood){
-              this.operationFeedback({type:'warn',text:'请输入血型'});
-              return;
-            }
-            let params={
-              ...Vue.tools.sessionInfo(),
-              ...this.curMember
-            }
-            Vue.api.saveUserInfo(params).then((resp)=>{
-              if(resp.status=='success'){
-                let memberStr=localStorage.getItem('curMember');
-                if(memberStr){
-                  localStorage.setItem('curMember',JSON.stringify(this.curMember));
-                }
-              }else{
-
-              }
-            });
-          },
-          saveRelative:function (type) {
-            if(type=='gender'&&!this.curMember.gender){
-              this.operationFeedback({type:'warn',text:'请选择性别'});
-              return;
-            }
-            if(type=='blood'&&!this.curMember.blood){
-              this.operationFeedback({type:'warn',text:'请输入血型'});
-              return;
-            }
-            let params={
-              ...Vue.tools.sessionInfo(),
-              ...this.curMember
-            }
-            Vue.api.updateRelative(params).then((resp)=>{
-              if(resp.status=='success'){
-                let memberStr=localStorage.getItem('curMember');
-                if(memberStr){
-                  localStorage.setItem('curMember',JSON.stringify(this.curMember));
-                }
-              }else{
-              }
-            });
-          },
-          save:function (type) {
-            if(this.curMember.mainid=='M'){
-              this.saveUser(type);
-            }else{
-              this.saveRelative(type);
-            }
-          },
         },
         created: function () {
         },
@@ -473,6 +441,8 @@
             this.curStore=JSON.parse(localStorage.getItem('selectedStore'));
             console.log('this.curStore:',this.curStore);
           }
+          //
+          this.checkFocus('realTime');
           //
          /* this.datePicker({
             show:true,

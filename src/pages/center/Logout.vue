@@ -33,6 +33,7 @@
             Vue.cookie.delete('number');
             Vue.cookie.delete('token');
             Vue.cookie.delete('userInfo');
+            /*Vue.cookie.delete('isFocusModalFlag');*/
             alert('退出成功');
            /* this.$router.push({name:'home'});*/
           }

@@ -155,6 +155,10 @@
           this.pageName=this.$route.name;
           /*修改父dom的样式*/
           this.$el.parentNode.style.paddingBottom='1.2rem';
+          //判断是否关注公众号
+          if(this.userInfo&&this.userInfo.mobilephone){
+            this.checkFocus();
+          }
         },
     }
 

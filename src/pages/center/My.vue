@@ -117,6 +117,7 @@
           this.userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
           //
           this.getMyData();
+          //
         },
 
     };

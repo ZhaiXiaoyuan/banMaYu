@@ -3,7 +3,7 @@
     <mt-popup
       v-model="options.show"
       position="bottom" style="width: 100%;">
-      <calendar :events="calendar1.events" :lunar="calendar1.lunar" :value="options.value" :begin="calendar1.begin" :end="calendar1.end" :weeks="calendar1.weeks" :months="calendar1.months" @select="calendar1.select"></calendar>
+      <calendar :events="calendar1.events" :lunar="calendar1.lunar" :value="options.value" :begin="options.begin" :end="calendar1.end" :weeks="calendar1.weeks" :months="calendar1.months" @select="calendar1.select"></calendar>
     </mt-popup>
   </div>
 </template>

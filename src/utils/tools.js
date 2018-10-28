@@ -285,6 +285,36 @@ export default {
           // reader.readAsDataURL(file)
           // 转化为blob
           reader.readAsArrayBuffer(file);
+        },
+        checkFocus:function (type) {
+          let isFocusModalFlag=Vue.cookie.get('isFocusModalFlag');
+          if(isFocusModalFlag!='true'||type=='realTime'){
+            Vue.api.checkFocus({...this.sessionInfo()}).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                console.log('data:',data);
+                if(data=='0'){
+                  if(isFocusModalFlag!='true'){
+                    Vue.cookie.set('isFocusModalFlag',true,{ expires: '24h' });
+                  }
+                  this.confirm({
+                    title:'关注公众号',
+                    html:'请先关注斑马鱼体控，有助于我们为您提供更好的服务',
+                    yes:'下一步',
+                    lock:true,
+                    no:'取消',
+                    ok:()=>{
+                      window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI2MzgwODU1MA==&scene=110#wechat_redirect'
+                    }
+                  });
+                }else{
+
+                }
+              }else{
+
+              }
+            })
+          }
         }
       }
 

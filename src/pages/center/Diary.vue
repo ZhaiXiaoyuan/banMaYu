@@ -64,14 +64,19 @@
                 let data=JSON.parse(resp.message);
                 this.diaryData=data;
             /*    this.diaryData.buydate='2018.10.1'*/
-                let startDate=new Date(this.diaryData.buydate);
+                console.log('this.diaryData:',this.diaryData);
+                let buyDate=this.diaryData.buydate.replace(/\./g,"/");
+                let startDate=new Date(buyDate);
                 for(let i=1;i<=this.diaryData.amount;i++){
-                  let date=new Date(new Date(this.diaryData.buydate).setDate(startDate.getDate()+i));
+                  let date=new Date(new Date(buyDate).setDate(startDate.getDate()+i));
                   let gap=this.dateDiff(date,this.curDate);
                   let status=null;
-                  if(gap<0){
+                  //临时测试
+               /*   if(gap<0){
                     status='waiting';
-                  }else if(gap>=0&&gap<=2){
+                  }else*/
+                   /* if(gap>=0&&gap<=2){*/
+                      if(gap<=40){
                     status='able';
                   }else{
                     status='missed';
