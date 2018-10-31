@@ -32,10 +32,10 @@
           <span class="title-text">健康档案</span>
         </div>
         <div class="panel-bd">
-          <div class="cm-btn btn">
+          <router-link v-if='curMember' :to="{ name: 'reportList', query: {id:curMember.id,source:'relatives'}}" class="cm-btn btn">
             <span class="icon-wrap"><i class="icon report-icon"></i></span>
             <p>体检报告</p>
-          </div>
+          </router-link>
           <router-link  v-if='curMember' :to="{ name: 'memberData', params: {mainId:curMember.mainid,id:curMember.id},query:{source:'relatives'}}" tag="div" class="cm-btn btn">
             <span class="icon-wrap"><i class="icon data-icon"></i></span>
             <p>基本资料</p>

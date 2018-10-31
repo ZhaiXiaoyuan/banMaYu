@@ -35,10 +35,10 @@
             <span class="icon-wrap"><i class="icon order-icon"></i></span>
             <p>历史订单</p>
           </router-link>
-          <li>
+          <router-link tag="li"  :to="{ name: 'reportList', params: {},query:{}}" >
             <span class="icon-wrap"><i class="icon report-min-icon"></i></span>
             <p>体检报告</p>
-          </li>
+          </router-link>
           <router-link tag="li" :to="{ name: 'diary', params: {}}" v-if="userInfo.mainid=='M'">
             <span class="icon-wrap"><i class="icon diary-icon"></i></span>
             <p>食用日记</p>

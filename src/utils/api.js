@@ -40,7 +40,7 @@ export default {
     }
 
     /**/
-    let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://pexam.elecplus.tech/pewxs';
+    let basicUrl=false&&process.env.NODE_ENV=='development'?'/api':'http://pexam.elecplus.tech/pewxs';
    // let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://www.mk-dingneng.com/dmjywxs';
     Vue.api={
       //获取首页信息
@@ -432,6 +432,22 @@ export default {
         return Vue.http.ajax({
           method: 'post',
           url: basicUrl+'/cs/cus/info/issub',
+          params: params
+        });
+      },
+      //查看我的全部体检记录
+      getReportList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/ex/phy/exam/list',
+          params: params
+        });
+      },
+      //查看我的体检异常记录
+      getReportDetail:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/ex/phy/exam/vexp',
           params: params
         });
       },

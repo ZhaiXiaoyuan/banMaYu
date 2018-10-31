@@ -11,7 +11,7 @@
             <router-link tag="li" :to="{ name: 'goodsDetail', params: {type:'physical',id: item.id }}" class="item" v-for="item in entryList" :key="item.id">
               <div class="text">
                 <p class="title">{{item.name}}</p>
-                <p class="desc"></p>
+                <p class="desc">{{item.introduce}}</p>
                 <p class="price"><span class="icon">￥</span><span>{{item.price.toFixed(2)}}</span></p>
               </div>
               <img :src="item.pic1">

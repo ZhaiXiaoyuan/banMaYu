@@ -59,7 +59,14 @@ const routes=[ {
   name: 'report',
   component: resolve=>require(['./pages/relatives/Report'],resolve),
   meta:{
-    title:'亲友',
+    title:'体检报告',
+  },
+},{
+  path: '/reportList',
+  name: 'reportList',
+  component: resolve=>require(['./pages/relatives/ReportList'],resolve),
+  meta:{
+    title:'体检报告',
   },
 },{
   path: '/memberData/:mainId?/:id?',

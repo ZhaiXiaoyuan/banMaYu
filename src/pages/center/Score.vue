@@ -3,7 +3,7 @@
     <div class="score">
       <div class="panel survey-panel">
         <p>我的积分</p>
-        <p v-if="entryList.length>0">{{entryList[0].totalscore.split('.')[0]}}</p>
+        <p v-if="entryList.length>0">{{entryList[0].totalscore}}</p>
       </div>
       <div class="panel list-panel">
         <div class="panel-hd">
