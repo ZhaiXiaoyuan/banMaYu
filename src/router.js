@@ -69,6 +69,13 @@ const routes=[ {
     title:'体检报告',
   },
 },{
+  path: '/reportCompare',
+  name: 'reportCompare',
+  component: resolve=>require(['./pages/relatives/ReportCompare'],resolve),
+  meta:{
+    title:'报告对比',
+  },
+},{
   path: '/memberData/:mainId?/:id?',
   name: 'memberData',
   component: resolve=>require(['./pages/relatives/MemberData'],resolve),

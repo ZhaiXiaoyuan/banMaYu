@@ -113,12 +113,14 @@
         </div>
       </div>
 
-      <div class="submit-panel">
-        <span class="total-price" v-if="goods"><i class="icon">￥</i>{{goods.price.toFixed(2)}}</span>
-        <div class="btn-list">
-          <span class="cm-btn btn cancel-btn" @click="cancel()">取消返回</span>
-          <span class="cm-btn btn" @click="createOrder()">立即预定</span>
-        </div>
+      <div class="cm-bottom-fixed submit-panel">
+       <div class="wrapper">
+         <span class="total-price" v-if="goods"><i class="icon">￥</i>{{goods.price.toFixed(2)}}</span>
+         <div class="btn-list">
+           <span class="cm-btn btn cancel-btn" @click="cancel()">取消返回</span>
+           <span class="cm-btn btn" @click="createOrder()">立即预定</span>
+         </div>
+       </div>
       </div>
 
       <list-selector :options="selectMemberModalOptions"></list-selector>
@@ -209,10 +211,14 @@
                   month=month<10?'0'+month:month;
                   date=date<10?'0'+date:date;
                   let dateStr=month+'.'+date;
-                  if(this.curStore&&this.curStore.closedate.indexOf(dateStr)>-1){
-                    this.operationFeedback({type:'warn',text:'该体控中心当天不营业，请选择其他日期'});
+                  if(!this.curStore.id){
+                    this.operationFeedback({type:'warn',text:'请先选择体控所'});
                   }else{
-                    this.dateTime = data.join('-');
+                    if(this.curStore.closedate.indexOf(dateStr)>-1){
+                      this.operationFeedback({type:'warn',text:'该体控中心当天不营业，请选择其他日期'});
+                    }else{
+                      this.dateTime = year+'-'+month+'-'+date;
+                    }
                   }
                 }
               },

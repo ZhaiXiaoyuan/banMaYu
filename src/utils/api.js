@@ -40,8 +40,8 @@ export default {
     }
 
     /**/
-    let basicUrl=false&&process.env.NODE_ENV=='development'?'/api':'http://pexam.elecplus.tech/pewxs';
-   // let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://www.mk-dingneng.com/dmjywxs';
+   // let basicUrl=false&&process.env.NODE_ENV=='development'?'http://pexam.elecplus.tech/pewxs':'http://test.zebfish.com/pewxs';
+    let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://test.zebfish.com/pewxs';
     Vue.api={
       //获取首页信息
       getHomeData:function (params) {
@@ -448,6 +448,22 @@ export default {
         return Vue.http.ajax({
           method: 'post',
           url: basicUrl+'/ex/phy/exam/vexp',
+          params: params
+        });
+      },
+      //查看最近两份体检报告对比
+      gerReportCompare:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/ex/phy/exam/ctwo',
+          params: params
+        });
+      },
+      //查看体检六项图片
+      getExamPic:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/ex/phy/exam/gimage',
           params: params
         });
       },

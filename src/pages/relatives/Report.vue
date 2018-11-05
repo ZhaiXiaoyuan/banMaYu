@@ -12,6 +12,7 @@
       <div class="panel entry-panel">
         <div class="panel-hd">
           <span class="title-text">主要异常指标</span>
+          <a :href="picLink" class="cm-btn handle-btn">查看体检六项</a>
         </div>
         <div class="panel-bd">
           <ul class="entry-list" v-if="detail.length>0">
@@ -35,7 +36,7 @@
         </div>
       </div>
       <div class="btn-wrap">
-        <div class="cm-btn btn">查看完整体检报告</div>
+        <a :href="link" target="_blank" class="cm-btn btn">查看完整体检报告</a>
       </div>
     </div>
 </template>
@@ -43,6 +44,15 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" rel="stylesheet/less">
+  .entry-panel{
+    .panel-hd{
+      padding-top: 0.3rem !important;
+    }
+    padding-left: 0.3rem !important;
+    .text-info{
+
+    }
+  }
 </style>
 
 <script>
@@ -59,6 +69,8 @@
               defaultAvatar:require('../../images/common/default-avatar.png'),
               curItem:{},
               detail:{},
+              link:null,
+              picLink:null,
             }
         },
         computed: {},
@@ -67,16 +79,40 @@
           getDetail:function () {
             let params={
               ...Vue.tools.sessionInfo(),
-              id:this.curItem.id
+              id:this.curItem.id,
+              type:'exception',
             }
             Vue.api.getReportDetail(params).then((resp)=>{
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
                 this.detail=data;
-                console.log('this.detail:',this.detail);
               }
             })
           },
+          getReportLink:function () {
+            let params={
+              ...Vue.tools.sessionInfo(),
+              id:this.curItem.id,
+              type:'all',
+            }
+            Vue.api.getReportDetail(params).then((resp)=>{
+              if(resp.status=='success'){
+                this.link=resp.message;
+              }
+            })
+          },
+          getExamPic:function () {
+            let params={
+              ...Vue.tools.sessionInfo(),
+              id:this.curItem.id,
+            }
+            Vue.api.getExamPic(params).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                this.picLink=data.file1;
+              }
+            })
+          }
         },
 
         created: function () {
@@ -85,6 +121,8 @@
           this.curItem=JSON.parse(localStorage.getItem(this.$route.query.id));
           console.log('this.curItem:',this.curItem);
           this.getDetail();
+          this.getReportLink();
+          this.getExamPic();
         },
 
     };

@@ -65,7 +65,7 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer">
+          <div class="cm-bottom-fixed modal-footer">
             <div class="btn-list">
               <div class="cm-btn btn cancel-btn" @click="closeAddressForm()">返回</div>
               <div class="cmb-tn btn" @click="saveAddress()">保存</div>

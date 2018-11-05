@@ -20,6 +20,11 @@ body {
   font-size: 0.28rem;
   background: #f6f6f6;
 }
+/*html,body{
+  position:relative;
+  height:100%;
+  min-height:100%;
+}*/
 
 h1, h2, h3, h4, p, ul, ol, dl, dt, dd {
   margin: 0;
@@ -337,6 +342,9 @@ table {
   &:active{
     opacity: 0.8;
   }
+}
+.cm-link-btn{
+  text-decoration: underline;
 }
 .cm-solid-btn{
   &:active{
@@ -663,8 +671,15 @@ table {
   }
 }
 
+.cm-bottom-fixed{
+  &.disabled{
+    margin-top: 0.8rem;
+    position: relative;
+  }
+}
 
 /**/
 .picker-items{
   width: 100%;
 }
+

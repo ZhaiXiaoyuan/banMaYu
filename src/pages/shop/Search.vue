@@ -5,7 +5,7 @@
         <div class="search-box">
           <div class="input-item">
             <i class="icon search-icon" @click="search()"></i>
-            <input type="text" v-model="keyword" @keypress="enterSearch" placeholder="搜索全部商品">
+            <input type="text" v-model="keyword" @keypress="enterSearch"  placeholder="搜索全部商品">
           </div>
         </div>
         <div class="product-panel">

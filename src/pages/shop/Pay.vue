@@ -63,11 +63,13 @@
           </div>
         </div>
       </div>
-      <div class="submit-panel">
-        <span class="total-price"><i class="icon">￥</i>{{total.toFixed(2)}}</span>
-        <div class="btn-list">
-          <span class="cm-btn btn cancel-btn" @click="cancel()">取消返回</span>
-          <span class="cm-btn btn" @click="createOrder()">微信支付</span>
+      <div class="cm-bottom-fixed submit-panel">
+        <div class="wrapper">
+          <span class="total-price"><i class="icon">￥</i>{{total.toFixed(2)}}</span>
+          <div class="btn-list">
+            <span class="cm-btn btn cancel-btn" @click="cancel()">取消返回</span>
+            <span class="cm-btn btn" @click="createOrder()">微信支付</span>
+          </div>
         </div>
       </div>
     </div>

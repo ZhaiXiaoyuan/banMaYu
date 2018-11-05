@@ -129,7 +129,7 @@ export default {
             redirect+='?1='+type;
           }
           //临时测试
-          let link='http://pexam.elecplus.tech'+'/pewxs/cs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
+          let link='http://test.zebfish.com'+'/pewxs/cs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
     /*      console.log('test:',link);*/
           window.location.replace(link);
           /*window.location.href=link;*/
@@ -304,7 +304,7 @@ export default {
                     lock:true,
                     no:'取消',
                     ok:()=>{
-                      window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI2MzgwODU1MA==&scene=110#wechat_redirect'
+                      window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3ODQ1NjAxNQ==&scene=110#wechat_redirect'
                     }
                   });
                 }else{
@@ -315,7 +315,7 @@ export default {
               }
             })
           }
-        }
+        },
       }
 
       Object.assign(Vue, Vue.tools);

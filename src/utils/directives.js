@@ -8,11 +8,18 @@
 import Vue from 'vue'
 
 /*输入框聚焦*/
-Vue.directive('focus', {
-  inserted: function (el) {
-    el.focus();
+Vue.directive('cmFocus', {
+  bind: function (el) {
+    /*el.onfocus=()=>{
+      let target=document.getElementsByClassName('cm-bottom-fixed')[0];
+      target.classList.add('disabled');
+    };
+    el.onblur=()=>{
+      let target=document.getElementsByClassName('cm-bottom-fixed')[0];
+      target.className=target.className.replace( new RegExp( "(\\s|^)" + 'disabled' + "(\\s|$)" ), " " );
+    };*/
   }
-})
+});
 
 /*输入框内容清除*/
 /*Vue.directive('input-clear', {

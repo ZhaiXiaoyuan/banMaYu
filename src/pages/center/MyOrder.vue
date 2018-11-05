@@ -14,7 +14,7 @@
       </div>
       <div class="panel list-panel">
         <ul class="entry-list">
-          <li class="entry" v-for="(entry,index) in entryList" :key="entry.id">
+          <li class="entry" v-for="(entry,index) in entryList" :key="entry.id" :id="entry.orderno">
             <div class="entry-content" v-if="entry.producttype=='体检套餐'">
               <div class="entry-hd">
                 <span class="title-text">订单号：{{entry.orderno}}</span>
@@ -203,6 +203,7 @@
         },
         data: function () {
             return {
+              orderno:null,
               pageType:10,//10:未付款,20:已付款,30:已取消,40:申请退款中,50:已退款,60:已发货,70:已完成
               curEntry:null,
               pager:{
@@ -230,10 +231,9 @@
                     this.operationFeedback({type:'warn',text:'该体控中心当天不营业，请选择其他日期'});
                     return;
                   }else{
-                    this.dateTime = Vue.tools.formatDate(data,'yyyy-MM-dd');
+                    this.dateTime = year+'-'+month+'-'+date;
                   }
 
-                  this.dateTime = Vue.tools.formatDate(data,'yyyy-MM-dd');
                   if(this.dateTime){
                     this.updateOrderTime(this.curEntry);
                   }
@@ -267,7 +267,12 @@
                 this.pager.isLoading=false;
                 this.pager.isFinished=false;
                 this.entryList=this.entryList.concat(data.result);
-                console.log('this.entryList:',this.entryList);
+                //
+                if(this.orderno){
+                  setTimeout(()=>{
+                    this.goAnchor('#'+this.orderno);
+                  },500)
+                }
               }
             })
           },
@@ -374,12 +379,19 @@
               /*  this.operationFeedback({type:'warn',text:''});*/
               }
             });
+          },
+          goAnchor(selector) {
+            console.log('selector:',selector);
+            var anchor = this.$el.querySelector(selector)
+            document.documentElement.scrollTop = anchor.offsetTop
           }
         },
 
         created: function () {
         },
         mounted: function () {
+          //
+          this.orderno=this.$route.query.orderno;
 
           //
           this.setPageType(this.$route.query.pageType?this.$route.query.pageType:'10');

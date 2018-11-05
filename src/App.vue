@@ -64,6 +64,31 @@ export default {
     })(document, window);
 
 
+ /*   let h = document.body.scrollHeight;
+    console.log('h:',h);
+    window.onresize = function(){
+      let target=document.getElementsByClassName('cm-bottom-fixed')[0];
+      console.log('h2:',document.body.scrollHeight);
+      if (document.body.scrollHeight < h) {
+        target.style.position='relative';
+        alert('窗口变小');
+      }else{
+        alert('窗口恢复');
+        target.style.position='fixed';
+      }
+    };*/
+
+    let win_h = window.innerHeight;//关键代码
+
+    window.addEventListener('resize', function () {
+      let target=document.getElementsByClassName('cm-bottom-fixed')[0];
+      if(window.innerHeight< win_h){
+        target.style.display='none';
+      }else{
+        target.style.display='block';
+      }
+    });
+
     //
     Vue.tools.wxConfig({
       debug:false,

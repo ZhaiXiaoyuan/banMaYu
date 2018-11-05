@@ -115,9 +115,7 @@
                 console.log('data:',data);
                 //初始化轮播数据
                 let advData=data.advers[0];
-                console.log('advData:',advData);
                 for(let i=1;i<7;i++){
-                  console.log('test:',advData['codedname'+i]);
                   if(advData['codedname'+i]){
                     this.bannerList.push({
                       id:i,
@@ -149,7 +147,6 @@
         mounted: function () {
           //
           this.getGoodsList();
-          //
         },
 
     };

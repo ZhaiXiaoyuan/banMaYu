@@ -19,7 +19,7 @@
             </li>
           </ul>
           <div class="cm-btn-wrap" style="position: static;margin-top: 0.4rem;">
-            <div class="cm-btn btn">报告对比</div>
+            <router-link tag="div"  :to="{ name: 'reportCompare', query: {id:id }}"  class="cm-btn btn">报告对比</router-link>
           </div>
         </div>
       </div>
