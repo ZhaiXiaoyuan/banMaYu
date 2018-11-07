@@ -62,6 +62,13 @@ const routes=[ {
     title:'体检报告',
   },
 },{
+  path: '/reportDetail',
+  name: 'reportDetail',
+  component: resolve=>require(['./pages/relatives/ReportDetail'],resolve),
+  meta:{
+    title:'体检报告',
+  },
+},{
   path: '/reportList',
   name: 'reportList',
   component: resolve=>require(['./pages/relatives/ReportList'],resolve),

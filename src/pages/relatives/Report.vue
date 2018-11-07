@@ -5,7 +5,7 @@
         <img :src="curItem.customerTouxiang?curItem.customerTouxiang:defaultAvatar">
         <div class="text-info">
           <p class="name">{{curItem.customername}}（{{curItem.relative?curItem.relative:'本人'}}）</p>
-          <p class="result">您本次体检共有异常指标<span>{{detail.length}}</span>项</p>
+          <p class="result">您本次体检共有异常指标<span style="font-size: 0.36rem;">{{detail.length}}</span>项</p>
           <p class="time">体检时间：{{curItem.examdate}}</p>
         </div>
       </div>
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="btn-wrap">
-        <a :href="link" target="_blank" class="cm-btn btn">查看完整体检报告</a>
+        <router-link tag="div"  :to="{ name: 'reportDetail', query: {id:this.curItem.id }}" class="cm-btn btn">查看完整体检报告</router-link>
       </div>
     </div>
 </template>

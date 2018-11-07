@@ -220,7 +220,7 @@
                   console.log('data:',data);
                 }
               });
-            }else if(this.pageType='food'){
+            }else if(this.pageType=='food'){
               Vue.api.getFoodDetail({...Vue.tools.sessionInfo(),id:this.$route.params.id}).then((resp)=>{
                 if(resp.status=='success'){
                   let data=JSON.parse(resp.message);
@@ -293,16 +293,10 @@
           this.userInfo=Vue.cookie.get('userInfo')?JSON.parse(Vue.cookie.get('userInfo')):{};
 
           this.pageType=this.$route.params.type;
+          console.log('this.pageType:',this.pageType);
 
           //
           this.getGoodsDetail();
-          if(this.pageType=='physical'){
-
-          }else if(this.pageType='food'){
-
-          }else if(this.pageType=='health'){
-
-          }
 
           //
 

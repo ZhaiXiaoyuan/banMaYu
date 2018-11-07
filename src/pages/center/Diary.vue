@@ -71,12 +71,9 @@
                   let date=new Date(new Date(buyDate).setDate(startDate.getDate()+i));
                   let gap=this.dateDiff(date,this.curDate);
                   let status=null;
-                  //临时测试
-               /*   if(gap<0){
+                  if(gap<0){
                     status='waiting';
-                  }else*/
-                   /* if(gap>=0&&gap<=2){*/
-                      if(gap<=40){
+                  }else if(gap>=0&&gap<=2){
                     status='able';
                   }else{
                     status='missed';

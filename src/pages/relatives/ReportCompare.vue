@@ -46,9 +46,12 @@
                 <span class="date" :class="{'warn':item.result2=='异常'}">{{item[date2]}}</span>
                 <span class="date" :class="{'warn':item.result1=='异常'}">{{item[date1]}}</span>
                 <span class="result">
-                  <span v-if="item.compare=='-1'">降低</span>
+                  <span  v-if="item.compare=='-1'">降低</span>
                   <span  v-if="item.compare=='0'">持平</span>
                   <span  v-if="item.compare=='1'">升高</span>
+                  <span  v-if="item.valid=='1'">(有效)</span>
+                  <span  v-if="item.valid=='0'">(无效)</span>
+                  <span  v-if="item.valid=='9'">(忽略)</span>
                 </span>
               </div>
             </div>
@@ -152,7 +155,7 @@
           width: 25%;
         }
         .result{
-          width: 20%;
+          width: 40%;
           text-align: center;
         }
       }
@@ -262,6 +265,9 @@
               xAxis: {
                 type: 'category',
                 boundaryGap: false,
+                axisLabel:{
+                  interval:0
+                },
                 data: ['',entry.date2,entry.date1,'']
               },
               yAxis: {
@@ -276,7 +282,7 @@
               },
               series: [{
                 itemStyle : { normal: {label : {show: true}}},
-                data: ['',entry[entry.date2], entry[entry.date1]],
+                data: ['',entry[entry.date2], entry[entry.date1],''],
                 type: 'line',
                 markArea: {
                   label:{

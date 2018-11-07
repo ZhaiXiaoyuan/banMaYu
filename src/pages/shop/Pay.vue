@@ -21,13 +21,13 @@
             <div class="handle">
               <div class="cm-number-box">
                 <div class="wrap">
-                  <i class="icon minus-icon cm-solid-btn" :class="{'cm-disabled':curCount<=1}"  @click="minus()"></i><span class="num">{{curCount}}</span><i class="icon add-icon cm-solid-btn" :class="{'cm-disabled':curCount>=5}" @click="add()"></i>
+                  <i class="icon minus-icon cm-solid-btn" :class="{'cm-disabled':curCount<=1}"  @click="minus()"></i><span class="num">{{curCount}}</span><i class="icon add-icon cm-solid-btn" :class="{'cm-disabled':pageType=='food'&&curCount>=5}" @click="add()"></i>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="panel-ft">温馨提示：一个身份证连续3个月内累计最多购买3个月量／5盒</div>
+        <div class="panel-ft" v-if="pageType=='food'">温馨提示：一个身份证连续3个月内累计最多购买3个月量／5盒</div>
       </div>
       <div class="panel take-panel">
         <ul class="list-picker">
@@ -110,7 +110,7 @@
         watch: {},
         methods: {
           getGoodsDetail:function () {
-            if(this.pageType='food'){
+            if(this.pageType=='food'){
               Vue.api.getFoodDetail({...Vue.tools.sessionInfo(),id:this.id}).then((resp)=>{
                 if(resp.status=='success'){
                   let data=JSON.parse(resp.message);
@@ -129,10 +129,11 @@
             }
           },
           add:function () {
-            if(this.curCount<5){
-              this.curCount++;
-              this.saveTemData();
+            if(this.pageType=='food'&&this.curCount>=5){
+              return;
             }
+            this.curCount++;
+            this.saveTemData();
           },
           minus:function () {
             if(this.curCount>1){
