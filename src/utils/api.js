@@ -467,6 +467,14 @@ export default {
           params: params
         });
       },
+      //获取购买栋食的主账户和子账户列表
+      getUserFoodQualificationList:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/sh/ord/man/gmenlist',
+          params: params
+        });
+      },
     }
   },
 

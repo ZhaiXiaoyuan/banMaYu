@@ -35,7 +35,7 @@
       z-index: 1;
       width: 100%;
       height: 1.08rem;
-      background: #fff;
+      background: #D6D7DB;
       border-top:1px solid #e5e5e5;
       .home-btn-normal{
         background: url("../images/common/home-btn-normal.png") no-repeat;
@@ -97,7 +97,7 @@
           flex-direction: column;
           flex: 1;
           font-size: 0.24rem;
-          color: #999;
+          color: #666;
           height: 100%;
           .icon{
             margin-bottom: 0.02rem;

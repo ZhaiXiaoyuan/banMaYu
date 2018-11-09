@@ -11,23 +11,21 @@
       </div>
       <div class="panel entry-panel">
         <div class="panel-bd">
-          <div class="block" v-for="(entry,index) in detail" :key="index">
-            <div class="block-field">{{index}}</div>
-            <div class="block-value">
-              <div class="row">
-                <span class="name">项目名称</span>
-                <span class="num">结果</span>
-                <span class="range">参考范围</span>
-                <span class="result">指标情况</span>
-              </div>
-              <div class="row" v-for="(item,i) in entry">
-                <span class="name">{{item.entityattr}}</span>
-                <span class="num">{{item.avalue}}</span>
-                <span class="range">{{item.standard}}</span>
-                <span class="result">{{item.result}}</span>
-              </div>
-            </div>
-          </div>
+          <table>
+            <tr>
+              <td colspan="2">项目名称</td>
+              <td>结果</td>
+              <td>参考范围</td>
+              <td class="status">指标情况</td>
+            </tr>
+            <tr v-for="(entry,index) in tableData" :key="index">
+              <td :rowspan="entry.length" class="p-name" v-if="entry.length">{{entry.pName}}</td>
+              <td style="text-align: left;">{{entry.entityattr}}</td>
+              <td :class="{'warn':entry.result2=='异常'}">{{entry.avalue}}</td>
+              <td>{{entry.standard}}</td>
+              <td>{{entry.result}}</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -47,47 +45,26 @@
     }
   }
   .report-detail{
-    .block{
-      display: flex;
+    table{
+      border-left: 1px solid #e5e5e5;
       font-size: 0.24rem;
-      .block-field{
-        display: flex;
-        align-items: center;
-        width: 5%;
-        padding: 0.04rem 0.08rem;
+      text-align: center;
+      tr{
+        border-top: 1px solid #e5e5e5;
+      }
+      td{
         border-right: 1px solid #e5e5e5;
         border-bottom: 1px solid #e5e5e5;
+        padding: 0.08rem 0.1rem;
       }
-      .block-value{
-        width: 100%;
+      .p-name{
+        width: 0.4rem;
       }
-      .row{
-        display: flex;
-        >span{
-          padding: 0.06rem 0.08rem;
-          border-bottom: 1px solid #e5e5e5;
-          border-right: 1px solid #e5e5e5;
-          word-break: break-all;
-        }
-        .name{
-          width: 100%;
-        }
-        .warn{
-          color: #F56C6C;
-        }
-        .num{
-          width: 25%;
-        }
-        .range{
-          width: 40%;
-        }
-        .result{
-          width: 32%;
-          text-align: center;
-        }
+      .warn{
+        color: #F56C6C;
       }
-      &:first-child{
-        border-top: 1px solid #e5e5e5;
+      .status{
+        width: 1.44rem;
       }
     }
   }
@@ -109,6 +86,8 @@
               detail:{},
               link:null,
               picLink:null,
+              entryList:[],
+              tableData:[],
             }
         },
         computed: {},
@@ -124,7 +103,15 @@
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
                 this.detail=data;
-                console.log('this.detail:',this.detail);
+             /*   console.log('this.detail:',this.detail);*/
+                Object.keys(this.detail).forEach((pKey)=>{
+                /*  console.log('pKey:',pKey);*/
+                  let list= this.detail[pKey]
+                  list.forEach((item,i)=>{
+                    this.tableData.push({pName:pKey,length:i==0?this.detail[pKey].length:null,...item});
+                  })
+                });
+                /*console.log('this.tableData:',this.tableData);*/
               }
             })
           },

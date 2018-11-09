@@ -12,6 +12,20 @@
         </div>
         <div class="icon border-icon"></div>
       </router-link>
+      <router-link :to="{ name: 'member', query: {id:curMember.id }}" tag="div" class="panel arrows-right" v-if="pageType=='food'">
+        <div class="panel-bd">
+          <div class="item" style="padding-right: 0.3rem;">
+            <div class="label">食用者</div>
+            <div class="value column-value">
+              <div v-if="curMember.id">
+                <p>{{curMember.realname}}</p>
+                <p class="tips">（可购买数量：{{curMember.count}}盒）</p>
+              </div>
+              <span  class="cm-btn btn" v-if="!curMember.id">请选择食用者</span>
+            </div>
+          </div>
+        </div>
+      </router-link>
       <div class="panel product-panel">
         <div class="panel-bd">
           <img :src="detail.pic1">
@@ -21,7 +35,7 @@
             <div class="handle">
               <div class="cm-number-box">
                 <div class="wrap">
-                  <i class="icon minus-icon cm-solid-btn" :class="{'cm-disabled':curCount<=1}"  @click="minus()"></i><span class="num">{{curCount}}</span><i class="icon add-icon cm-solid-btn" :class="{'cm-disabled':pageType=='food'&&curCount>=5}" @click="add()"></i>
+                  <i class="icon minus-icon cm-solid-btn" :class="{'cm-disabled':curCount<=1}"  @click="minus()"></i><span class="num">{{curCount}}</span><i class="icon add-icon cm-solid-btn" :class="{'cm-disabled':pageType=='food'&&curCount>=curMember.count}" @click="add()"></i>
                 </div>
               </div>
             </div>
@@ -82,11 +96,12 @@
 
 <script>
     import Vue from 'vue'
+    import ListSelector from '../../components/ListSelector.vue'
 
 
     export default {
         components: {
-
+          ListSelector,
         },
         data: function () {
             return {
@@ -100,6 +115,7 @@
               curStore:{},
               paymentInfo:null,
               orderFb:null,
+              curMember:{},
             }
         },
         computed: {
@@ -128,8 +144,23 @@
               });
             }
           },
+          getUserFoodQualificationList:function () {
+            Vue.api.getUserFoodQualificationList({...Vue.tools.sessionInfo()}).then((resp)=>{
+              if(resp.status=='success'){
+                let data=JSON.parse(resp.message);
+                if(localStorage.getItem('curMember')){
+                  this.curMember=JSON.parse(localStorage.getItem('curMember'));
+                }else{
+                  this.curMember=data[0];
+                }
+                if(this.curMember.count==0){
+                  this.curCount=0;
+                }
+              }
+            })
+          },
           add:function () {
-            if(this.pageType=='food'&&this.curCount>=5){
+            if(this.pageType=='food'&&this.curCount>=this.curMember.count){
               return;
             }
             this.curCount++;
@@ -157,6 +188,7 @@
             localStorage.clear(this.id);
             localStorage.clear('selectedAddress');
             localStorage.clear('selectedStore');
+            localStorage.clear('curMember');
           },
           selectWay:function (value) {
             this.way=value;
@@ -174,6 +206,10 @@
           },
           createOrder:function () {
             let products=[{productid:this.detail.id,quantity:this.curCount}];
+            if(!this.curCount){
+              this.operationFeedback({type:'warn',text:'购买数量不能小于1'});
+              return;
+            }
             if(this.way=='E'&&!this.address.id){
               this.operationFeedback({type:'warn',text:'请选择收货人'});
               return;
@@ -189,6 +225,9 @@
               paytype:'WeixinPay ',
               addressid:this.way=='E'&&this.address?this.address.id:null,
               storeid:this.way=='M'&&this.curStore?this.curStore.id:null,
+            }
+            if(this.pageType=='food'){
+              params.customerid=this.curMember.id;
             }
             let fb=this.operationFeedback({text:'操作中...'});
             Vue.api.createOrder(params).then((resp)=>{
@@ -233,7 +272,8 @@
           },
           toMyOrder:function (type) {
             this.$router.replace({name:'myOrder',query:{pageType:type}});
-          }
+          },
+
         },
 
         created: function () {
@@ -246,11 +286,16 @@
           //
           this.getGoodsDetail();
           this.getDefaultStore();
+
           //
           if(localStorage.getItem('selectedAddress')){
             this.address=JSON.parse(localStorage.getItem('selectedAddress'))
           }else{
             this.getDefaultAddress();
+          }
+          //
+          if(this.pageType=='food'){
+            this.getUserFoodQualificationList();
           }
           //
           if(localStorage.getItem('selectedStore')){

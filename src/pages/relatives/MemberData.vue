@@ -377,6 +377,9 @@
               localStorage.setItem('curId',this.id);
             }
           }else{
+            if(this.mainId!='M'){
+              document.title='添加亲友';
+            }
             Vue.tools.sessionInfo()
           }
         },

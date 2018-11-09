@@ -192,7 +192,7 @@
               startDate: new Date(),
               payMethodModalOptions:{
                 show:false,
-                list:[{label:'在线支付',value:'WeixinPay '},{label:'到店支付',value:'ArrivalPay '}],
+                list:[{label:'在线支付',value:'WeixinPay'},{label:'到店支付',value:'ArrivalPay'}],
                 ok:(data)=>{
                   if(data){
                     this.selectedMethod=data;

@@ -52,7 +52,7 @@ const routes=[ {
   name: 'relatives',
   component: resolve=>require(['./pages/relatives/Relatives'],resolve),
   meta:{
-    title:'亲友',
+    title:'亲友关爱',
   },
 },{
   path: '/report',
@@ -185,7 +185,14 @@ const routes=[ {
   name: 'about',
   component: resolve=>require(['./pages/center/About'],resolve),
   meta:{
-    title:'体检预约',
+    title:'关于我们',
+  },
+},{
+  path: '/member',
+  name: 'member',
+  component: resolve=>require(['./pages/shop/Member'],resolve),
+  meta:{
+    title:'选择食用者',
   },
 },{
   path: '/logout',

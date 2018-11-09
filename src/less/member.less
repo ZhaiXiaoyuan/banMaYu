@@ -1,0 +1,92 @@
+.member-page{
+  .item{
+    padding: 0.4rem 0.3rem;
+    line-height: 0.48rem;
+    .title{
+      font-size: 0.3rem;
+      color: #0087dc;
+    }
+    p{
+      font-size: 0.28rem;
+      color: #666;
+    }
+    &.selected{
+      background: #eee;
+    }
+    .item-ft{
+      padding-top: 0.08rem;
+      text-align: right;
+      .btn{
+        padding: 0.12rem 0.24rem;
+        border-radius: 0.06rem;
+        font-size: 0.28rem;
+        color: #fff;
+        background: #0087dc;
+      }
+    }
+  }
+  .list-panel{
+    background: #fff;
+    .panel-hd{
+      padding: 0.4rem 0.3rem 0.2rem 0.3rem;
+      font-size: 0.28rem;
+      color: #0087dc;
+    }
+    .panel-bd{
+      border-top: 1px solid #e5e5e5;
+    }
+    .entry-list{
+      .item{
+        &+.item{
+          border-top: 1px solid #e5e5e5;
+        }
+      }
+    }
+  }
+  .cm-btn-wrap{
+    display: none;
+  }
+  &.selector-page{
+    .item{
+      display: flex;
+      .item-hd{
+        display: flex;
+        align-items: center;
+        padding-right: 0.2rem;
+        .status{
+          display: inline-block;
+          width: 0.4rem;
+          height: 0.4rem;
+          border:1px solid #ddd;
+          border-radius: 50%;
+          text-align: center;
+          line-height: 0.4rem;
+          .icon{
+            display: none;
+            width: 0.24rem;
+            height: 0.24rem;
+            background: #0087dc;
+            border-radius: 50%;
+          }
+        }
+      }
+      .item-ft{
+        display: none;
+      }
+      &.active{
+        background: none;
+        .item-hd{
+          .status{
+            border:1px solid #0087dc;
+            .icon{
+              display: inline-block;
+            }
+          }
+        }
+      }
+    }
+    .cm-btn-wrap{
+      display: block;
+    }
+  }
+}
