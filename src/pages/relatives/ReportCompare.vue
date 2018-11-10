@@ -40,9 +40,9 @@
               <td :class="{'warn':entry.result2=='异常'}">{{entry[date2]?entry[date2]:'/'}}</td>
               <td :class="{'warn':entry.result1=='异常'}">{{entry[date1]?entry[date1]:'/'}}</td>
               <td>
-                <span  v-if="entry.compare=='-1'">降低<span  v-if="entry.valid=='0'">(无效)</span><span  v-if="entry.valid=='1'">(有效)</span></span>
+                <span  v-if="entry.compare=='-1'">降低<span  v-if="entry.valid=='1'">(有效)</span></span>
                 <span  v-if="entry.compare=='0'">持平</span>
-                <span  v-if="entry.compare=='1'">升高<span  v-if="entry.valid=='0'">(无效)</span><span  v-if="entry.valid=='1'">(有效)</span></span>
+                <span  v-if="entry.compare=='1'">升高<span  v-if="entry.valid=='1'">(有效)</span></span>
                 <span  v-if="entry.valid=='9'">/</span>
               </td>
             </tr>

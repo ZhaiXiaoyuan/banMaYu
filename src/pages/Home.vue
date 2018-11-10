@@ -53,7 +53,18 @@
         created: function () {
         },
         mounted: function () {
-
+          setTimeout(()=>{
+            /*微信分享配置*/
+            Vue.tools.shareConfig({
+              title: '斑马鱼体控服务，助您享受更久健康！',
+              desc:' ',
+              link: window.location.href.split('#')[0]+'#/home',
+              imgUrl: 'http://pics.sc.chinaz.com/Files/pic/logo9/201807/d/wulogo19610.jpg',
+              callback:()=>{
+                this.operationFeedback({type:'complete',text:'分享成功'})
+              }
+            });
+          },1000)
         },
 
     };

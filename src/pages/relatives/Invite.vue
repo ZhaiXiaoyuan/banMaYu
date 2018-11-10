@@ -57,7 +57,7 @@
           /*微信分享配置*/
           Vue.tools.shareConfig({
             title: '邀请好友',
-            desc:'这是一段描述',
+            desc:'无偿邀请好友，分享健康更久的新科学',
             link: window.location.href.split('#')[0]+'#/register?sourceNumber='+this.userInfo.mobilephone,
             imgUrl: 'http://pics.sc.chinaz.com/Files/pic/logo9/201807/d/wulogo19610.jpg',
             callback:()=>{

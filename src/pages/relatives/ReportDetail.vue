@@ -21,7 +21,7 @@
             <tr v-for="(entry,index) in tableData" :key="index">
               <td :rowspan="entry.length" class="p-name" v-if="entry.length">{{entry.pName}}</td>
               <td style="text-align: left;">{{entry.entityattr}}</td>
-              <td :class="{'warn':entry.result2=='异常'}">{{entry.avalue}}</td>
+              <td :class="{'warn':entry.result=='异常'}">{{entry.avalue}}</td>
               <td>{{entry.standard}}</td>
               <td>{{entry.result}}</td>
             </tr>
