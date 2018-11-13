@@ -23,6 +23,10 @@
             <span class="icon-wrap"><i class="icon data-min-icon"></i></span>
             <p>基本资料</p>
           </router-link>
+          <li @click="toInvite()" v-if="userInfo.mainid=='M'">
+            <span class="icon-wrap"><i class="icon add-member-icon"></i></span>
+            <p>邀请好友</p>
+          </li>
           <router-link :to="{ name: 'physicalList', params: {},query:{}}" tag="li" v-if="userInfo.mainid=='M'">
             <span class="icon-wrap"><i class="icon stethoscope-min-icon"></i></span>
             <p>体检预约</p>
@@ -55,10 +59,6 @@
             <span class="icon-wrap"><i class="icon about-icon"></i></span>
             <p>关于我们</p>
           </router-link>
-          <li @click="toInvite()" v-if="userInfo.mainid=='M'">
-            <span class="icon-wrap"><i class="icon add-member-icon"></i></span>
-            <p>邀请好友</p>
-          </li>
         <!--  <li @click="logout()">
             <span class="icon-wrap">退出</span>
             <p>临时测试</p>
