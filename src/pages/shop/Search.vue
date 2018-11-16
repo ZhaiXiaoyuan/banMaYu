@@ -16,7 +16,7 @@
                 <div class="value">
                   <ul>
                     <li :class="{'active':type==''}" @click="setType('')">全部</li>
-                    <li :class="{'active':type=='Physical'}" @click="setType('Physical')">体检套餐</li>
+                    <li :class="{'active':type=='Physical'}" @click="setType('Physical')">体控检测</li>
                     <li :class="{'active':type=='Food'}" @click="setType('Food')">栋食产品</li>
                     <li :class="{'active':type=='Health'}" @click="setType('Health')">健康产品</li>
                   </ul>

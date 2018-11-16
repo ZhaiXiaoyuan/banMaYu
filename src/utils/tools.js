@@ -220,15 +220,17 @@ export default {
           });
         },
         shareConfig:function (options) {
-          if(options.link.indexOf('?')>-1){
-            options.link+='&1='+1;
-          }else{
-            options.link+='?1='+1;
+          if(options.link){
+            if(options.link.indexOf('?')>-1){
+              options.link+='&1='+1;
+            }else{
+              options.link+='?1='+1;
+            }
           }
           var shareInfo={
             title: options.title,
             desc:options.desc,
-            link: window.location.origin+'/pewxs/cs/cus/auth/wxred?1=2&redirect='+encodeURIComponent(options.link.replace(window.location.origin,'')),
+            link: options.directLink?options.directLink:window.location.origin+'/pewxs/cs/cus/auth/wxred?1=2&redirect='+encodeURIComponent(options.link.replace(window.location.origin,'')),
             imgUrl: options.imgUrl,
             trigger: function (res) {
               // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回.
@@ -286,7 +288,7 @@ export default {
           // 转化为blob
           reader.readAsArrayBuffer(file);
         },
-        checkFocus:function (type) {
+        checkFocus:function (type,callback) {
           let isFocusModalFlag=Vue.cookie.get('isFocusModalFlag');
           if(isFocusModalFlag!='true'||type=='realTime'){
             Vue.api.checkFocus({...this.sessionInfo()}).then((resp)=>{
@@ -314,6 +316,54 @@ export default {
 
               }
             })
+          }
+        },
+        isIOS:function () {
+          var u = navigator.userAgent, app = navigator.appVersion;
+          var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+          var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+          if (isAndroid) {
+            //这个是安卓操作系统
+            return false;
+          }
+          if (isIOS) {
+            //这个是ios操作系统
+            return true
+          }
+        },
+        configCmShare:function () {
+          if(this.isIOS()){
+            setTimeout(()=>{
+              /*微信分享配置*/
+              this.shareConfig({
+                title: '斑马鱼体控服务，助您享受更久的健康时光！',
+                desc:' ',
+                directLink: window.location.href.split('#')[0]+'#/toFocus',
+                imgUrl: 'http://test.zebfish.com/logo.jpg',
+                callback:()=>{
+                  this.operationFeedback({type:'complete',text:'分享成功'})
+                }
+              });
+            },1000);
+          }else{
+            Vue.tools.wxConfig({
+              debug:false,
+              url:window.location.href,
+              jsApiList:['hideMenuItems','onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+              callback:(data)=>{
+                if(data){
+                  this.shareConfig({
+                    title: '斑马鱼体控服务，助您享受更久的健康时光！',
+                    desc:' ',
+                    directLink: window.location.href.split('#')[0]+'#/toFocus',
+                    imgUrl: 'http://test.zebfish.com/logo.jpg',
+                    callback:()=>{
+                      this.operationFeedback({type:'complete',text:'分享成功'})
+                    }
+                  });
+                }
+              }
+            });
           }
         },
       }

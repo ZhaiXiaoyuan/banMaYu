@@ -18,8 +18,7 @@
         </div>
         <div class="product-panel">
           <div class="panel-hd">
-            <span class="title title-1">体验套餐</span>
-            <span class="desc">150项指标全方位检查</span>
+            <span class="title title-1">体控检测</span>
             <router-link :to="{ name: 'search', params: {},query:{type:'Physical'}}" class="link arrows-right">查看更多</router-link>
           </div>
           <div class="panel-bd">
@@ -35,7 +34,6 @@
         <div class="product-panel">
           <div class="panel-hd">
             <span class="title title-2">栋食系列</span>
-            <span class="desc">斑马鱼专有栋食产品</span>
             <router-link  :to="{ name: 'search', params: {},query:{type:'Food'}}" class="link arrows-right">查看更多</router-link>
           </div>
           <div class="panel-bd">
@@ -51,7 +49,6 @@
         <div class="product-panel">
           <div class="panel-hd">
             <span class="title title-3">健康食品</span>
-            <span class="desc">优选国外进口健康食品</span>
             <router-link :to="{ name: 'search', params: {},query:{type:'Health'}}" class="link arrows-right">查看更多</router-link>
           </div>
           <div class="panel-bd">
@@ -147,6 +144,8 @@
         mounted: function () {
           //
           this.getGoodsList();
+          //
+          this.configCmShare();
         },
 
     };

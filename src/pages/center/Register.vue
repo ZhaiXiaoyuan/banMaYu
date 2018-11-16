@@ -1,11 +1,16 @@
 <!--注册-->
 <template>
     <div class="member-data register">
-      <p class="page-title">快速注册</p>
+      <div class="slogan">
+        <p>科学严谨的体控服务</p>
+        <p>助您享受更久的健康时光</p>
+      </div>
       <div class="panel">
+        <div class="panel-hd">
+        </div>
         <div class="panel-bd">
           <div class="item">
-            <div class="label">真实姓名</div>
+            <div class="label">姓名</div>
             <div class="value">
               <input type="text" v-model="member.realname" placeholder="请输入真实姓名">
             </div>
@@ -47,6 +52,14 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" rel="stylesheet/less">
   .register{
+    .slogan{
+      font-size: 0.36rem;
+      color: #666;
+      text-align: center;
+      padding: 0.3rem 0rem;
+      background: #fff;
+      line-height: 0.58rem;
+    }
     .page-title{
       font-size: 16px;
       color: #666;
@@ -79,7 +92,7 @@
             return {
               member:{
                 mobilephone:null,
-                sourceNumber:this.$route.query.sourceNumber
+                sourceNumber:localStorage.getItem('sourceNumber'),
               },
             }
         },

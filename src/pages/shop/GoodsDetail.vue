@@ -299,6 +299,7 @@
           this.getGoodsDetail();
 
           //
+          this.configCmShare();
 
         },
 

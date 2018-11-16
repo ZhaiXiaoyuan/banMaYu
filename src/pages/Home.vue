@@ -2,17 +2,17 @@
 <template>
     <div class="home">
       <div class="btn-list">
-        <router-link tag="div" :to="{ name: 'memberData', params: {mainId:'M'}}" class="cm-btn btn-item data-btn">
-          <p>基本资料</p>
+        <router-link tag="div" :to="{ name: 'my', params: {}}" class="cm-btn btn-item data-btn">
+          <p>我的资料</p>
           <p>完善您的资料</p>
         </router-link>
-        <router-link tag="div" :to="{ name: 'physicalList', params: {},query:{}}" class="cm-btn btn-item stethoscope-btn">
-          <p>体检预约</p>
-          <p>快捷预约体检</p>
-        </router-link>
-        <router-link tag="div" :to="{ name: 'reportList', params: {},query:{}}" class="cm-btn btn-item report-btn" style="border-top-right-radius: 0.16rem;">
+        <router-link tag="div" :to="{ name: 'reportList', params: {},query:{}}" class="cm-btn btn-item report-btn">
           <p>我的体质</p>
           <p>解析健康指标</p>
+        </router-link>
+        <router-link tag="div" :to="{ name: 'physicalList', params: {},query:{}}" class="cm-btn btn-item stethoscope-btn" style="border-top-right-radius: 0.16rem;">
+          <p>体检预约</p>
+          <p>快捷预约体检</p>
         </router-link>
         <router-link tag="div" :to="{ name: 'search', params: {},query:{type:'Food'}}" class="cm-btn btn-item product-btn">
           <p>干预产品</p>
@@ -51,20 +51,16 @@
         },
 
         created: function () {
+
         },
         mounted: function () {
-          setTimeout(()=>{
-            /*微信分享配置*/
-            Vue.tools.shareConfig({
-              title: '斑马鱼体控服务，助您享受更久健康！',
-              desc:' ',
-              link: window.location.href.split('#')[0]+'#/home',
-              imgUrl: 'http://test.zebfish.com/logo.jpg',
-              callback:()=>{
-                this.operationFeedback({type:'complete',text:'分享成功'})
-              }
-            });
-          },1000)
+          //
+          let sourceNumber=this.$route.query.sourceNumber
+          if(sourceNumber&&sourceNumber!='undefined'){
+            localStorage.setItem('sourceNumber',sourceNumber);
+          }
+          //
+          this.configCmShare();
         },
 
     };

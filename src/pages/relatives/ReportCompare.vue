@@ -27,6 +27,7 @@
           <div v-for="(entry,index) in improveList" :id="'abnormal'+entry.name" style="width: 90%;height: 6rem;margin: 0px auto;position: relative;"></div>
         </div>
         <div class="panel-bd" v-show="tabType=='table'">
+          <p class="warn-tips" style="padding-top: 0rem;">红色数值表示该指标体检结果异常</p>
           <table>
             <tr>
               <td colspan="2">{{exam1.realname}}</td>

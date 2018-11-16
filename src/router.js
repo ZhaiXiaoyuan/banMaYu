@@ -195,6 +195,13 @@ const routes=[ {
     title:'选择食用者',
   },
 },{
+  path: '/toFocus',
+  name: 'toFocus',
+  component: resolve=>require(['./pages/common/ToFocus'],resolve),
+  meta:{
+    title:'关注公众号',
+  },
+},{
   path: '/logout',
   name: 'logout',
   component: resolve=>require(['./pages/center/Logout'],resolve),

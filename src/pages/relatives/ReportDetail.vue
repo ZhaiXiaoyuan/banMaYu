@@ -9,6 +9,7 @@
           <p class="time">体检时间：{{curItem.examdate}}</p>
         </div>
       </div>
+      <p class="warn-tips">红色数值表示该指标体检结果异常</p>
       <div class="panel entry-panel">
         <div class="panel-bd">
           <table>

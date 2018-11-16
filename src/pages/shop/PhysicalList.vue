@@ -72,7 +72,7 @@
         img{
           margin-left: auto;
           width: 3rem;
-          height: 3rem;
+          height: 2.2rem;
         }
         &+li{
           border-top:1px solid #e5e5e5;
@@ -136,6 +136,7 @@
         },
         mounted: function () {
           this.getList(true);
+          this.configCmShare();
         },
 
     };

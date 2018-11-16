@@ -6,7 +6,7 @@
           <img :src="userData.touxiang?userData.touxiang:defaultAvatar">
           <p class="name">{{userData.realname}}</p>
           <div class="data-row">
-            <div class="item"><i class="icon diamond-icon"></i><span>{{'初级会员'}}</span></div>
+            <div class="item"><i class="icon diamond-icon"></i><span>{{userData.levelLabel}}</span></div>
             <div class="item"><i class="icon score-icon"></i><span>积分{{userData.score?userData.score:0}}</span></div>
 
           </div>
@@ -21,7 +21,7 @@
         <ul class="entry-list">
           <router-link :to="{ name: 'memberData', params: {id: userData.id,mainId:userInfo.mainid}}" tag="li">
             <span class="icon-wrap"><i class="icon data-min-icon"></i></span>
-            <p>基本资料</p>
+            <p>我的资料</p>
           </router-link>
           <li @click="toInvite()" v-if="userInfo.mainid=='M'">
             <span class="icon-wrap"><i class="icon add-member-icon"></i></span>

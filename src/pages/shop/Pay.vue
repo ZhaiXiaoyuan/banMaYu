@@ -41,7 +41,7 @@
             </div>
           </div>
         </div>
-        <div class="panel-ft" v-if="pageType=='food'">温馨提示：一个身份证连续3个月内累计最多购买3个月量／5盒</div>
+        <div class="panel-ft" v-if="pageType=='food'">温馨提示：{{detail.tips}}</div>
       </div>
       <div class="panel take-panel">
         <ul class="list-picker">
