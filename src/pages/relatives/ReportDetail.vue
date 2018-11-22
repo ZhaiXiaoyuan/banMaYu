@@ -21,7 +21,7 @@
             </tr>
             <tr v-for="(entry,index) in tableData" :key="index">
               <td :rowspan="entry.length" class="p-name" v-if="entry.length">{{entry.pName}}</td>
-              <td style="text-align: left;">{{entry.entityattr}}</td>
+              <td style="text-align: left;font-weight: bold;">{{entry.entityattr}}</td>
               <td :class="{'warn':entry.result=='异常'}">{{entry.avalue}}</td>
               <td>{{entry.standard}}</td>
               <td>{{entry.result}}</td>
@@ -52,6 +52,10 @@
       text-align: center;
       tr{
         border-top: 1px solid #e5e5e5;
+        &:nth-child(even) {
+          background-color:#409EFF;
+          color: #fff;
+        }
       }
       td{
         border-right: 1px solid #e5e5e5;
@@ -60,6 +64,9 @@
       }
       .p-name{
         width: 0.4rem;
+        color: #333;
+        font-weight: bold;
+        background: #fff !important;
       }
       .warn{
         color: #F56C6C;

@@ -37,7 +37,7 @@
             </tr>
             <tr v-for="(entry,index) in tableData" :key="index">
               <td :rowspan="entry.length" class="p-name" v-if="entry.length">{{entry.pName}}</td>
-              <td style="text-align: left;">{{entry.name}}</td>
+              <td style="text-align: left;font-weight: bold;">{{entry.name}}</td>
               <td :class="{'warn':entry.result2=='异常'}">{{entry[date2]?entry[date2]:'/'}}</td>
               <td :class="{'warn':entry.result1=='异常'}">{{entry[date1]?entry[date1]:'/'}}</td>
               <td>
@@ -122,6 +122,10 @@
       text-align: center;
       tr{
         border-top: 1px solid #e5e5e5;
+        &:nth-child(even) {
+          background-color:#409EFF;
+          color: #fff;
+        }
       }
       td{
         border-right: 1px solid #e5e5e5;
@@ -130,6 +134,9 @@
       }
       .p-name{
         width: 0.4rem;
+        color: #333;
+        font-weight: bold;
+        background: #fff !important;
       }
       .warn{
         color: #F56C6C;
