@@ -5,7 +5,7 @@
         <img :src="curItem.customerTouxiang?curItem.customerTouxiang:defaultAvatar">
         <div class="text-info">
           <p class="name">{{curItem.customername}}</p>
-          <p class="result">体检体控所：<span>{{curItem.storename}}</span>项</p>
+          <p class="result">体检体控所：<span>{{curItem.storename}}</span></p>
           <p class="time">体检时间：{{curItem.examdate}}</p>
         </div>
       </div>
