@@ -16,7 +16,7 @@
             <ul class="label-list" v-if="detail.suits">
               <li>{{detail.suits}}</li>
             </ul>
-            <span class="count">已售{{detail.sellamt}}份</span>
+          <!--  <span class="count">已售{{detail.sellamt}}份</span>-->
           </div>
           <div class="info-row">
             <span class="price" v-if="detail.price"><i class="icon">￥</i>{{detail.price.toFixed(2)}}</span>

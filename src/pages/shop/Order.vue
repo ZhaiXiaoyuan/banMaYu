@@ -37,7 +37,7 @@
             </div>
           </div>
           <div class="item">
-            <div class="label">身份证</div>
+            <div class="label">证件号</div>
             <div class="value">
               <input type="tel" v-model="curMember.idno">
             </div>
@@ -350,7 +350,7 @@
               return;
             }
             if(!this.curMember.idno){
-              this.operationFeedback({type:'warn',text:'请输入身份证号码'});
+              this.operationFeedback({type:'warn',text:'请输入证件号'});
               return;
             }
             if(!this.curStore){

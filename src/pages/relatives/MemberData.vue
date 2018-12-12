@@ -33,9 +33,15 @@
             </div>
           </div>
           <div class="item">
-            <div class="label">身份证号码</div>
+            <div class="label">出生年月日</div>
             <div class="value">
-              <input type="text" v-model="member.idno" placeholder="请输入身份证号码">
+              <input type="text" readonly v-model="member.birthday" @click="openPicker" placeholder="请选择出生年月日">
+            </div>
+          </div>
+          <div class="item">
+            <div class="label">证件号</div>
+            <div class="value">
+              <input type="text" v-model="member.idno" placeholder="请输入证件号">
             </div>
           </div>
           <div class="item">
@@ -110,6 +116,18 @@
       </mt-popup>
 
       <cm-picker :options="bloodPickerOptions" ref="bloodPicker"></cm-picker>
+
+      <mt-datetime-picker
+        ref="birthPicker"
+        v-model="selectedBirth"
+        type="date"
+        year-format="{value}"
+        month-format="{value}"
+        date-format="{value}"
+        :startDate="birthPickerStartDate"
+        :endDate="birthPickerEndDate"
+        @confirm="birthConfirm">
+      </mt-datetime-picker>
     </div>
 </template>
 
@@ -137,6 +155,7 @@
                 gender:'男',
                 genderText:'男',
                 blood:null,
+                birthday:null,
               },
               oldPhone:null,
               defaultAvatar:require('../../images/common/default-avatar.png'),
@@ -171,7 +190,11 @@
                   this.bloodData=data;
                   this.member.blood=this.bloodData[0].label+','+this.bloodData[1].label
                 }
-              }
+              },
+
+              birthPickerStartDate:new Date('1900/01/01'),
+              birthPickerEndDate:new Date(),
+              selectedBirth:new Date('1991/01/01'),
             }
         },
         computed: {},
@@ -197,14 +220,14 @@
                 }else if(bloodArr.length==1){
                   bloodArr.push(null);
                 }*/
-               console.log('bloodArr:');
                if(this.member.blood){
                  let bloodArr=this.member.blood.split(',');
                  this.$refs.bloodPicker.setDefault(bloodArr);
                }
                 //
-
-                console.log('this.member:',this.member);
+                if(this.member.birthday){
+                  this.selectedBirth=new Date(this.member.birthday.replace(/-/g,"/"),)
+                }
               }else{
 
               }
@@ -215,7 +238,6 @@
             this.member.gender=item.value;
             this.member.genderText=item.label;
             this.genderModalFlag=false;
-            console.log('values:',values);
           },
           saveUser:function () {
             let that=this;
@@ -227,8 +249,12 @@
               this.operationFeedback({type:'warn',text:'请选择性别'});
               return;
             }
+            if(!this.member.birthday){
+              this.operationFeedback({type:'warn',text:'请选择出生年月日'});
+              return;
+            }
             if(!this.member.idno){
-              this.operationFeedback({type:'warn',text:'请输入身份证号码'});
+              this.operationFeedback({type:'warn',text:'请输入证件号'});
               return;
             }
             if(!this.member.mobilephone){
@@ -283,8 +309,12 @@
               this.operationFeedback({type:'warn',text:'请选择性别'});
               return;
             }
+            if(!this.member.birthday){
+              this.operationFeedback({type:'warn',text:'请选择出生年月日'});
+              return;
+            }
             if(!this.member.idno){
-              this.operationFeedback({type:'warn',text:'请输入身份证号码'});
+              this.operationFeedback({type:'warn',text:'请输入证件号'});
               return;
             }
            /* if(!this.member.mobilephone){
@@ -358,6 +388,12 @@
                 }
               });
             });
+          },
+          openPicker () {
+            this.$refs.birthPicker.open()
+          },
+          birthConfirm:function (data) {
+            this.member.birthday=this.formatDate(data,'yyyy-MM-dd');
           },
         },
 
