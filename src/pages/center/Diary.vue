@@ -3,8 +3,8 @@
     <div class="diary">
       <div class="panel info-panel">
         <div class="info-row">
-          <span class="label">购买日期</span>
-          <span class="value">{{diaryData.buydate}}</span>
+          <span class="label">开始时间</span>
+          <span class="value">{{diaryData.starttime}}</span>
         </div>
         <div class="info-row">
           <span class="label">签&nbsp;&nbsp;到&nbsp;&nbsp;率</span>
