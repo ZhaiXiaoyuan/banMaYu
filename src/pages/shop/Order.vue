@@ -201,7 +201,7 @@
               },
               selectedMethod:{label:'在线支付',value:'WeixinPay'},
               datePickerOptions:{
-                begin:[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()],
+                begin:[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()+2],
                 value:[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()],
                 show:false,
                 ok:(data)=>{

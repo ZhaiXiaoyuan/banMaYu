@@ -128,7 +128,9 @@ export default {
           }else{
             redirect+='?1='+type;
           }
-          let link='http://test.zebfish.com'+'/pewxs/cs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
+          //临时测试
+          //let link='http://test.zebfish.com'+'/pewxs/cs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
+          let link='http://pexam.elecplus.tech'+'/pewxs/cs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
     /*      console.log('test:',link);*/
           window.location.replace(link);
           /*window.location.href=link;*/

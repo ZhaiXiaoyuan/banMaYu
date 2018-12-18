@@ -40,8 +40,9 @@ export default {
     }
 
     /**/
-   let basicUrl=false&&process.env.NODE_ENV=='development'?'http://pexam.elecplus.tech/pewxs':'http://test.zebfish.com/pewxs';
-  /*  let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://test.zebfish.com/pewxs';*/
+    //临时测试
+   //let basicUrl=false&&process.env.NODE_ENV=='development'?'/api':'http://test.zebfish.com/pewxs';
+    let basicUrl=false&&process.env.NODE_ENV=='development'?'/api':'http://pexam.elecplus.tech/pewxs';
     Vue.api={
       //获取首页信息
       getHomeData:function (params) {
