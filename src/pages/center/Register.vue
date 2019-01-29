@@ -24,7 +24,7 @@
           <div class="item">
             <div class="label">出生年月日</div>
             <div class="value">
-              <input type="text" readonly v-model="member.birthday" @click="openPicker" placeholder="请选择出生年月日">
+              <input type="text" readonly unselectable="on" onfocus="this.blur()"  v-model="member.birthday" @click="openPicker" placeholder="请选择出生年月日">
             </div>
           </div>
           <div class="item">
@@ -74,7 +74,7 @@
         date-format="{value}"
         :startDate="birthPickerStartDate"
         :endDate="birthPickerEndDate"
-        @confirm="birthConfirm">
+        @confirm="birthConfirm" @cancel="birthCancel">
       </mt-datetime-picker>
     </div>
 </template>
@@ -140,6 +140,8 @@
               birthPickerStartDate:new Date('1900/01/01'),
               birthPickerEndDate:new Date(),
               selectedBirth:new Date('1991/01/01'),
+              /*---------监听函数--------------*/
+              handler:function(e){e.preventDefault();}
             }
         },
         computed: {},
@@ -197,10 +199,25 @@
             this.genderModalFlag=false;
           },
           openPicker () {
-            this.$refs.birthPicker.open()
+            this.$refs.birthPicker.open();
+            this.closeTouch();
           },
           birthConfirm:function (data) {
             this.member.birthday=this.formatDate(data,'yyyy-MM-dd');
+            this.openTouch();
+          },
+          birthCancel:function () {
+            this.$refs.birthPicker.close();
+            this.openTouch();
+          },
+          /*解决iphone页面层级相互影响滑动的问题*/
+          closeTouch:function(){
+            document.getElementsByTagName("body")[0].addEventListener('touchmove',
+              this.handler,{passive:false});//阻止默认事件
+          },
+          openTouch:function(){
+            document.getElementsByTagName("body")[0].removeEventListener('touchmove',
+              this.handler,{passive:false});//打开默认事件
           }
         },
 
