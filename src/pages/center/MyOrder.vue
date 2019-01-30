@@ -217,7 +217,7 @@
               dateTime:null,
               startDate: new Date(),
               datePickerOptions:{
-                begin:[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()+2],
+                begin:[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()+7],
                 value:[new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()],
                 show:false,
                 ok:(data)=>{
