@@ -157,6 +157,9 @@
                   this.curCount=0;
                 }*/
                 this.curMember=data;//功能改版，取消选择使用者功能，固定选择当前登录的用户
+                if(!this.curMember.count){
+                  this.curCount=0;
+                }
               }
             })
           },
@@ -207,6 +210,10 @@
           },
           createOrder:function () {
             let products=[{productid:this.detail.id,quantity:this.curCount}];
+            if(this.pageType=='food'&&!this.curMember.count){
+              this.operationFeedback({type:'warn',text:'您本月可购买数量为0盒！'});
+              return;
+            }
             if(!this.curCount){
               this.operationFeedback({type:'warn',text:'购买数量不能小于1'});
               return;
