@@ -12,20 +12,20 @@
         </div>
         <div class="icon border-icon"></div>
       </router-link>
-      <router-link :to="{ name: 'member', query: {id:curMember.id }}" tag="div" class="panel arrows-right" v-if="pageType=='food'">
+      <div class="panel" v-if="pageType=='food'">
         <div class="panel-bd">
           <div class="item" style="padding-right: 0.3rem;">
             <div class="label">食用者</div>
             <div class="value column-value">
               <div v-if="curMember.id">
                 <p>{{curMember.realname}}</p>
-                <p class="tips">（可购买数量：{{curMember.count}}盒）</p>
+                <p class="tips">（本月可购买数量：{{curMember.count}}盒）</p>
               </div>
               <span  class="cm-btn btn" v-if="!curMember.id">请选择食用者</span>
             </div>
           </div>
         </div>
-      </router-link>
+      </div>
       <div class="panel product-panel">
         <div class="panel-bd">
           <img :src="detail.pic1">
@@ -148,14 +148,15 @@
             Vue.api.getUserFoodQualificationList({...Vue.tools.sessionInfo()}).then((resp)=>{
               if(resp.status=='success'){
                 let data=JSON.parse(resp.message);
-                if(localStorage.getItem('curMember')){
+               /* if(localStorage.getItem('curMember')){
                   this.curMember=JSON.parse(localStorage.getItem('curMember'));
                 }else{
                   this.curMember=data[0];
                 }
                 if(this.curMember.count==0){
                   this.curCount=0;
-                }
+                }*/
+                this.curMember=data;//功能改版，取消选择使用者功能，固定选择当前登录的用户
               }
             })
           },

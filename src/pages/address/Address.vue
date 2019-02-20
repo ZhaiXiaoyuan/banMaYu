@@ -20,7 +20,7 @@
             </div>
             <div class="handle">
               <span class="cm-btn btn" @click="editAddress(item)">编辑</span>
-              <span class="cm-btn btn" @click="deleteAddress(item)" v-if="defaultEntry.id!=item.id">默认</span>
+              <span class="cm-btn btn" @click="setDefaultAddress(item)" v-if="defaultEntry.id!=item.id">默认</span>
               <span class="cm-btn btn del-btn" @click="deleteAddress(index)">删除</span>
             </div>
             <i class="icon default-icon" v-if="defaultEntry.id==item.id"></i>
@@ -365,7 +365,7 @@
               }
             });
           },
-          deleteAddress:function (item) {
+          setDefaultAddress:function (item) {
             let params={
               ...Vue.tools.sessionInfo(),
               addressid:item.id
