@@ -57,6 +57,9 @@
       <div class="btn-wrap">
         <div class="cm-btn btn" @click="save()">注&nbsp;&nbsp;册</div>
       </div>
+      <div class="switch">
+        <router-link :to="{ name: 'login', params: {}}" class="cm-btn switch-btn">已有账号，去登录</router-link>
+      </div>
 
       <!--弹窗-->
       <mt-popup
@@ -97,16 +100,25 @@
       padding: 0.4rem 0.2rem 0.2rem 0.3rem;
     }
     .btn-wrap{
-      margin-top: 0.8rem;
+      margin-top: 0.6rem;
       position: relative;
       background: none;
       border: none;
       .btn{
         width: 100%;
+        height: 0.88rem;
+        line-height: 0.88rem;
+        font-size: 0.32rem;
       }
     }
-    .panel .item .value input{
-
+    .switch{
+      text-align: center;
+      padding: 0.3rem 0.3rem 0.4rem 0.3rem;
+      .switch-btn{
+        font-size: 0.32rem;
+        color: #0facff;
+        text-decoration: underline;
+      }
     }
   }
 </style>

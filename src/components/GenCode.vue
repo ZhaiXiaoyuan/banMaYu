@@ -7,7 +7,7 @@
 <style lang="less" rel="stylesheet/less">
   .gen-code{
     position: absolute;
-    width: 2rem;
+    width: 1.9rem;
     height: 0.6rem;
     line-height: 0.6rem;
     background: #0091e0;
@@ -66,7 +66,7 @@
           token: Vue.cookie.get('token')
         }
         let fb=this.operationFeedback({text:'发送中...'});
-        Vue.api.genCode(params).then(function (resp) {
+        Vue.api.genCode(params,{url:this.url}).then(function (resp) {
           that.isRequesting=false;
           if(resp.status=='success'){
             fb.setOptions({type:'complete','text':'发送成功'});

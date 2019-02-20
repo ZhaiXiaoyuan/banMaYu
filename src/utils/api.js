@@ -42,7 +42,7 @@ export default {
     /**/
     //临时测试
   // let basicUrl=false&&process.env.NODE_ENV=='development'?'/api':'http://test.zebfish.com/pewxs';
-    let basicUrl=false&&process.env.NODE_ENV=='development'?'/api':'http://pexam.elecplus.tech/pewxs';
+    let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://pexam.elecplus.tech/pewxs';
     Vue.api={
       //获取首页信息
       getHomeData:function (params) {
@@ -69,10 +69,10 @@ export default {
         });
       },
       //发送短信验证码
-      genCode:function (params) {
+      genCode:function (params,options) {
         return Vue.http.ajax({
           method: 'post',
-          url: basicUrl+'/cs/cus/auth/mcode',
+          url: basicUrl+(options&&options.url?options.url:'/cs/cus/auth/mcode'),
           params: params
         });
       },
@@ -81,6 +81,14 @@ export default {
         return Vue.http.ajax({
           method: 'post',
           url: basicUrl+'/cs/cus/auth/cpinfo1',
+          params: params
+        });
+      },
+      //登录
+      login:function (params) {
+        return Vue.http.ajax({
+          method: 'post',
+          url: basicUrl+'/cs/cus/auth/qlogin',
           params: params
         });
       },

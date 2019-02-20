@@ -125,6 +125,20 @@ const routes=[ {
     title:'快速注册',
   },
 },{
+  path: '/login',
+  name: 'login',
+  component: resolve=>require(['./pages/center/Login'],resolve),
+  meta:{
+    title:'快速登录',
+  },
+},{
+  path: '/entrance',
+  name: 'entrance',
+  component: resolve=>require(['./pages/center/Entrance'],resolve),
+  meta:{
+    title:'注册/登录',
+  },
+},{
   path: '/store/:userId',
   name: 'store',
   component: resolve=>require(['./pages/shop/Store'],resolve),
@@ -210,7 +224,7 @@ const routes=[ {
   },
 }]
 
-const visitorPageList=['home','shop','register','goodsDetail'];
+const visitorPageList=['home','shop','register','login','entrance','goodsDetail'];
 
 
 
@@ -258,7 +272,7 @@ router.beforeEach((to, from,next) => {
       next();
     }else{
       //
-      next('/register');
+      next('/entrance');
     }
   }else{
    /* //非游客页检查登录状态
