@@ -130,7 +130,7 @@ export default {
           }
           //临时测试
           let link='http://test.zebfish.com'+'/pewxs/cs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
-         // let link='http://pexam.elecplus.tech'+'/pewxs/cs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
+         //let link='http://pexam.elecplus.tech'+'/pewxs/cs/cus/auth/wxred?1='+type+'&redirect='+encodeURIComponent(redirect.replace(window.location.origin,''));
     /*      console.log('test:',link);*/
           window.location.replace(link);
           /*window.location.href=link;*/
@@ -144,7 +144,6 @@ export default {
             if(Vue.cookie.get('authorizing')!='true'){
               Vue.cookie.set('authorizing','true',{ expires: '3s' });
               let link=page?page:window.location.href;
-              console.log('link:',link);
               Vue.alert({
                 html:'即将进行微信登录',
                 yes:'立即登录',
@@ -163,7 +162,7 @@ export default {
             }
           }
           return{
-            timeStamp:timestamp,
+            timestamp:timestamp,
             number:number,//
            /* token:token,//*/
             signature:md5.hex('timestamp='+timestamp+'&number='+number+'&token='+token),

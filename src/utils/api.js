@@ -13,8 +13,15 @@ export default {
 
       next((response) => {
         //对于有作登录状态的接口你，未未登录时跳转到登录页
-        if(response.status==401){
-         /* router.push({name:''});*/
+        if(response.data.code=="431001"){
+         /* alert(JSON.stringify(response.data));*/
+          if(Vue.cookie.get('entranceRedirect')!='true'){
+            Vue.cookie.set('entranceRedirect','true',{ expires: '10s' });
+            Vue.cookie.delete('number');
+            Vue.cookie.delete('token');
+            Vue.cookie.delete('userInfo');
+            Vue.tools.sessionInfo();
+          }
         }
         return response
       });
@@ -41,7 +48,7 @@ export default {
 
     /**/
     //临时测试
-   let basicUrl=false&&process.env.NODE_ENV=='development'?'/api':'http://test.zebfish.com/pewxs';
+   let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://test.zebfish.com/pewxs';
     //let basicUrl=process.env.NODE_ENV=='development'?'/api':'http://pexam.elecplus.tech/pewxs';
     Vue.api={
       //获取首页信息

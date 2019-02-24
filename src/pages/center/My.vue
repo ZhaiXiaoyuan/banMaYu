@@ -59,10 +59,6 @@
             <span class="icon-wrap"><i class="icon about-icon"></i></span>
             <p>关于我们</p>
           </router-link>
-        <!--  <li @click="logout()">
-            <span class="icon-wrap">退出</span>
-            <p>临时测试</p>
-          </li>-->
         </ul>
       </div>
       <nav-bar></nav-bar>
